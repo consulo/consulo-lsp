@@ -83,3 +83,33 @@ None needed (no gson/lsp4j reflection on these classes).
 - `LspQuickFixSet(LspClientImpl, VirtualFile, Diagnostic[, @Nullable TextDocumentIdentifier])`, `getQuickFixes()`, `ensureInitialized()`.
 - `LspStructureViewFactory.getStructureViewBuilder(PsiFile)` kept next to the provider method.
 - Assumed API-module signatures (not converted yet when written): `LspSymbolKindCustomizer.getIcon(SymbolKind)` returns `@Nullable consulo.ui.image.Image`; `LspIntentionAction.getText()` returns `LocalizeValue`, `isAvailable(Project, Editor, PsiFile)`, `invoke(Project, Editor, PsiFile)`; `LspCodeActionsSupport.getIntentionActionsSupport()`, `createIntentionAction(LspClient, CodeAction)`, `createQuickFix(LspClient, CodeAction)`. Core: `LspClientImpl.getDynamicFiles().findTargetFile(String)`, `LspClientManagerImpl.getInstanceImpl(project).getClientsForFileRequests/getClientsWithThisFileOpen(file)`.
+
+## 7. Code actions, Find Usages in the sandbox (runtime fixes)
+
+- **Code actions / quick fixes never appeared.** Upstream evaluates `isAvailable` of `LspIntention0..14` and of the
+  `LspQuickFixSet` wrappers in a background thread (background `ShowIntentionsPass`; the Alt+Enter handler computes under a
+  modal progress) and the wrappers only return cached results on the EDT. In Consulo `ShowIntentionActionsHandler` calls
+  `ShowIntentionsPass.getActionsToShow` (and so `isAvailable`) on the UI thread, and the background `ShowIntentionsPass` never
+  collects anything in the desktop editor: `doCollectInformation` returns early unless
+  `HasFocus.hasFocus(editor.getContentUIComponent())`, and `DesktopEditorContentUIComponent` (`SwingComponentDelegate`) does not
+  implement `HasFocus` (platform bug, not fixable here). The quick fixes themselves were registered and found correctly
+  (`getAvailableFixes` did call the wrappers - on the EDT, where `ensureInitialized` returns at once).
+  Fix: `LspIntentionActionWrapperBase.canComputeUnderModalProgress()`/`computeUnderModalProgress(project, supplier)` - while
+  an action is performed on the UI thread (`ActionContextElement`, i.e. Alt+Enter), `LspIntentionActionService.getIntentionActions`
+  and `LspQuickFixSet.ensureInitialized` run the `textDocument/codeAction` request (and `LspIntentionAction.isAvailable()`, which
+  sends `codeAction/resolve`) in a read action in a background thread under a cancellable modal progress
+  (`ProgressManager.runProcessWithProgressSynchronously`, title `LspLocalize.lspCodeActionsProgressTitle()`, new key
+  `lsp.code.actions.progress.title`). Outside an action (error tooltip on hover) only cached results are used, like upstream.
+  If the user cancels the progress, the other wrappers of the same action don't start a new one. `LspQuickFixSet` mod-count
+  fields became `volatile` (read on the EDT by `isUpToDate()`).
+- `LspQuickFixWrapper` now `implements SyntheticIntentionAction`: `IntentionManagerSettings.isShowLightBulb/isEnabled` logs
+  "Missed @IntentionMetaData" for every non-registered intention that is not synthetic.
+- **Find Usages / Show Usages did nothing in plain-text files.** `FindUsagesInFileAction.isEnabled` (used by `FindUsagesAction`
+  and `ShowUsagesAction`) disables the actions when `FindUsagesProvider.forLanguage(language)` is the `EmptyFindUsagesProvider`
+  default, and `LanguageOneToOne` has no `Language.ANY` fallback. New Consulo-only `LspFindUsagesProvider`
+  (`@ExtensionImpl FindUsagesProvider`, language `PlainTextLanguage`): `canFindUsagesFor` only for `LspSearchTarget`, everything
+  else delegates to `EmptyFindUsagesProvider` (same words scanner for plain-text indexing, same presentation). Files of other
+  languages without a `FindUsagesProvider` still have the actions disabled. This replaces the corresponding known limitation in 5.
+  (In the sandbox keymap Find Usages is Alt+Shift+7 and Show Usages Ctrl+Alt+7; Alt+F7 is not bound.)
+- Go To Implementation (`textDocument/implementation`) and Go To Type Declaration (`textDocument/typeDefinition`) worked
+  as they were.

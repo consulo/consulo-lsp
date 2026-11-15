@@ -8,6 +8,7 @@ import com.intellij.platform.lsp.impl.LspClientManagerImpl;
 import com.intellij.platform.lsp.impl.LspDocumentRange;
 import com.intellij.platform.lsp.impl.LspServerCapabilitiesKt;
 import com.intellij.platform.lsp.impl.cache.LspPerFileCache;
+import com.intellij.platform.lsp.impl.features.quickFix.LspIntentionActionWrapperBase;
 import com.intellij.platform.lsp.util.Lsp4jUtilKt;
 import consulo.annotation.component.ComponentScope;
 import consulo.annotation.component.ServiceAPI;
@@ -78,7 +79,30 @@ public class LspIntentionActionService implements Disposable {
 
         if (Application.get().isDispatchThread()) {
             List<LspIntentionAction> computed = myIntentionActionsCache.getIfComputed(file, Pair.create(offset, length));
-            return computed != null ? computed : List.of();
+            if (computed != null) {
+                return computed;
+            }
+            // Consulo: Alt+Enter evaluates intentions on the UI thread (see LspIntentionActionWrapperBase)
+            if (!LspIntentionActionWrapperBase.canComputeUnderModalProgress()) {
+                return List.of();
+            }
+            List<LspIntentionAction> result = LspIntentionActionWrapperBase.computeUnderModalProgress(myProject, () -> {
+                List<LspIntentionAction> actions = myIntentionActionsCache.getOrCompute(
+                    file,
+                    Pair.create(offset, length),
+                    () -> computeIntentionActions(file, document, offset, length)
+                );
+                if (actions == null) {
+                    return List.of();
+                }
+                // `isAvailable()` resolves the code action (`codeAction/resolve`), which upstream does in a background thread too
+                for (LspIntentionAction action : actions) {
+                    ProgressManager.checkCanceled();
+                    action.isAvailable();
+                }
+                return actions;
+            });
+            return result != null ? result : List.of();
         }
 
         List<LspIntentionAction> result = myIntentionActionsCache.getOrCompute(

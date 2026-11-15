@@ -84,9 +84,68 @@ Upstream XML registrations (see `upstream/*.xml`) become annotations on the clas
 ## Missing Consulo APIs
 
 Consulo internal APIs (`*.internal.*` packages) are not used. IntelliJ APIs without a public Consulo equivalent are
-ported with their original names to `consulo.lsp.compat` (api module, exported to the plugin) and listed here:
+ported with their original names to `consulo.lsp.compat` (api module, exported to the plugin) or
+`consulo.lsp.impl.compat` (plugin). The detailed per-area notes written during the conversion (signatures, registrations, behaviour differences) are in
+[`docs/porting`](docs/porting). Summary:
 
-<!-- keep the list sorted; one line per API: `Upstream FQN` - what was done -->
+### Platform changes needed (cannot be solved well inside the plugin)
+
+- `consulo.language.editor.parameterInfo.ParameterInfoHandler.KEY` is built with `LanguageOneToMany.build(false)`, so a
+  handler for `Language.ANY` is never found: **signature help does not work** until it is `build(true)` (as for
+  completion contributors). `LspParameterInfoHandler` is registered for `Language.ANY` and ready.
+- The background `ShowIntentionsPass` never runs in the desktop editor: it checks `HasFocus.hasFocus(editor.getContentUIComponent())`,
+  and `DesktopEditorContentUIComponent` has `hasFocus()` but does not implement `HasFocus`. Alt+Enter evaluates intentions
+  on the UI thread (IntelliJ: in a background thread), so the LSP code actions and quick fixes are requested there under a
+  short cancellable modal progress (`LspIntentionActionWrapperBase.computeUnderModalProgress`), and no lightbulb is shown.
+- Find Usages / Show Usages are disabled for a language without a `FindUsagesProvider` and there is no `Language.ANY`
+  fallback; `LspFindUsagesProvider` covers plain text, other languages without a provider are not covered.
+- Declarative inlay hints: no public API to reschedule the pass for an editor (`DeclarativeInlayHintsPassFactory.scheduleRecompute`
+  is in `consulo.ide.impl`). `LspInlayApplier.scheduleRefresh` bumps the PSI modification counter and restarts the daemon instead.
+- `WolfTheProblemSolver.reportProblemsFromExternalSource` / `clearProblemsFromExternalSource` - LSP problems replace / clear
+  all problems of the file.
+- `BaseCompletionService.FORBID_WORD_COMPLETION` - word completion may add variants next to LSP items on explicit completion.
+- `com.intellij.execution.process.OSProcessHandler` is internal and `ProcessHandlerBuilder` cannot disable line splitting
+  of the output reader (LSP needs `splitToLines() = false`) - minimal copy in `consulo.lsp.compat.OSProcessHandler`.
+- `AnnotationHolderImpl` (internal) - minimal holder in `consulo.lsp.impl.compat.AnnotationHolderImpl`, so
+  `LspDiagnosticsSupport.createAnnotation` works unchanged.
+- `BackgroundUpdateHighlightersUtil` - highlights are applied on the UI thread with `UpdateHighlightersUtil`.
+- IntelliJ's Symbol / NavigationTarget / SearchTarget / UsageSearcher / DocumentationTarget APIs - adapted to the PSI
+  based Consulo APIs with `FakePsiElement` targets (see "Feature mapping").
+- Editor breadcrumbs extension point (`FileBreadcrumbsCollector`) - LSP breadcrumbs (`LspCrumb`) are not ported; the
+  navigation bar shows the LSP document symbols.
+- Structure view "structure changed" topic, Show Usages popup, intention preview (`IntentionPreviewInfo`),
+  `IntentionAction.getFamilyName` - not available; see the porting notes.
+- Trusted projects / safe mode - Consulo has none; every project is treated as trusted.
+- `ExtensionImpl` orders `first` / `last` are reserved for the plugin that owns the extension point; upstream `last`
+  orders are dropped (`LspStructureViewFactory` is ordered after `LanguageFileTypeStructureViewBuilderProvider`).
+- `org.commonmark` (used by the platform UI) is not visible to plugins - the plugin bundles commonmark 0.24.
+
+### Ported to `consulo.lsp.compat` (api) / `consulo.lsp.impl.compat` (plugin)
+
+`BaseProjectDirectories`, `OSProcessHandler`, `GlobUtilKt` (`getPathMatcher`), `DocMarkdownToHtmlConverter` (on
+commonmark), `QuickDocHighlightingHelper`, `ConstantNode` (lookup strings), `AnnotationHolderImpl`, `HyperlinkAnnotator`
+(shortcut text), `ActionContextElement` (id of the action being performed).
+
+### Feature mapping
+
+| Feature | Upstream extension | Consulo |
+|---|---|---|
+| Diagnostics, semantic tokens | `highlightingPassFactory` | `TextEditorHighlightingPassFactory` + out-of-band `UpdateHighlightersUtil` (`LspHighlightingApplier`) |
+| Problem files | `problemFileHighlightFilter` | `WolfFileProblemFilter` |
+| Inlay hints, color swatches | legacy `InlayHintsProvider` | declarative `DeclarativeInlayHintsProviderFactory` for all languages |
+| Hover / quick doc | `DocumentationTargetProvider` | `UnrestrictedDocumentationProvider.getCustomDocumentationElement` |
+| Completion | `completion.contributor language="any"` | `CompletionContributor` for `Language.ANY` |
+| Signature help | `codeInsight.parameterInfo language=""` | `ParameterInfoHandler` for `Language.ANY` (needs the platform fix above) |
+| Go to declaration | `ImplicitReferenceProvider` | `GotoDeclarationHandler` |
+| Go to type declaration | `SymbolTypeProvider` | `TypeDeclarationProvider` + `TargetElementUtilExtender` |
+| Go to implementation | `pom.declarationSearcher`, `definitionsScopedSearch` | same |
+| Find usages | `SearchTarget` + `UsageSearcher` | `UsageTargetProvider` + `FindUsagesHandlerFactory` (+ `FindUsagesProvider` for plain text) |
+| Document highlight | `highlightUsagesHandlerFactory` | same |
+| Structure view | `lang.psiStructureViewFactory language=""` | `StructureViewBuilderProvider` |
+| Navigation bar | `navbar` | `NavBarModelExtension` |
+| Code actions | `intentionAction` x15 + quick fixes on diagnostics | same (`LspIntention0..14` with `@IntentionMetaData`) |
+| Notification group | `notificationGroup` | `NotificationGroupContributor` |
+| Platform listeners | `projectListeners` / `applicationListeners`, `vfs.asyncListenerBackgroundable` | `@TopicImpl`, `AsyncFileListener` |
 
 ## Stages
 

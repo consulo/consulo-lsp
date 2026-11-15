@@ -67,19 +67,19 @@ public class LspPerFileCache<K, V> implements LspCache {
     private static final long WAITER_POLL_MS = 10L;
 
     private static final class Slot<K, V> {
-        final long stamp;
-        final VirtualFile file;
+        final long myStamp;
+        final VirtualFile myFile;
         /**
          * mutable: a containment-style hit re-anchors the key to the latest query
          */
-        K key;
-        final CompletableFuture<@Nullable V> future;
+        K myKey;
+        final CompletableFuture<@Nullable V> myFuture;
 
         Slot(long stamp, VirtualFile file, K key, CompletableFuture<@Nullable V> future) {
-            this.stamp = stamp;
-            this.file = file;
-            this.key = key;
-            this.future = future;
+            myStamp = stamp;
+            myFile = file;
+            myKey = key;
+            myFuture = future;
         }
     }
 
@@ -117,11 +117,11 @@ public class LspPerFileCache<K, V> implements LspCache {
             synchronized (this) {
                 Slot<K, V> s = mySlot;
                 CompletableFuture<@Nullable V> joined = null;
-                if (s != null && s.file.equals(file) && s.stamp == stamp) {
-                    if (s.future.isDone()) {
-                        V stored = s.future.isCompletedExceptionally() ? null : s.future.getNow(null);
-                        if (stored != null && myMatches.matches(s.key, stored, key)) {
-                            s.key = key;
+                if (s != null && s.myFile.equals(file) && s.myStamp == stamp) {
+                    if (s.myFuture.isDone()) {
+                        V stored = s.myFuture.isCompletedExceptionally() ? null : s.myFuture.getNow(null);
+                        if (stored != null && myMatches.matches(s.myKey, stored, key)) {
+                            s.myKey = key;
                             return stored;
                         }
                     }
@@ -129,8 +129,8 @@ public class LspPerFileCache<K, V> implements LspCache {
                         // A computation for this file and stamp is in flight. Join it: for the same key its result is
                         // the answer. For a different key the completed result may still satisfy [matches]
                         // (a containment lookup), so wait and re-evaluate instead of computing concurrently.
-                        joinedSameKey = Objects.equals(s.key, key);
-                        joined = s.future;
+                        joinedSameKey = Objects.equals(s.myKey, key);
+                        joined = s.myFuture;
                     }
                 }
                 if (joined != null) {
@@ -199,17 +199,17 @@ public class LspPerFileCache<K, V> implements LspCache {
             if (s == null) {
                 return null;
             }
-            if (!s.file.equals(file) || s.stamp != stamp || !s.future.isDone() || s.future.isCompletedExceptionally()) {
+            if (!s.myFile.equals(file) || s.myStamp != stamp || !s.myFuture.isDone() || s.myFuture.isCompletedExceptionally()) {
                 return null;
             }
-            V stored = s.future.getNow(null);
+            V stored = s.myFuture.getNow(null);
             if (stored == null) {
                 return null;
             }
-            if (!myMatches.matches(s.key, stored, key)) {
+            if (!myMatches.matches(s.myKey, stored, key)) {
                 return null;
             }
-            s.key = key;
+            s.myKey = key;
             return stored;
         }
     }
@@ -229,7 +229,7 @@ public class LspPerFileCache<K, V> implements LspCache {
     private void dropSlot(CompletableFuture<@Nullable V> expectedFuture) {
         synchronized (this) {
             Slot<K, V> s = mySlot;
-            if (s != null && s.future == expectedFuture) {
+            if (s != null && s.myFuture == expectedFuture) {
                 mySlot = null;
             }
         }

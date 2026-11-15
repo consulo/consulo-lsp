@@ -1,14 +1,23 @@
 package com.intellij.platform.lsp.impl.features.quickFix;
 
 import com.intellij.platform.lsp.api.customization.LspIntentionAction;
+import com.intellij.platform.lsp.localize.LspLocalize;
+import consulo.application.Application;
+import consulo.application.ReadAction;
 import consulo.application.dumb.DumbAware;
+import consulo.application.progress.ProgressManager;
 import consulo.codeEditor.Editor;
+import consulo.component.ProcessCanceledException;
 import consulo.language.editor.intention.IntentionAction;
 import consulo.language.psi.PsiFile;
 import consulo.localize.LocalizeValue;
+import consulo.lsp.impl.compat.ActionContextElement;
 import consulo.project.Project;
+import consulo.util.lang.function.ThrowableSupplier;
 import org.eclipse.lsp4j.CodeAction;
 import org.jspecify.annotations.Nullable;
+
+import java.util.function.Supplier;
 
 /**
  * A base class for the {@code LspQuickFixWrapper} and the {@link com.intellij.platform.lsp.impl.features.intention.LspIntentionActionWrapper}.
@@ -19,8 +28,22 @@ import org.jspecify.annotations.Nullable;
  * <p>
  * Consulo: {@code IntentionAction} has no {@code getFamilyName()} and no {@code generatePreview()};
  * {@link #getFamilyName()} is kept as a plain method, the preview is not ported.
+ * <p>
+ * Consulo: upstream evaluates {@code isAvailable} of intentions and quick fixes in a background thread (the background
+ * {@code ShowIntentionsPass} and the Alt+Enter handler, which computes the actions under a modal progress), and the wrappers
+ * only return already computed results on the EDT. Consulo's Alt+Enter handler ({@code ShowIntentionActionsHandler}) calls
+ * {@code isAvailable} on the UI thread and its background {@code ShowIntentionsPass} does not run in the desktop editor
+ * ({@code HasFocus.hasFocus(editor.getContentUIComponent())} is always {@code false}). So while an action is being performed on
+ * the UI thread (Alt+Enter, see {@link ActionContextElement}), the LSP requests are sent from a background thread under a
+ * cancellable modal progress ({@link #computeUnderModalProgress}); otherwise (e.g. the error tooltip) only the computed results
+ * are used, like upstream.
  */
 public abstract class LspIntentionActionWrapperBase implements IntentionAction, Comparable<IntentionAction>, DumbAware {
+    /**
+     * The performed action whose modal progress was canceled by the user: the other wrappers don't start a new progress for it.
+     */
+    private static volatile @Nullable ActionContextElement ourCanceledActionContext;
+
     protected final int myIndex;
 
     protected LspIntentionActionWrapperBase(int index) {
@@ -64,6 +87,39 @@ public abstract class LspIntentionActionWrapperBase implements IntentionAction, 
     public boolean isAvailable(Project project, Editor editor, PsiFile psiFile) {
         LspIntentionAction action = getLspIntentionAction();
         return action != null && action.isAvailable(project, editor, psiFile);
+    }
+
+    /**
+     * Consulo: returns {@code true} if a modal progress may be shown on the current (UI) thread, i.e. the user performs an action
+     * on this thread (Alt+Enter) and has not canceled a progress started for it.
+     */
+    public static boolean canComputeUnderModalProgress() {
+        if (!Application.get().isDispatchThread()) {
+            return false;
+        }
+        ActionContextElement actionContext = ActionContextElement.getActionThreadContext();
+        return actionContext != null && actionContext != ourCanceledActionContext;
+    }
+
+    /**
+     * Consulo: runs {@code computation} in a read action in a background thread under a cancellable modal progress, see the class
+     * Javadoc. Must be called on the UI thread when {@link #canComputeUnderModalProgress()} is {@code true}.
+     *
+     * @return {@code null} if the user canceled the progress
+     */
+    public static <T> @Nullable T computeUnderModalProgress(Project project, Supplier<T> computation) {
+        try {
+            return ProgressManager.getInstance().runProcessWithProgressSynchronously(
+                (ThrowableSupplier<T, RuntimeException>) () -> ReadAction.compute(computation::get),
+                LspLocalize.lspCodeActionsProgressTitle(),
+                true,
+                project
+            );
+        }
+        catch (ProcessCanceledException e) {
+            ourCanceledActionContext = ActionContextElement.getActionThreadContext();
+            return null;
+        }
     }
 
     @Override

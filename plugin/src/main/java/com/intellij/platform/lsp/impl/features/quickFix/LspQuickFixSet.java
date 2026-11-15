@@ -11,6 +11,7 @@ import consulo.application.progress.ProgressManager;
 import consulo.document.Document;
 import consulo.document.FileDocumentManager;
 import consulo.language.editor.intention.IntentionAction;
+import consulo.language.editor.intention.SyntheticIntentionAction;
 import consulo.language.psi.PsiManager;
 import consulo.logging.Logger;
 import consulo.virtualFileSystem.VirtualFile;
@@ -49,8 +50,9 @@ public class LspQuickFixSet {
 
     private final List<IntentionAction> myQuickFixes;
 
-    private long myPsiModCountWhenRequestSent = 0;
-    private long myVfsModCountWhenRequestSent = 0;
+    // Consulo: volatile, read on the UI thread by isUpToDate()
+    private volatile long myPsiModCountWhenRequestSent = 0;
+    private volatile long myVfsModCountWhenRequestSent = 0;
 
     public LspQuickFixSet(LspClientImpl lspClient, VirtualFile file, Diagnostic diagnostic) {
         this(lspClient, file, diagnostic, null);
@@ -77,6 +79,22 @@ public class LspQuickFixSet {
         // IntentionAction.invoke is called from EDT, but at that moment, this LspQuickFixWrapper should be already initialized.
         // Anyway, we are not going to wait for the response from the server in EDT.
         if (Application.get().isDispatchThread()) {
+            // Consulo: Alt+Enter evaluates quick fixes on the UI thread (see LspIntentionActionWrapperBase),
+            // the request is sent from a background thread under a modal progress
+            if (!isUpToDate() && LspIntentionActionWrapperBase.canComputeUnderModalProgress()) {
+                LspIntentionActionWrapperBase.computeUnderModalProgress(myLspClient.getProject(), () -> {
+                    ensureInitialized();
+                    // `isAvailable()` resolves the code action (`codeAction/resolve`), which upstream does in a background thread too
+                    for (IntentionAction quickFix : myQuickFixes) {
+                        ProgressManager.checkCanceled();
+                        LspIntentionAction action = ((LspQuickFixWrapper) quickFix).myLspIntentionAction;
+                        if (action != null) {
+                            action.isAvailable();
+                        }
+                    }
+                    return Boolean.TRUE;
+                });
+            }
             return;
         }
 
@@ -142,6 +160,14 @@ public class LspQuickFixSet {
     }
 
     /**
+     * Consulo: whether the quick fixes were received for the current PSI and VFS state (the check of {@link #ensureInitialized()}).
+     */
+    private boolean isUpToDate() {
+        return myPsiModCountWhenRequestSent == PsiManager.getInstance(myLspClient.getProject()).getModificationTracker().getModificationCount() &&
+            myVfsModCountWhenRequestSent == VirtualFileManager.getInstance().getModificationCount();
+    }
+
+    /**
      * Creates {@link LspIntentionAction} objects, to which {@link LspQuickFixWrapper} will delegate {@link IntentionAction#getText},
      * {@link IntentionAction#isAvailable}, and {@link IntentionAction#invoke}
      */
@@ -164,9 +190,12 @@ public class LspQuickFixSet {
     }
 
     /**
+     * Consulo: quick fixes that are not registered intentions must be {@link SyntheticIntentionAction}s, otherwise
+     * {@code IntentionManagerSettings} reports a missing {@code @IntentionMetaData}.
+     *
      * @see LspQuickFixSet
      */
-    private static final class LspQuickFixWrapper extends LspIntentionActionWrapperBase {
+    private static final class LspQuickFixWrapper extends LspIntentionActionWrapperBase implements SyntheticIntentionAction {
         private final LspQuickFixSet myQuickFixSet;
         private volatile @Nullable LspIntentionAction myLspIntentionAction;
 

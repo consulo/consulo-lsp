@@ -77,9 +77,9 @@ public final class LspDocumentationData {
             return new LspDocumentationData(null, null, contents, DescriptionMarkup.MARKDOWN);
         }
         return new LspDocumentationData(
-            definitionFence.code,
-            definitionFence.language,
-            definitionFence.rest,
+            definitionFence.myCode,
+            definitionFence.myLanguage,
+            definitionFence.myRest,
             DescriptionMarkup.MARKDOWN
         );
     }
@@ -88,14 +88,14 @@ public final class LspDocumentationData {
      * A fenced code block that opens a markdown text, and the text after it.
      */
     private static final class LeadingCodeFence {
-        private final @Nullable String language;
-        private final String code;
-        private final String rest;
+        private final @Nullable String myLanguage;
+        private final String myCode;
+        private final String myRest;
 
         private LeadingCodeFence(@Nullable String language, String code, String rest) {
-            this.language = language;
-            this.code = code;
-            this.rest = rest;
+            myLanguage = language;
+            myCode = code;
+            myRest = rest;
         }
     }
 
