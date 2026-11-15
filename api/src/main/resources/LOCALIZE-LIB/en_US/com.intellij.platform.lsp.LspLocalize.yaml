@@ -99,3 +99,5 @@ lsp.extract.popup.title:
     text: "Extract"
 lsp.refactoring.server.starting:
     text: "{0} is starting. Try again in a few seconds."
+lsp.resolving.reference.progress.title:
+    text: "Resolving reference…"
