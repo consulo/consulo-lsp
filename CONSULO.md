@@ -12,6 +12,8 @@ LSP client for Consulo, ported from JetBrains [intellij-community](https://githu
 | `platform/lsp-impl/src/impl` | `plugin/src/main/java/com/intellij/platform/lsp/impl` | `consulo.lsp` (consulo-plugin) / `consulo.lsp` |
 | `platform/lsp-impl/structureView/src/impl/structureView` | `plugin/src/main/java/com/intellij/platform/lsp/impl/structureView` | same |
 | `platform/lsp/resources/messages/LspBundle.properties` | `api/src/main/resources/LOCALIZE-LIB/en_US/com.intellij.platform.lsp.LspLocalize.yaml` | |
+| `plugins/lsp.ui/lsp.ui.frontend/src` (LSP Servers settings, revision `07e76a69869d`) | `plugin/src/main/java/com/intellij/lsp/ui/frontend` | `consulo.lsp` |
+| `platform/lang-api`, `platform/lang-impl` `com.intellij.platform.lang.lsWidget` (Language Services widget, missing in Consulo) | `api/.../com/intellij/platform/lang/lsWidget`, `plugin/.../com/intellij/platform/lang/lsWidget/impl` | `consulo.lsp.api` / `consulo.lsp` |
 | `*.xml` plugin descriptors | `upstream/` (reference only, registrations are annotations) | |
 
 - Packages and file names are the upstream ones. Each upstream `Foo.kt` becomes `Foo.java` in the same directory.
