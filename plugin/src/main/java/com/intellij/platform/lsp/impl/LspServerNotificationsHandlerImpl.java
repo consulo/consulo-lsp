@@ -3,6 +3,9 @@ package com.intellij.platform.lsp.impl;
 import com.intellij.platform.lsp.api.LspServerNotificationsHandler;
 import com.intellij.platform.lsp.api.LspServerState;
 import com.intellij.platform.lsp.impl.features.LspFeaturesRefreshing;
+import com.intellij.platform.lsp.impl.serviceView.LspClientConsole;
+import com.intellij.platform.lsp.impl.serviceView.LspServiceViewSupport;
+import com.intellij.platform.lsp.impl.serviceView.ShowLspServerLogAction;
 import com.intellij.platform.lsp.impl.util.LspWorkspaceEditApplier;
 import com.intellij.platform.lsp.localize.LspLocalize;
 import com.intellij.platform.lsp.util.Lsp4jUtilKt;
@@ -589,7 +592,10 @@ public class LspServerNotificationsHandlerImpl implements LspServerNotifications
             ? params.getActions().stream().map(MessageActionItem::getTitle).collect(Collectors.joining(", "))
             : "null";
         myLspClient.logInfo("window/showMessageRequest: " + params.getMessage() + ": " + actions);
-        // TODO serviceView stage: serviceViewConsole()?.printShowMessage(params.type, "${params.message}: ...")
+        LspClientConsole showMessageRequestConsole = serviceViewConsole();
+        if (showMessageRequestConsole != null) {
+            showMessageRequestConsole.printShowMessage(params.getType(), params.getMessage() + ": " + actions);
+        }
         return doNotify(params.getMessage(), getNotificationType(params), SHOW_MESSAGE_GROUP, params.getActions());
     }
 
@@ -600,7 +606,10 @@ public class LspServerNotificationsHandlerImpl implements LspServerNotifications
         }
 
         myLspClient.logInfo("window/showMessage: " + params.getMessage());
-        // TODO serviceView stage: serviceViewConsole()?.printShowMessage(params.type, params.message)
+        LspClientConsole console = serviceViewConsole();
+        if (console != null) {
+            console.printShowMessage(params.getType(), params.getMessage());
+        }
         doNotify(params.getMessage(), getNotificationType(params), SHOW_MESSAGE_GROUP, null);
     }
 
@@ -611,7 +620,10 @@ public class LspServerNotificationsHandlerImpl implements LspServerNotifications
         }
 
         myLspClient.logInfo("window/logMessage " + params.getType() + ": " + params.getMessage());
-        // TODO serviceView stage: serviceViewConsole()?.printLogMessage(params.type, params.message)
+        LspClientConsole console = serviceViewConsole();
+        if (console != null) {
+            console.printLogMessage(params.getType(), params.getMessage());
+        }
     }
 
     @Override
@@ -622,8 +634,14 @@ public class LspServerNotificationsHandlerImpl implements LspServerNotifications
 
         // no need to LOG.info() it additionally; LOG.debug() done in Lsp4jServerConnector.createMessageJsonHandler is enough.
         String message = params.getVerbose() != null ? params.getMessage() + "\n" + params.getVerbose() : params.getMessage();
-        // TODO serviceView stage: serviceViewConsole()?.printTrace(message)
-        LOG.debug(message);
+        LspClientConsole console = serviceViewConsole();
+        if (console != null) {
+            console.printTrace(message);
+        }
+    }
+
+    private @Nullable LspClientConsole serviceViewConsole() {
+        return LspServiceViewSupport.getInstance(myProject).getOrCreateConsole(myLspClient);
     }
 
     private static NotificationType getNotificationType(MessageParams params) {
@@ -676,7 +694,7 @@ public class LspServerNotificationsHandlerImpl implements LspServerNotifications
             }
         }
         if (myLspClient.getDescriptor().getOfferServerLogInNotifications() && (type == NotificationType.ERROR || type == NotificationType.WARNING)) {
-            // TODO serviceView stage: notification.addAction(ShowLspServerLogAction(lspClient))
+            notification.addAction(new ShowLspServerLogAction(myLspClient));
         }
         notification.notify(myProject);
 

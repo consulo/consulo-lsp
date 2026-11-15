@@ -9,6 +9,7 @@ module consulo.lsp.api {
     requires transitive consulo.code.editor.api;
     requires transitive consulo.color.scheme.api;
     requires transitive consulo.component.api;
+    requires transitive consulo.configurable.api;
     requires transitive consulo.disposer.api;
     requires transitive consulo.document.api;
     requires transitive consulo.file.editor.api;
@@ -39,6 +40,10 @@ module consulo.lsp.api {
     exports com.intellij.platform.lsp.util;
     exports com.intellij.platform.lsp.localize;
     exports consulo.lsp.compat;
+    exports com.intellij.platform.lsp.api.lsWidget;
+    exports com.intellij.platform.lang.lsWidget;
+    exports com.intellij.platform.lang.lsWidget.internal to consulo.lsp;
+    exports com.intellij.platform.lang.localize;
 
     // gson serializes the lsp4j subclasses of the API (e.g. SignatureInformationCapabilitiesWithNoActiveParameterSupport)
     opens com.intellij.platform.lsp.api to com.google.gson;

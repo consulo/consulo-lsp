@@ -160,6 +160,18 @@
         </dependency>
         <dependency>
             <groupId>consulo</groupId>
+            <artifactId>consulo-execution-api</artifactId>
+            <version>${project.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>consulo</groupId>
+            <artifactId>consulo-external-service-api</artifactId>
+            <version>${project.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>consulo</groupId>
             <artifactId>consulo-file-editor-api</artifactId>
             <version>${project.version}</version>
             <scope>provided</scope>
@@ -191,6 +203,12 @@
         <dependency>
             <groupId>consulo</groupId>
             <artifactId>consulo-language-editor-refactoring-api</artifactId>
+            <version>${project.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>consulo</groupId>
+            <artifactId>consulo-language-editor-ui-api</artifactId>
             <version>${project.version}</version>
             <scope>provided</scope>
         </dependency>

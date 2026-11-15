@@ -22,13 +22,13 @@ Scope: `api/src/main/java/com/intellij/platform/lsp/{api,api/customization,util}
 - `com.intellij.openapi.application.runReadActionBlocking` - `ReadAction.compute`.
 - `com.intellij.openapi.diagnostic.fileLogger()/thisLogger()` - `Logger.getInstance(<facade or class>.class)`.
 - `com.intellij.icons.AllIcons.*` - `consulo.platform.base.icon.PlatformIconGroup` (`consulo.ui.image.Image` instead of `Icon`). No exact match for `Nodes.Word` -> `filetypesText()`, `Actions.Colors` -> `gutterColors()`, `Json.Object` -> `nodesStruct()`.
-- `com.intellij.platform.lang.lsWidget.LanguageServiceWidgetItem` (+ the whole lsWidget) - later stage, see 2.
+- `com.intellij.platform.lang.lsWidget.LanguageServiceWidgetItem` (+ the whole lsWidget) - copied from IntelliJ, see [ui.md](ui.md).
 
 Plain mappings (no decision needed): `consulo.process.{ExecutionException,BaseProcessHandler,cmd.GeneralCommandLine,io.BaseOutputReader,io.BaseDataReader}`, `consulo.colorScheme.{TextAttributes,TextAttributesKey}`, `consulo.codeEditor.{DefaultLanguageHighlighterColors,HighlighterColors,Editor}`, `consulo.language.editor.annotation.{AnnotationHolder,AnnotationBuilder,HighlightSeverity}`, `consulo.language.editor.inspection.ProblemHighlightType`, `consulo.language.editor.intention.IntentionAction`, `consulo.language.editor.FileModificationService`, `consulo.language.editor.completion.{CompletionParameters,lookup.*}`, `consulo.navigation.{NavigationItem,ItemPresentation}`, `consulo.document.{Document,DocumentWindow,FileDocumentManager,util.TextRange}`, `consulo.module.content.ProjectFileIndex`, `consulo.util.io.{URLUtil,OSAgnosticPathUtil,PathUtil}`, `consulo.util.lang.StringUtil` (also for `StringUtilRt.convertLineSeparators`), `consulo.virtualFileSystem.fileType.FileNameMatcherFactory`, `consulo.ui.ex.popup.JBPopupFactory`, `consulo.ui.ex.awt.ColoredListCellRenderer`, `consulo.ui.ex.{SimpleTextAttributes,RelativePoint}`, `consulo.disposer.Disposable`.
 
 ## 2. Files intentionally left as `.kt_`
 
-- `api/lsWidget/LspClientWidgetItem.kt_`, `LspServerWidgetItem.kt_`, `LspWidgetInternalService.kt_` - Language Services status-bar widget is a later stage; they depend on `com.intellij.platform.lang.lsWidget.*` (no Consulo equivalent). References removed with `// TODO lsWidget stage:` from `LspIntegrationProvider` (`createWidgetItems`, `createWidgetItem`) and `LspServerSupportProvider` (`createLspWidgetItems`, `createLspServerWidgetItem` and their overrides). The impl's `LspWidgetItemsProvider` / `LspWidgetInternalServiceImpl` have nothing to call yet.
+- `api/lsWidget/*` - converted in the lsWidget stage, see [ui.md](ui.md); `createWidgetItems`/`createWidgetItem` (and the deprecated `createLspWidgetItems`/`createLspServerWidgetItem`) are restored.
 
 ## 3. Deviations from the CONSULO.md rules / non-obvious Java signatures
 

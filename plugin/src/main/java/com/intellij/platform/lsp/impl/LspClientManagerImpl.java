@@ -14,6 +14,7 @@ import com.intellij.platform.lsp.api.LspServerState;
 import com.intellij.platform.lsp.api.LspServerSupportProvider;
 import com.intellij.platform.lsp.impl.documentSync.LspOpenedFilesService;
 import com.intellij.platform.lsp.impl.features.navigation.LspDynamicFiles;
+import com.intellij.platform.lsp.impl.serviceView.LspServiceViewSupport;
 import consulo.annotation.access.RequiredReadAction;
 import consulo.annotation.component.ServiceImpl;
 import consulo.application.Application;
@@ -335,8 +336,9 @@ public class LspClientManagerImpl implements LspServerManager, Disposable {
         }
 
         CompletableFuture<Void> job = new CompletableFuture<>();
-        // TODO serviceView stage: LspServiceViewSupport.getInstance(project) - make sure its listener is registered before the first
-        //  `clientAdded` event, so the console gets all lifecycle events
+        // make sure the listener of the Services view support is registered before the first `clientAdded` event,
+        // so the console gets all lifecycle events
+        LspServiceViewSupport.getInstance(myProject);
 
         // upstream: readAndEdtWriteAction { ... writeAction { ... } }
         Application.get().invokeLater(() -> {

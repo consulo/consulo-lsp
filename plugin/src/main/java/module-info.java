@@ -14,6 +14,8 @@ module consulo.lsp {
     requires consulo.datacontext.api;
     requires consulo.disposer.api;
     requires consulo.document.api;
+    requires consulo.execution.api;
+    requires consulo.external.service.api;
     requires consulo.file.editor.api;
     requires consulo.find.api;
     requires consulo.ide.api;
@@ -21,6 +23,7 @@ module consulo.lsp {
     requires consulo.language.editor.api;
     requires consulo.language.editor.impl;
     requires consulo.language.editor.refactoring.api;
+    requires consulo.language.editor.ui.api;
     requires consulo.language.impl;
     requires consulo.language.ui.api;
     requires consulo.localize.api;

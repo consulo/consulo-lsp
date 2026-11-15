@@ -92,7 +92,7 @@ None. Gson/lsp4j only (de)serialize lsp4j classes here; the lsp4j proxy is creat
 ## 5. Files left as `.kt_`, TODOs
 
 No `.kt_` left in the scope. TODOs (later stages):
-- `// TODO serviceView stage`: `LspServiceViewSupport` console (`printTraffic`, `printProcessOutput`, `flushProcessOutput`, `printShowMessage`, `printLogMessage`, `printTrace`) in `Lsp4jServerConnector`, `LspServerProcessListenerBase`, `LspServerNotificationsHandlerImpl` (logTrace goes to `LOG.debug` meanwhile); `ShowLspServerLogAction` in notifications when `offerServerLogInNotifications`; `LspServiceViewSupport.getInstance(project)` before `clientAdded` in `LspClientManagerImpl.ensureStarted`.
+- serviceView stage: done, see [ui.md](ui.md) (the `// TODO serviceView stage` call sites are wired to `LspServiceViewSupport` / `LspClientConsole` / `ShowLspServerLogAction`).
 - `// TODO codeLens stage`: `LspFeaturesRefreshing.refreshCodeLenses`.
 - `// TODO workspaceFileOperations stage`: `LspWillRenameFilesHandler.renameOrMoveRefactoringStarted` in `LspRefactoringEventListener`.
 - workspaceSymbol stage: `toWorkspaceSymbol` (workspaceSymbol/converters.kt) is ported as a private helper in `LspRequestExecutor` (the converters file stays `.kt_` for that stage).

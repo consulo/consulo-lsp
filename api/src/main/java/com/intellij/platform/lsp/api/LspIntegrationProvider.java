@@ -1,12 +1,15 @@
 // Copyright 2000-2026 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license.
 package com.intellij.platform.lsp.api;
 
+import com.intellij.platform.lang.lsWidget.LanguageServiceWidgetItem;
+import com.intellij.platform.lsp.api.lsWidget.LspClientWidgetItem;
 import consulo.annotation.access.RequiredReadAction;
 import consulo.annotation.component.ComponentScope;
 import consulo.annotation.component.ExtensionAPI;
 import consulo.component.extension.ExtensionPointName;
 import consulo.project.Project;
 import consulo.virtualFileSystem.VirtualFile;
+import org.jspecify.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -105,9 +108,33 @@ public interface LspIntegrationProvider {
     @RequiredReadAction
     void fileOpened(Project project, VirtualFile file, LspClientStarter clientStarter);
 
-    // TODO lsWidget stage: upstream `createWidgetItems(project, currentFile): List<LanguageServiceWidgetItem>` and
-    //  `createWidgetItem(lspClient, currentFile): LspClientWidgetItem?` ('Language Services' status bar widget items).
-    //  Consulo has no `com.intellij.platform.lang.lsWidget` API yet, the widget is a later stage.
+    default List<LanguageServiceWidgetItem> createWidgetItems(Project project, @Nullable VirtualFile currentFile) {
+        List<LanguageServiceWidgetItem> result = new ArrayList<>();
+        for (LspClient lspClient : LspClientManager.getInstance(project).getClients(getClass())) {
+            LspClientWidgetItem item = createWidgetItem(lspClient, currentFile);
+            if (item != null) {
+                result.add(item);
+            }
+        }
+        return result;
+    }
+
+    /**
+     * Creates an LSP client-specific item in the 'Language Services' status bar widget.
+     * The plugins are strongly recommended to override this function to have the correct icon
+     * and the 'Open plugin page in Settings' action on click.
+     * <p>
+     * Typical implementation:
+     * <pre>
+     *    &#64;Override
+     *    public LspClientWidgetItem createWidgetItem(LspClient lspClient, VirtualFile currentFile) {
+     *      return new LspClientWidgetItem(lspClient, currentFile, fooIcon, FooConfigurable.class);
+     *    }
+     * </pre>
+     */
+    default @Nullable LspClientWidgetItem createWidgetItem(LspClient lspClient, @Nullable VirtualFile currentFile) {
+        return new LspClientWidgetItem(lspClient, currentFile);
+    }
 
     /**
      * Enumerates providers from both the canonical {@link #EP_NAME} and the deprecated {@link LspServerSupportProvider#EP_NAME}.

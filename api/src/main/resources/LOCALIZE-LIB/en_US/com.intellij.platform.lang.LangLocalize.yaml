@@ -1,0 +1,39 @@
+# The 'Language Services' status bar widget texts of upstream LangBundle (platform/platform-resources-en/src/messages/LangBundle.properties)
+language.services.widget:
+    text: "Language Services"
+language.services.widget.button:
+    text: "Language Services Button"
+language.services.widget.tooltip.running.on.current.file.list:
+    text: "<html>Language Services running on the current file:<br>{0}</html>"
+language.services.widget.section.running.on.current.file:
+    text: "Running on Current File"
+language.services.widget.section.running.on.other.files:
+    text: "Running on Other Files"
+language.services.widget.no.services:
+    text: "No Services"
+language.services.widget.item.initializing:
+    text: "{0} | Initializing…"
+language.services.widget.item.shutdown.normally:
+    text: "{0} | Stopped"
+language.services.widget.item.shutdown.unexpectedly:
+    text: "{0} | Terminated"
+language.services.widget.open.settings.action:
+    text: "Open Settings"
+language.services.widget.more.languages:
+    text: "More Languages…"
+language.services.notification.group.service.stopped.or.restarted:
+    text: "Language service stopped or restarted"
+language.services.0.server.restarted.notification.title:
+    text: "{0} server restarted"
+language.services.0.service.restarted.notification.title:
+    text: "{0} service restarted"
+language.services.0.restarted.notification.title:
+    text: "{0} restarted"
+language.services.0.server.stopped.notification.title:
+    text: "{0} server stopped"
+language.services.server.stopped.notification.content:
+    text: "The server will restart automatically when needed"
+language.services.0.service.stopped.notification.title:
+    text: "{0} service stopped"
+language.services.service.stopped.notification.content:
+    text: "The service will restart automatically when needed"

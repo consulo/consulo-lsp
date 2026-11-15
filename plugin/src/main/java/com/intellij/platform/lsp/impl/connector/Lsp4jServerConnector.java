@@ -10,6 +10,8 @@ import com.intellij.platform.lsp.impl.LspClientImpl;
 import com.intellij.platform.lsp.impl.LspClientManagerImpl;
 import com.intellij.platform.lsp.impl.logging.LanguageServiceLogger;
 import com.intellij.platform.lsp.impl.logging.LanguageServiceLoggerService;
+import com.intellij.platform.lsp.impl.serviceView.LspClientConsole;
+import com.intellij.platform.lsp.impl.serviceView.LspServiceViewSupport;
 import consulo.application.Application;
 import consulo.application.ReadAction;
 import consulo.application.util.registry.Registry;
@@ -282,7 +284,11 @@ public abstract class Lsp4jServerConnector {
      */
     private void printTrafficSafely(boolean outbound, Message message, String json) {
         try {
-            // TODO serviceView stage: LspServiceViewSupport.getInstanceIfCreated(project)?.getOrCreateConsole(lspClient)?.printTraffic(outbound, message, json)
+            LspServiceViewSupport serviceViewSupport = LspServiceViewSupport.getInstanceIfCreated(myLspClient.getProject());
+            LspClientConsole console = serviceViewSupport != null ? serviceViewSupport.getOrCreateConsole(myLspClient) : null;
+            if (console != null) {
+                console.printTraffic(outbound, message, json);
+            }
         }
         catch (Exception e) {
             LOG.warn("Failed to print LSP traffic to the console", e);

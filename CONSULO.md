@@ -121,6 +121,9 @@ ported with their original names to `consulo.lsp.compat` (api module, exported t
 - `ExtensionImpl` orders `first` / `last` are reserved for the plugin that owns the extension point; upstream `last`
   orders are dropped (`LspStructureViewFactory` is ordered after `LanguageFileTypeStructureViewBuilderProvider`).
 - `org.commonmark` (used by the platform UI) is not visible to plugins - the plugin bundles commonmark 0.24.
+- Language Services widget / Services view: no `StatusBar.Info` (status bar text), no Marketplace search by tag, no
+  `IconManager.withIconBadge`/`RowIcon`/`LafManager`, no custom component in Consulo's `EditorBasedStatusBarPopup`, no FUS -
+  see [docs/porting/ui.md](docs/porting/ui.md).
 
 ### Ported to `consulo.lsp.compat` (api) / `consulo.lsp.impl.compat` (plugin)
 
@@ -156,9 +159,11 @@ notifications, diagnostics (push + pull), hover, completion (+ resolve), definit
 references, document highlight, inlay hints, semantic tokens, code actions (+ resolve, `workspace/executeCommand`),
 document symbols (structure view), signature help.
 
+Services view (per-client console with the server traffic and output, Stop / Restart) and the Language Services status bar
+widget: see [docs/porting/ui.md](docs/porting/ui.md).
+
 Later: rename, formatting (range / on type), folding, selection range, call / type hierarchy and inheritance markers,
-code lens, document links / colors, workspace symbol, `workspace/willRenameFiles`, Node.js runtime manager,
-Language Services status bar widget, Services view, LSP log.
+code lens, document links / colors, workspace symbol, `workspace/willRenameFiles`, Node.js runtime manager, LSP log.
 
 Not implemented upstream either: declaration, `workspace/diagnostic`, semantic tokens range / delta, `inlayHint/resolve`,
 color presentation, linked editing range, moniker, `willSave*`.
