@@ -38,6 +38,7 @@ module consulo.lsp.api {
     exports com.intellij.platform.lsp.api.customization;
     exports com.intellij.platform.lsp.util;
     exports com.intellij.platform.lsp.localize;
+    exports com.intellij.lsp.ui.frontend.localize;
     exports consulo.lsp.compat;
 
     // gson serializes the lsp4j subclasses of the API (e.g. SignatureInformationCapabilitiesWithNoActiveParameterSupport)

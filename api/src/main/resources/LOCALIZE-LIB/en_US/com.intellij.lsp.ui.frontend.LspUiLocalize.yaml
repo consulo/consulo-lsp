@@ -1,0 +1,82 @@
+lsp.settings.display.name:
+    text: "Language Servers"
+lsp.settings.server.name.comment:
+    text: "Display name for this LSP server configuration"
+lsp.settings.server.enable:
+    text: "Enabled"
+lsp.settings.server.configuration.section:
+    text: "Server Configuration"
+lsp.settings.server.executable:
+    text: "Executable path:"
+lsp.settings.server.executable.browse:
+    text: "Select Language Server Executable"
+lsp.settings.server.executable.backend.unavailable:
+    text: "The backend file system is unavailable."
+lsp.settings.server.executable.comment:
+    text: "Path to the Language server executable"
+lsp.settings.server.executable.provided.by.plugin:
+    text: "Provided by plugin"
+lsp.settings.server.arguments:
+    text: "Arguments:"
+lsp.settings.server.arguments.comment:
+    text: "Command line arguments (e.g., --stdio)"
+lsp.settings.server.environment.variables:
+    text: "Environment variables:"
+lsp.settings.server.file.patterns:
+    text: "File name patterns:"
+lsp.settings.server.file.patterns.empty:
+    text: "No patterns configured"
+lsp.settings.server.pattern.add.title:
+    text: "Add Wildcard"
+lsp.settings.server.pattern.edit.title:
+    text: "Edit Wildcard"
+lsp.settings.server.pattern.prompt:
+    text: "Enter a new wildcard ('*' and '?' allowed):"
+lsp.settings.server.mode:
+    text: "Communication channel:"
+lsp.settings.server.mode.stdio:
+    text: "stdio"
+lsp.settings.server.mode.socket:
+    text: "socket"
+lsp.settings.server.mode.socket.remote.unsupported:
+    text: "Socket mode is not yet supported in remote environments"
+lsp.settings.server.init:
+    text: "Initialization options (JSON):"
+lsp.settings.server.init.comment:
+    text: "Optional JSON configuration sent to the server during initialization"
+lsp.settings.default.name:
+    text: "New LSP Server"
+lsp.settings.server.name:
+    text: "Name:"
+lsp.settings.server.provided.by:
+    text: "Provided by:"
+lsp.settings.action.add:
+    text: "Add LSP Server"
+lsp.settings.action.add.description:
+    text: "Add a new LSP server configuration"
+lsp.settings.action.delete:
+    text: "Remove"
+lsp.settings.action.delete.description:
+    text: "Remove the selected LSP server configuration"
+lsp.settings.name:
+    text: "LSP Servers"
+lsp.settings.empty.selection:
+    text: "Select an LSP server configuration to edit"
+lsp.settings.more.plugins:
+    text: "More via plugins…"
+lsp.settings.dialog.remove.server.message:
+    text: "Are you sure you want to remove the LSP server configuration ''{0}''?"
+lsp.settings.dialog.remove.server.title:
+    text: "Remove LSP Server"
+lsp.settings.empty.executable.dialog:
+    text: "LSP server executable path is not configured for ''{0}''"
+lsp.settings.error.duplicate.names:
+    text: "Duplicate server names found: {0}"
+lsp.notification.intellij.server.configured:
+    text: "IntelliJ Language Server is configured for dogfooding with JPS project {0} and VM Options {1}"
+lsp.notification.action.open.settings:
+    text: "Open settings"
+action.configureintellijmonster.text:
+    text: "Configure IntelliJ Language Server"
+action.configureintellijmonster.description:
+    text: "Register the IntelliJ language server for the current project"
