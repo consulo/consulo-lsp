@@ -8,6 +8,7 @@ module consulo.lsp {
     requires consulo.application.api;
     requires consulo.application.ui.api;
     requires consulo.code.editor.api;
+    requires consulo.configurable.api;
     requires consulo.color.scheme.api;
     requires consulo.component.api;
     requires consulo.container.api;
@@ -16,6 +17,7 @@ module consulo.lsp {
     requires consulo.document.api;
     requires consulo.execution.api;
     requires consulo.external.service.api;
+    requires consulo.file.chooser.api;
     requires consulo.file.editor.api;
     requires consulo.find.api;
     requires consulo.ide.api;
@@ -36,12 +38,14 @@ module consulo.lsp {
     requires consulo.proxy;
     requires consulo.ui.api;
     requires consulo.ui.ex.api;
+    requires consulo.ui.ex.awt.api;
     requires consulo.usage.api;
     requires consulo.util.collection;
     requires consulo.util.concurrent;
     requires consulo.util.dataholder;
     requires consulo.util.io;
     requires consulo.util.lang;
+    requires consulo.util.xml.serializer;
     requires consulo.virtual.file.system.api;
     requires consulo.web.browser.api;
 
@@ -52,4 +56,7 @@ module consulo.lsp {
     requires org.commonmark;
     requires org.commonmark.ext.gfm.tables;
     requires org.commonmark.ext.gfm.strikethrough;
+
+    // LspIntegrationSettingsImpl state beans (LSP Servers settings)
+    opens com.intellij.lsp.ui.frontend.settings to consulo.util.xml.serializer;
 }
