@@ -178,3 +178,17 @@ reformat, `willRenameFiles`). Per-area notes: [docs/porting](docs/porting).
 
 Not implemented upstream either: declaration, `workspace/diagnostic`, semantic tokens range / delta, `inlayHint/resolve`,
 color presentation, linked editing range, moniker, `willSave*`.
+
+## Remote platforms (follow-up)
+
+The descriptor still treats every project as local (`getFilePath` = `VirtualFile.getPath()`, local temp files and
+processes). For Consulo remote projects (WSL / Docker / remote agent):
+
+- `getFilePath` / `getFileUri`: `file.toNioPath().toString()` as the server's machine names it, URI built from that string
+  (`file:///home/u/a.py`, `file:///C:/x/a.py`), never `Path.toUri()` (gives `remote-agent://...`).
+- `findLocalFileByPath`: `project.getPlatform().fs().getPath(path)` + `VirtualFileManager.findFileByNioPath`, never
+  `LocalFileSystem` (finds the local file with the same path text); files inside archives have no machine path.
+- Server process: `GeneralCommandLine.withPlatform(project.getPlatform())`, executables via `platform.findExecutableInPath`;
+  socket channel over `PlatformNetwork` (`localhost` in the remote process is the remote machine).
+- Temp files and shipped binaries (Node.js runtime): `platform.fs().createTempFile(...)`, `PlatformTransfer`.
+- Skip starting servers when `PlatformTargetManager.isReachable(project.getPlatform())` is false.
