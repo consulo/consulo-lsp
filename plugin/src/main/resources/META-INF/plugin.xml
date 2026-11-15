@@ -1,0 +1,10 @@
+<consulo-plugin url="https://github.com/consulo/consulo-lsp">
+    <id>consulo.lsp</id>
+    <name>Language Server Protocol</name>
+    <description>Language Server Protocol client API &amp; implementation for plugins</description>
+    <version>SNAPSHOT</version>
+    <vendor>consulo.io</vendor>
+    <tags>
+        <tag>custom.language</tag>
+    </tags>
+</consulo-plugin>

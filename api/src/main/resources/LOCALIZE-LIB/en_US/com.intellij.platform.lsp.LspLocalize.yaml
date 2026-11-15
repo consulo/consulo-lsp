@@ -1,0 +1,101 @@
+notification.group.lsp.message:
+    text: "LSP messages"
+lsp.based.formatter:
+    text: "LSP-based formatter"
+command.name.lsp.on.type.formatting:
+    text: "On-Type Formatting"
+intention.group.name:
+    text: "LSP"
+intention.family.name:
+    text: "Apply code action"
+code.change.from.server:
+    text: "{0}: code change from the LSP server"
+services.lsp.root.node:
+    text: "Language Servers (LSP)"
+action.services.lsp.stop.text:
+    text: "Stop Server"
+services.lsp.state.initializing:
+    text: "initializing…"
+services.lsp.state.stopped:
+    text: "stopped"
+services.lsp.state.terminated:
+    text: "terminated"
+services.lsp.console.server.starting:
+    text: "Starting {0}…"
+services.lsp.console.server.initialized:
+    text: "Server initialized: {0}"
+services.lsp.console.server.stopped:
+    text: "Server stopped"
+services.lsp.console.server.terminated:
+    text: "Server terminated unexpectedly"
+services.lsp.traffic.popup.payload.truncated:
+    text: "[payload truncated]"
+action.openlsperroroutputaction.text:
+    text: "Open Server Error Output"
+action.showlspserverlogaction.text:
+    text: "Show server log"
+status.bar.server.log.not.available:
+    text: "The {0} server log is not available because the server has stopped"
+server.error.output.editor.tab.name:
+    text: "{0} Server Error Output"
+action.stoplspserveraction.text:
+    text: "Stop and Autorun Server as Needed"
+action.restartlspserveraction.text:
+    text: "Restart Server"
+action.showlspserverlogwidgetaction.text:
+    text: "Show Server Log"
+# Example: "Dart: Find References (foo.dart:12:3)"
+0.find.references.1:
+    text: "{0}: Find References ({1})"
+progress.title.progress:
+    text: "{0}: progress"
+codelens.lspcodevisionprovider.name:
+    text: "LSP Code Lens"
+codelens.lspcodevisionprovider.description:
+    text: "Displays code lens information from LSP servers"
+lsp.rename.prepare.progress.title:
+    text: "Preparing Rename…"
+lsp.rename.progress.title:
+    text: "Renaming…"
+lsp.rename.action.text:
+    text: "LSP-Based Rename"
+lsp.will.rename.files.progress.title:
+    text: "Collecting references…"
+lsp.will.rename.files.skip:
+    text: "Skip"
+lsp.runtime.node.progress.title:
+    text: "Downloading Node.js for the language server"
+lsp.runtime.node.progress.downloading:
+    text: "Downloading Node.js {0}"
+lsp.runtime.node.progress.verifying:
+    text: "Verifying the Node.js archive"
+lsp.runtime.node.progress.extracting:
+    text: "Extracting Node.js"
+linemarkers.lspinheritancelinemarkerprovider.name:
+    text: "LSP Overridden and Implemented Declarations"
+linemarkers.tooltip.has.implementations:
+    text: "Has implementations"
+linemarkers.tooltip.is.overridden:
+    text: "Is overridden"
+linemarkers.tooltip.has.subtypes:
+    text: "Has subtypes"
+linemarkers.popup.title.implementations:
+    text: "Implementations of {0}"
+linemarkers.popup.title.overrides:
+    text: "Overriding Declarations of {0}"
+linemarkers.popup.title.subtypes:
+    text: "Subtypes of {0}"
+lsp.inline.progress.title:
+    text: "Inlining…"
+lsp.inline.no.available.actions:
+    text: "No inline action is available here"
+lsp.inline.popup.title:
+    text: "Inline"
+lsp.extract.progress.title:
+    text: "Extracting…"
+lsp.extract.no.available.actions:
+    text: "No extract action is available here"
+lsp.extract.popup.title:
+    text: "Extract"
+lsp.refactoring.server.starting:
+    text: "{0} is starting. Try again in a few seconds."

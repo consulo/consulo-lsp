@@ -1,0 +1,13 @@
+Consulo LSP plugin
+
+This product contains source code ported from JetBrains IntelliJ Community
+(https://github.com/JetBrains/intellij-community), modules platform/lsp and platform/lsp-impl,
+Copyright 2000-2026 JetBrains s.r.o. and contributors, licensed under the Apache License, Version 2.0.
+The Kotlin sources were converted to Java and adapted to the Consulo platform API.
+The original copyright headers are kept in each ported file.
+
+This product bundles Eclipse LSP4J (https://github.com/eclipse-lsp4j/lsp4j),
+org.eclipse.lsp4j and org.eclipse.lsp4j.jsonrpc 1.0.0,
+Copyright (c) Eclipse LSP4J contributors, licensed under the Eclipse Public License v2.0
+(https://www.eclipse.org/legal/epl-2.0/) or the Eclipse Distribution License v1.0
+(https://www.eclipse.org/org/documents/edl-v10.php).
