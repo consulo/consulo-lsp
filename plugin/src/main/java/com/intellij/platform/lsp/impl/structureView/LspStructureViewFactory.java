@@ -35,10 +35,10 @@ import java.util.List;
  * Consulo: upstream is a {@code lang.psiStructureViewFactory} registered for {@code language=""}, which IntelliJ consults for any
  * language without a factory of its own. Consulo's {@code PsiStructureViewFactory} has no such fallback (an extension for
  * {@code Language.ANY} is not used for other languages), so the factory is registered as a {@link StructureViewBuilderProvider},
- * ordered last: the language-specific structure view (via {@code PsiStructureViewFactory}) still wins, and the files of any other
+ * ordered after the platform provider that asks the language PsiStructureViewFactory: the language-specific structure view (via {@code PsiStructureViewFactory}) still wins, and the files of any other
  * language or file type (plain text included) get the LSP structure view.
  */
-@ExtensionImpl(order = "last")
+@ExtensionImpl(order = "after LanguageFileTypeStructureViewBuilderProvider")
 public class LspStructureViewFactory implements StructureViewBuilderProvider {
     @Override
     @RequiredReadAction

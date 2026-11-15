@@ -38,7 +38,7 @@ import java.util.List;
  *
  * @see LspUsageSearcher
  */
-@ExtensionImpl(order = "last")
+@ExtensionImpl
 public class LspSearchTargetsRule implements UsageTargetProvider {
     @Override
     @RequiredReadAction

@@ -16,7 +16,7 @@ import consulo.virtualFileSystem.VirtualFile;
 
 import java.util.List;
 
-@ExtensionImpl(id = "LspParameterInfoTypedHandler", order = "last, before LspAutoPopupTypedHandler")
+@ExtensionImpl(id = "LspParameterInfoTypedHandler", order = "before LspAutoPopupTypedHandler")
 public class LspParameterInfoTypedHandler extends TypedHandlerDelegate implements DumbAware {
     @Override
     public Result checkAutoPopup(char charTyped, Project project, Editor editor, PsiFile file) {

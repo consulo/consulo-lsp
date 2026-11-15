@@ -37,7 +37,7 @@ import java.util.function.Function;
  * Consulo: upstream order is {@code "last, before wordCompletion, before TextMateCompletionContributor"}; Consulo has no
  * {@code TextMateCompletionContributor}.
  */
-@ExtensionImpl(id = "LspCompletionContributor", order = "last, before wordCompletion")
+@ExtensionImpl(id = "LspCompletionContributor", order = "before wordCompletion")
 public class LspCompletionContributor extends CompletionContributor implements DumbAware {
     @Override
     @RequiredReadAction

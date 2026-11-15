@@ -21,7 +21,7 @@ import java.util.List;
  * as one of the characters that should trigger code completion
  * (see <a href="https://microsoft.github.io/language-server-protocol/specification/#completionOptions">CompletionOptions.triggerCharacters</a>)
  */
-@ExtensionImpl(id = "LspAutoPopupTypedHandler", order = "last")
+@ExtensionImpl(id = "LspAutoPopupTypedHandler")
 public class LspAutoPopupTypedHandler extends TypedHandlerDelegate {
     @Override
     public Result checkAutoPopup(char charTyped, Project project, Editor editor, PsiFile psiFile) {

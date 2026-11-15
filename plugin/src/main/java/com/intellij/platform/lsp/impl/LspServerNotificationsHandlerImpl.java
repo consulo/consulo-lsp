@@ -263,7 +263,9 @@ public class LspServerNotificationsHandlerImpl implements LspServerNotifications
         }
 
         if (needsFoldingUpdate) {
-            for (FileEditor fileEditor : FileEditorManager.getInstance(myProject).getAllEditors()) {
+            // Consulo: FileEditorManager.getAllEditors() requires read access
+            FileEditor[] allEditors = ReadAction.compute(() -> FileEditorManager.getInstance(myProject).getAllEditors());
+            for (FileEditor fileEditor : allEditors) {
                 if (fileEditor instanceof TextEditor textEditor) {
                     // Also calls `DaemonCodeAnalyzer.restart` internally
                     CodeFoldingManager.getInstance(myProject).scheduleAsyncFoldingUpdate(textEditor.getEditor());
