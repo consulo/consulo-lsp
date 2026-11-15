@@ -34,6 +34,12 @@ module consulo.lsp {
     requires consulo.navigation.api;
     requires consulo.process.api;
     requires consulo.project.api;
+    requires consulo.undo.redo.api;
+    requires consulo.language.code.style.api;
+    requires consulo.execution.debug.api;
+    requires consulo.platform.api;
+    requires consulo.http.api;
+    requires consulo.search.everywhere.api;
     requires consulo.project.ui.api;
     requires consulo.proxy;
     requires consulo.ui.api;

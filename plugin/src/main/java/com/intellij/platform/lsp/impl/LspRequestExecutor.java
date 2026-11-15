@@ -36,7 +36,6 @@ import org.eclipse.lsp4j.SelectionRangeParams;
 import org.eclipse.lsp4j.SignatureHelp;
 import org.eclipse.lsp4j.SignatureHelpParams;
 import org.eclipse.lsp4j.SymbolInformation;
-import org.eclipse.lsp4j.SymbolTag;
 import org.eclipse.lsp4j.TypeDefinitionParams;
 import org.eclipse.lsp4j.WorkspaceSymbol;
 import org.eclipse.lsp4j.WorkspaceSymbolParams;
@@ -270,37 +269,13 @@ public class LspRequestExecutor extends LspRequestExecutorBase {
                 items -> {
                     List<WorkspaceSymbol> symbols = new ArrayList<>();
                     for (SymbolInformation item : items) {
-                        symbols.add(toWorkspaceSymbol(item));
+                        symbols.add(com.intellij.platform.lsp.impl.features.workspaceSymbol.ConvertersKt.toWorkspaceSymbol(item));
                     }
                     return symbols;
                 },
                 symbols -> new ArrayList<WorkspaceSymbol>(symbols)
             );
         });
-    }
-
-    /**
-     * Port of {@code com.intellij.platform.lsp.impl.features.workspaceSymbol.toWorkspaceSymbol} (workspaceSymbol/converters.kt),
-     * the workspaceSymbol feature is a later stage.
-     */
-    @SuppressWarnings("deprecation")
-    private static WorkspaceSymbol toWorkspaceSymbol(SymbolInformation info) {
-        WorkspaceSymbol ws = new WorkspaceSymbol();
-        ws.setName(info.getName());
-        ws.setKind(info.getKind());
-        ws.setContainerName(info.getContainerName());
-        ws.setLocation(Either.forLeft(info.getLocation()));
-
-        List<SymbolTag> tags = info.getTags();
-        if (Boolean.TRUE.equals(info.getDeprecated()) && (tags == null || !tags.contains(SymbolTag.Deprecated))) {
-            if (tags == null) {
-                tags = new ArrayList<>();
-            }
-            tags.add(SymbolTag.Deprecated);
-        }
-        ws.setTags(tags);
-
-        return ws;
     }
 
     /**

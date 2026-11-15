@@ -1,6 +1,7 @@
 // Copyright 2000-2026 JetBrains s.r.o. and contributors. Use of this source code is governed by the Apache 2.0 license.
 package com.intellij.platform.lsp.impl.platformListeners;
 
+import com.intellij.platform.lsp.impl.features.workspaceFileOperations.LspWillRenameFilesHandler;
 import consulo.annotation.component.ComponentScope;
 import consulo.annotation.component.TopicImpl;
 import consulo.language.editor.refactoring.event.RefactoringEventData;
@@ -37,7 +38,7 @@ public class LspRefactoringEventListener implements RefactoringEventListener {
             return;
         }
         if (refactoringId.equals(RENAME_REFACTORING_ID) || refactoringId.equals(MOVE_REFACTORING_ID)) {
-            // TODO workspaceFileOperations stage: LspWillRenameFilesHandler.renameOrMoveRefactoringStarted(myProject, refactoringId, beforeData)
+            LspWillRenameFilesHandler.renameOrMoveRefactoringStarted(myProject, refactoringId, beforeData);
         }
     }
 

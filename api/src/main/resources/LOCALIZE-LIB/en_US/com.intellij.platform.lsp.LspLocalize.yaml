@@ -103,3 +103,9 @@ lsp.resolving.reference.progress.title:
     text: "Resolving reference…"
 lsp.code.actions.progress.title:
     text: "Searching for context actions…"
+lsp.selection.range.progress.title:
+    text: "Requesting selection ranges…"
+async.formatting.service.running:
+    text: "Running {0}"
+async.formatting.service.timeout:
+    text: "{0} does not respond after {1} seconds."

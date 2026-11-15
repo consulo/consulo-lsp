@@ -63,7 +63,7 @@ import java.util.function.Supplier;
  * Ctrl+hover is recognized by the thread: Consulo's {@code CtrlMouseHandler} computes it in a background read action,
  * while a performed action calls the handler on the UI thread, where the LSP request runs under a modal progress.
  */
-@ExtensionImpl
+@ExtensionImpl(id = "LspImplicitReferenceProvider")
 public class LspImplicitReferenceProvider implements GotoDeclarationHandler {
     /**
      * IntelliJ's {@code IdeActions.ACTION_GOTO_DECLARATION_ONLY}; Consulo has no such action.

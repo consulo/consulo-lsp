@@ -1,6 +1,8 @@
 package com.intellij.platform.lsp.impl.features.highlightingCommon;
 
 import com.intellij.platform.lsp.impl.LspClientImpl;
+import com.intellij.platform.lsp.impl.features.codeLens.LspCodeLensCache;
+import com.intellij.platform.lsp.impl.features.folding.LspFoldingRangeCache;
 import com.intellij.platform.lsp.impl.features.highlighting.DiagnosticAndQuickFixes;
 import com.intellij.platform.lsp.impl.features.highlighting.LspDiagnosticAndLazyQuickFixes;
 import com.intellij.platform.lsp.impl.features.highlighting.LspDocumentLinkCache;
@@ -9,6 +11,7 @@ import com.intellij.platform.lsp.impl.features.highlighting.LspPullDiagnosticsCa
 import com.intellij.platform.lsp.impl.features.highlighting.LspSemanticTokensCache;
 import com.intellij.platform.lsp.impl.features.inlayHint.LspInlayHintsCache;
 import com.intellij.platform.lsp.impl.features.inlayHintColor.LspDocumentColorCache;
+import com.intellij.platform.lsp.impl.features.lineMarkers.LspInheritanceMarkersCache;
 import com.intellij.platform.lsp.util.Lsp4jUtilKt;
 import consulo.document.Document;
 import consulo.document.FileDocumentManager;
@@ -30,9 +33,9 @@ public class LspHighlightingCacheRegistry {
 
     private final LspInlayHintsCache myInlayHintsCache;
     private final LspDocumentColorCache myDocumentColorCache;
-    // TODO folding stage: foldingRangeCache = register(new LspFoldingRangeCache(lspClient))
-    // TODO codeLens stage: codeLensCache = register(new LspCodeLensCache(lspClient))
-    // TODO lineMarkers stage: inheritanceMarkersCache = register(new LspInheritanceMarkersCache(lspClient))
+    private final LspFoldingRangeCache myFoldingRangeCache;
+    private final LspCodeLensCache myCodeLensCache;
+    private final LspInheritanceMarkersCache myInheritanceMarkersCache;
 
     public LspHighlightingCacheRegistry(LspClientImpl lspClient) {
         myLspClient = lspClient;
@@ -43,6 +46,9 @@ public class LspHighlightingCacheRegistry {
 
         myInlayHintsCache = register(new LspInlayHintsCache(lspClient));
         myDocumentColorCache = register(new LspDocumentColorCache(lspClient));
+        myFoldingRangeCache = register(new LspFoldingRangeCache(lspClient));
+        myCodeLensCache = register(new LspCodeLensCache(lspClient));
+        myInheritanceMarkersCache = register(new LspInheritanceMarkersCache(lspClient));
     }
 
     public LspPublishDiagnosticsCache getPublishDiagnosticsCache() {
@@ -67,6 +73,18 @@ public class LspHighlightingCacheRegistry {
 
     public LspDocumentColorCache getDocumentColorCache() {
         return myDocumentColorCache;
+    }
+
+    public LspFoldingRangeCache getFoldingRangeCache() {
+        return myFoldingRangeCache;
+    }
+
+    public LspCodeLensCache getCodeLensCache() {
+        return myCodeLensCache;
+    }
+
+    public LspInheritanceMarkersCache getInheritanceMarkersCache() {
+        return myInheritanceMarkersCache;
     }
 
     private <T extends LspHighlightingCache<?>> T register(T cache) {
