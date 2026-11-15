@@ -11,6 +11,8 @@ import consulo.application.progress.ProgressManager;
 import consulo.application.util.function.Processor;
 import consulo.content.scope.SearchScope;
 import consulo.ide.navigation.ChooseByNameContributorEx;
+import consulo.language.psi.PsiFile;
+import consulo.language.psi.PsiManager;
 import consulo.language.psi.search.FindSymbolParameters;
 import consulo.language.psi.stub.IdFilter;
 import consulo.navigation.NavigationItem;
@@ -119,7 +121,13 @@ public abstract class LspWorkspaceSymbolContributor implements ChooseByNameContr
         }
         LspWorkspaceSymbolSupport customizer =
             (LspWorkspaceSymbolSupport) client.getDescriptor().getLspCustomization().getWorkspaceSymbolCustomizer();
-        return customizer.createNavigationItem(client, symbol);
+        NavigationItem item = customizer.createNavigationItem(client, symbol);
+        if (item == null) {
+            return null;
+        }
+        // Consulo: Search Everywhere renders only PsiElements, see LspWorkspaceSymbolPsiElement
+        PsiFile psiFile = PsiManager.getInstance(client.getProject()).findFile(virtualFile);
+        return psiFile != null ? new LspWorkspaceSymbolPsiElement(item, psiFile) : null;
     }
 
     private static @Nullable String getUri(WorkspaceSymbol symbol) {

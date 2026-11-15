@@ -35,6 +35,14 @@ public class LspWorkspaceSymbolEqualityProvider implements SEResultsEqualityProv
         Object newElement = newItem.getElement();
         Object oldElement = alreadyFoundItem.getElement();
 
+        // Consulo: the found elements are LspWorkspaceSymbolPsiElement wrappers
+        if (newElement instanceof LspWorkspaceSymbolPsiElement newWrapper) {
+            newElement = newWrapper.getItem();
+        }
+        if (oldElement instanceof LspWorkspaceSymbolPsiElement oldWrapper) {
+            oldElement = oldWrapper.getItem();
+        }
+
         // Compare only if both are LSP workspace symbol navigation items
         return newElement instanceof LspWorkspaceSymbolNavigationItem &&
             oldElement instanceof LspWorkspaceSymbolNavigationItem &&

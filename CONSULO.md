@@ -92,6 +92,19 @@ ported with their original names to `consulo.lsp.compat` (api module, exported t
 
 ### Platform changes needed (cannot be solved well inside the plugin)
 
+- `LanguageOneToMany.build(false)` (no `Language.ANY` fallback) in `FoldingBuilder.KEY`, `ImportOptimizer.KEY` and
+  `HierarchyBrowseServiceImpl.CACHE_KEY` (same as `ParameterInfoHandler.KEY` below): **LSP folding, Optimize Imports and
+  Call / Type Hierarchy from the editor are not used** until they are `build(true)`.
+- `RefactoringSupportProvider.forLanguage` is one-to-one per language without a `Language.ANY` fallback: the LSP Extract
+  actions (variable / method / field / constant) are not offered.
+- Reformat Code is disabled for a file without an IDE formatter even when an external formatter (`ExternalFormatProcessor`,
+  used by `LspFormattingService` via `consulo.lsp.impl.compat` formatting-service ports) handles it.
+- Refactoring event data has no planned renames / move target and the event fires in a write action:
+  `workspace/willRenameFiles` is never sent.
+- No `CodeVisionHost` / declarative inlay pass rescheduling API: code lens and inlay refreshes bump the PSI modification
+  counter and restart the daemon.
+- The Consulo annotation processor (released `compiler.apt`) does not generate bindings for nested extension classes: the
+  nested upstream `LspRefactoringSupportProvider.*` providers are top-level `LspRefactoringSupportProvider*` classes.
 - `consulo.language.editor.parameterInfo.ParameterInfoHandler.KEY` is built with `LanguageOneToMany.build(false)`, so a
   handler for `Language.ANY` is never found: **signature help does not work** until it is `build(true)` (as for
   completion contributors). `LspParameterInfoHandler` is registered for `Language.ANY` and ready.
@@ -152,18 +165,16 @@ commonmark), `QuickDocHighlightingHelper`, `ConstantNode` (lookup strings), `Ann
 | Notification group | `notificationGroup` | `NotificationGroupContributor` |
 | Platform listeners | `projectListeners` / `applicationListeners`, `vfs.asyncListenerBackgroundable` | `@TopicImpl`, `AsyncFileListener` |
 
-## Stages
+## Status
 
-Stage 1 (core): API, server lifecycle and connectors (stdio, socket), document sync, server-to-client requests and
-notifications, diagnostics (push + pull), hover, completion (+ resolve), definition / type definition / implementation,
-references, document highlight, inlay hints, semantic tokens, code actions (+ resolve, `workspace/executeCommand`),
-document symbols (structure view), signature help.
-
-Services view (per-client console with the server traffic and output, Stop / Restart) and the Language Services status bar
-widget: see [docs/porting/ui.md](docs/porting/ui.md).
-
-Later: rename, formatting (range / on type), folding, selection range, call / type hierarchy and inheritance markers,
-code lens, document links / colors, workspace symbol, `workspace/willRenameFiles`, Node.js runtime manager, LSP log.
+Everything in upstream `platform/lsp`, `platform/lsp-impl` and `plugins/lsp.ui` (frontend) is converted, except
+`LspCrumb` (editor breadcrumbs: Consulo has no breadcrumbs extension point). Verified against the Dart language server:
+lifecycle, document sync, diagnostics, semantic tokens, inlay hints, hover, completion, navigation, references,
+document highlight, structure view, code actions / quick fixes, rename, selection range, workspace symbol, document links,
+Services view, Language Services widget, LSP Servers settings page. Not verified at runtime: code lens, formatting,
+on-type formatting, extract / inline refactorings, inheritance markers (off by default upstream), Node.js runtime download.
+Some features wait for the platform changes listed above (signature help, folding, hierarchies, extract, optimize imports,
+reformat, `willRenameFiles`). Per-area notes: [docs/porting](docs/porting).
 
 Not implemented upstream either: declaration, `workspace/diagnostic`, semantic tokens range / delta, `inlayHint/resolve`,
 color presentation, linked editing range, moniker, `willSave*`.

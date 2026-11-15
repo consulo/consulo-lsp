@@ -326,6 +326,18 @@ public class LspRenameHandler implements RenameHandler, TitledHandler, DumbAware
 
             // upstream: TemplateResultListener (Canceled / BrokenOff / Finished) on top of TemplateEditingAdapter
             templateState.addTemplateStateListener(new TemplateEditingAdapter() {
+                /**
+                 * Consulo: the template state is cleaned up before {@link #templateFinished} (IntelliJ reads the variable value there),
+                 * so the value is captured before the template finishes.
+                 */
+                private @Nullable String myNewName;
+
+                @Override
+                public void beforeTemplateFinished(TemplateState state, Template template) {
+                    TextResult value = state.getVariableValue(PRIMARY_VARIABLE_NAME);
+                    myNewName = value != null ? value.getText() : null;
+                }
+
                 @Override
                 public void templateCancelled(Template t) {
                     // undo -> cancelled
@@ -351,8 +363,7 @@ public class LspRenameHandler implements RenameHandler, TitledHandler, DumbAware
                             restoreDocument.run();
                         }
                         else {
-                            TextResult value = templateState.getVariableValue(PRIMARY_VARIABLE_NAME);
-                            String newName = value != null ? value.getText() : null;
+                            String newName = myNewName;
                             restoreDocument.run();
                             if (newName != null && !newName.isBlank() && !newName.equals(initialName)) {
                                 onRename.accept(newName);
