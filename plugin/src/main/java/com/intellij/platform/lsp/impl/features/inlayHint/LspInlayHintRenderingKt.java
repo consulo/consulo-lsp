@@ -35,9 +35,7 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- * Consulo: upstream builds IntelliJ {@code InlayPresentation}s ({@code smallText}, {@code reference},
- * {@code roundWithBackground}); here the hints are built with the declarative inlay hints tree builder
- * ({@link HintFormat#DEFAULT} has the rounded background). A clickable label part carries an {@link InlayActionData}
+ * The hints are built with the declarative inlay hints tree builder ({@link HintFormat#DEFAULT} has the rounded background). A clickable label part carries an {@link InlayActionData}
  * handled by {@link LspInlayHintNavigationHandler}.
  */
 public final class LspInlayHintRenderingKt {
@@ -53,7 +51,7 @@ public final class LspInlayHintRenderingKt {
      * Calling this also triggers a server request when the cache is stale (see {@link LspInlayHintsCache}).
      * Must be called from a background thread.
      * <p>
-     * Consulo: the global inlay hints switch is checked by the declarative inlay hints pass, which does not run
+     * The global inlay hints switch is checked by the declarative inlay hints pass, which does not run
      * the providers while it is off.
      */
     @RequiredReadAction
@@ -111,7 +109,7 @@ public final class LspInlayHintRenderingKt {
                 new DeclarativeInlayPosition.InlineInlayPosition(myOffset, false),
                 null,
                 null,
-                HintFormat.DEFAULT, // upstream: factory.roundWithBackground(presentation)
+                HintFormat.DEFAULT,
                 builder -> {
                     for (Fragment fragment : fragments) {
                         fragment.addTo(builder);
@@ -155,7 +153,7 @@ public final class LspInlayHintRenderingKt {
     }
 
     /**
-     * Consulo: one text piece of the declarative presentation, optionally clickable.
+     * One text piece of the declarative presentation, optionally clickable.
      */
     private record Fragment(String text, @Nullable InlayActionData actionData) {
         void addTo(DeclarativePresentationTreeBuilder builder) {

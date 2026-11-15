@@ -22,8 +22,8 @@ import consulo.util.dataholder.Key;
 import java.util.Map;
 
 /**
- * IntelliJ's {@code com.intellij.refactoring.listeners.RefactoringEventData.TARGET_ELEMENT_KEY} and {@code RENAMES_KEY}, which
- * Consulo's {@link consulo.language.editor.refactoring.event.RefactoringEventData} does not have.
+ * The {@code TARGET_ELEMENT_KEY} and {@code RENAMES_KEY} refactoring event data keys, which
+ * {@link consulo.language.editor.refactoring.event.RefactoringEventData} does not have.
  * <p>
  * Consulo's {@code RenameProcessor} / {@code MoveFilesOrDirectoriesProcessor} put only the elements into the before-data, so these
  * keys are never set until the platform adds them (then the platform keys must be used instead of these).

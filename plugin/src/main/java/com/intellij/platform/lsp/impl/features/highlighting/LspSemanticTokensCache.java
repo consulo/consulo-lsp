@@ -115,7 +115,6 @@ public class LspSemanticTokensCache extends LspHighlightingCache<LspSemanticToke
                                     return null;
                                 }
                                 CharSequence cellText = host.getCharsSequence().subSequence(cellStartOffset, cellEndOffset);
-                                // Consulo: DocumentImpl(cellText, true) is EditorFactory.createDocument
                                 return EditorFactory.getInstance().createDocument(cellText);
                             });
                             if (document == null) {

@@ -161,18 +161,12 @@ public abstract class LspClientDescriptor {
      * Starts the LSP server process.
      * Usually, plugins don't need to override this function, but only implement the {@link #createCommandLine} function.
      * <p>
-     * Called in a background thread.
-     * <p>
-     * Consulo: upstream launches the process via EEL in WSL/Docker projects so the server runs inside the project environment.
-     * Consulo has no EEL, so the process is always started locally.
+     * Called in a background thread. The process is always started locally.
      */
     public BaseProcessHandler startServerProcess() throws ExecutionException {
         // LSP spec says: "It defaults to utf-8, which is the only encoding supported right now"
         // see https://microsoft.github.io/language-server-protocol/specification/#contentPart
         GeneralCommandLine commandLine = createCommandLine().withCharset(StandardCharsets.UTF_8);
-
-        // Consulo: upstream checks `project.getEelDescriptor()` here and calls `startServerProcessViaEel()` for a non-local
-        // descriptor. There is no EEL in Consulo, every project is local.
 
         LOG.info(this + ": starting LSP server: " + commandLine);
         return new OSProcessHandler(commandLine) {
@@ -301,9 +295,7 @@ public abstract class LspClientDescriptor {
     /**
      * @see #getFileUri
      */
-    // note: currently both overriders of this method JSNodeLspClientDescriptor and TailwindLspClientDescriptor are not EEL-compatible.
     public String getFilePath(VirtualFile file) {
-        // Consulo: upstream converts the path with EEL for a non-local project. There is no EEL in Consulo.
         return file.getPath();
     }
 
@@ -352,8 +344,6 @@ public abstract class LspClientDescriptor {
      * @see #findFileByUri
      */
     protected @Nullable VirtualFile findLocalFileByPath(String path) {
-        // Consulo: upstream resolves the path with EEL for a non-local project (and via `cwm://` in JetBrains Client).
-        // There is no EEL in Consulo.
         return LocalFileSystem.getInstance().findFileByPath(path);
     }
 
@@ -512,8 +502,8 @@ public abstract class LspClientDescriptor {
     }
 
     /**
-     * Upstream: {@code LspClientDescriptor.getLanguageId(file)} in the companion object. Renamed in Java because it would clash with
-     * the instance function {@link #getLanguageId(VirtualFile)}.
+     * The default {@code languageId} for the file, based on the file name.
+     * Not named {@code getLanguageId} because it would clash with the instance function {@link #getLanguageId(VirtualFile)}.
      */
     public static String getDefaultLanguageId(VirtualFile file) {
         String nameLowercased = StringUtil.toLowerCase(file.getName());

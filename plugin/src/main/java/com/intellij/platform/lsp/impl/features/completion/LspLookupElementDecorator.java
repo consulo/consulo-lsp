@@ -43,8 +43,7 @@ public class LspLookupElementDecorator extends LookupElementDecorator<LookupElem
     }
 
     /**
-     * Consulo's {@link LookupElementDecorator} has no decorator insert handler: {@link #handleInsert} calls it explicitly
-     * (IntelliJ's {@code LookupElementDecorator.handleInsert()} does the same when the decorator insert handler is not {@code null}).
+     * {@link LookupElementDecorator} has no decorator insert handler: {@link #handleInsert} calls it explicitly.
      */
     public InsertHandler<LookupElement> getDecoratorInsertHandler() {
         return LspCompletionItemInsertHandler.INSTANCE;
@@ -80,8 +79,7 @@ public class LspLookupElementDecorator extends LookupElementDecorator<LookupElem
     }
 
     /**
-     * Consulo: IntelliJ's {@code SuspendingLookupElementRenderer} does not exist. Consulo runs expensive renderers on a background
-     * thread in a cancellable non-blocking read action, so the resolve request and the expensive rendering are awaited there with
+     * Expensive renderers run on a background thread in a cancellable non-blocking read action, so the resolve request and the expensive rendering are awaited there with
      * {@link ProgressManager#checkCanceled} calls.
      */
     private static final class LspExpensiveRenderer extends LookupElementRenderer<LspLookupElementDecorator> {

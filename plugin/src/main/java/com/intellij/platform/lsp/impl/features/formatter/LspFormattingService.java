@@ -42,8 +42,7 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * Upstream: {@code <formattingService id="LspFormattingService"/>}, an {@code AsyncDocumentFormattingService}.
- * Consulo: {@link AsyncDocumentFormattingService} is a compat port on top of Consulo's
+ * {@link AsyncDocumentFormattingService} is built on top of the
  * {@link consulo.language.codeStyle.ExternalFormatProcessor} extension point, see its Javadoc.
  */
 @ExtensionImpl(id = "LspFormattingService")
@@ -53,9 +52,6 @@ public class LspFormattingService extends AsyncDocumentFormattingService {
         return LspLocalize.lspBasedFormatter();
     }
 
-    /**
-     * Upstream: {@code getNotificationGroupId() = LspServerNotificationsHandlerImpl.SHOW_MESSAGE_NOTIFICATION_GROUP}.
-     */
     @Override
     protected NotificationGroup getNotificationGroup() {
         return LspServerNotificationsHandlerImpl.SHOW_MESSAGE_GROUP;
@@ -228,8 +224,8 @@ public class LspFormattingService extends AsyncDocumentFormattingService {
                 myFormattingRequest.onTextReady(null);
                 return;
             }
-            // Consulo: upstream applies the edits to `DocumentImpl(documentText, false, true)`; a document for a background thread
-            // can't be created through the Consulo API, so the same edits are applied to the text (applyTextEditsToText)
+            // a document for a background thread can't be created through the public API,
+            // so the edits are applied to the text (applyTextEditsToText)
             String result = applyTextEditsToText(myFormattingRequest.getDocumentText(), textEdits);
             myFormattingRequest.onTextReady(result);
         }

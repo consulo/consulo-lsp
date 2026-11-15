@@ -36,8 +36,7 @@ import java.util.concurrent.TimeoutException;
  * Re-requests the targets on click, so the popup shows the current state,
  * and falls back to the targets cached at marker creation.
  * <p>
- * Consulo: {@code cs.launch { withBackgroundProgress { ... }; withContext(EDT) { ... } }} is a {@link Task.Backgroundable}
- * whose {@code onSuccess} (UI thread) shows the targets; the unified {@link ComponentEvent} is converted to the
+ * The request runs in a {@link Task.Backgroundable} whose {@code onSuccess} (UI thread) shows the targets; the unified {@link ComponentEvent} is converted to the
  * {@link MouseEvent} that {@code navigateOrShowPopup} positions the popup with.
  */
 public class LspInheritanceMarkerNavigationHandler implements GutterIconNavigationHandler<PsiElement> {

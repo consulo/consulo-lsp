@@ -7,9 +7,8 @@ import consulo.annotation.component.ExtensionImpl;
 import jakarta.inject.Inject;
 
 /**
- * Consulo only: registers {@link LspIntegrationSettingsImpl} as the project {@link LspIntegrationSettings}
- * (upstream: {@code <projectService serviceInterface="...LspIntegrationSettings" serviceImplementation="...LspIntegrationSettingsImpl"/>}).
- * {@link LspIntegrationSettings} is a project extension in this port, while the persistent state lives in the
+ * Registers {@link LspIntegrationSettingsImpl} as the project {@link LspIntegrationSettings}.
+ * {@link LspIntegrationSettings} is a project extension, while the persistent state lives in the
  * {@link LspIntegrationSettingsImpl} project service.
  */
 @ExtensionImpl

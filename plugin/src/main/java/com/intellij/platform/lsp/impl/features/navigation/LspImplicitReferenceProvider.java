@@ -56,17 +56,16 @@ import java.util.function.Supplier;
  * When the caret is on a declaration, the 'Go To Declaration or Usages' action shows the usages instead.
  * See {@link #createResolvedReference}.
  * <p>
- * Consulo: IntelliJ's {@code ImplicitReferenceProvider} does not exist. This class is registered as a
- * {@link GotoDeclarationHandler} (consulted by Go To Declaration and by Ctrl+hover, before the PSI references);
+ * This class is registered as a {@link GotoDeclarationHandler} (consulted by Go To Declaration and by Ctrl+hover, before the PSI references);
  * Go To Type Declaration reaches {@link #getImplicitReference(PsiFile, int, String, boolean)} through
  * {@link LspTypeDeclarationTargetElementUtilExtender} and {@link LspSymbolTypeProvider}.
- * Ctrl+hover is recognized by the thread: Consulo's {@code CtrlMouseHandler} computes it in a background read action,
+ * Ctrl+hover is recognized by the thread: {@code CtrlMouseHandler} computes it in a background read action,
  * while a performed action calls the handler on the UI thread, where the LSP request runs under a modal progress.
  */
 @ExtensionImpl(id = "LspImplicitReferenceProvider")
 public class LspImplicitReferenceProvider implements GotoDeclarationHandler {
     /**
-     * IntelliJ's {@code IdeActions.ACTION_GOTO_DECLARATION_ONLY}; Consulo has no such action.
+     * The id of the 'Go To Declaration (only)' action; {@link IdeActions} has no such constant.
      */
     public static final String ACTION_GOTO_DECLARATION_ONLY = "GotoDeclarationOnly";
 
@@ -97,7 +96,7 @@ public class LspImplicitReferenceProvider implements GotoDeclarationHandler {
         }
         List<PsiElement> results = new ArrayList<>();
         for (PsiElement result : reference.resolveReference()) {
-            // Consulo: 'Go To Declaration' navigates to a single target instead of falling back to 'Show Usages' for a target
+            // 'Go To Declaration' navigates to a single target instead of falling back to 'Show Usages' for a target
             // without navigation targets, so the search target is wrapped into an element whose navigation finds the usages.
             results.add(result instanceof LspSearchTarget searchTarget ? new LspShowUsagesElement(searchTarget) : result);
         }
@@ -105,8 +104,8 @@ public class LspImplicitReferenceProvider implements GotoDeclarationHandler {
     }
 
     /**
-     * Consulo-only: the self-definition target of 'Go To Declaration'. Navigating to it starts 'Find Usages' of the
-     * {@link LspSearchTarget} (Consulo's 'Show Usages' popup is not a public API).
+     * The self-definition target of 'Go To Declaration'. Navigating to it starts 'Find Usages' of the
+     * {@link LspSearchTarget} (the 'Show Usages' popup is not a public API).
      */
     private static final class LspShowUsagesElement extends FakePsiElement {
         private final LspSearchTarget mySearchTarget;
@@ -158,7 +157,7 @@ public class LspImplicitReferenceProvider implements GotoDeclarationHandler {
     }
 
     /**
-     * Consulo: upstream {@code getImplicitReference(element, offsetInElement)} with the {@code currentRequest()} passed explicitly.
+     * Computes the implicit reference at {@code offset} for the given request.
      *
      * @param actionId     {@link IdeActions#ACTION_GOTO_DECLARATION}, {@link #ACTION_GOTO_DECLARATION_ONLY}
      *                     or {@link IdeActions#ACTION_GOTO_TYPE_DECLARATION}
@@ -176,7 +175,7 @@ public class LspImplicitReferenceProvider implements GotoDeclarationHandler {
             return null;
         }
 
-        // There are several places in the IntelliJ codebase that call `getImplicitReference()` function.
+        // There are several places in the platform that call `getImplicitReference()` function.
         // For example, `IdentifierHighlighterPass.highlightReferencesAndDeclarations`, it calls this function on caret movement.
         // No need to send requests to the LSP server for features that won't work anyway.
         // We care only about the "Go To Declaration", "Go To Declaration (only)" and "Go To Type Declaration" actions.
@@ -198,8 +197,8 @@ public class LspImplicitReferenceProvider implements GotoDeclarationHandler {
     }
 
     /**
-     * Consulo: the platform calls the handlers of a performed action on the UI thread.
-     * Upstream computes the reference in a background thread under a modal progress; this is the same.
+     * The platform calls the handlers of a performed action on the UI thread,
+     * so the reference is computed in a background thread under a modal progress.
      */
     private static <T extends @Nullable Object> @Nullable T computeOffUiThread(Project project, Supplier<T> computation) {
         if (!Application.get().isDispatchThread()) {
@@ -401,7 +400,7 @@ public class LspImplicitReferenceProvider implements GotoDeclarationHandler {
         List<LspClientAndLocationLinks> clientsAndLocationLinks
     ) {
         // In the case of `foo<caret>++`, a server may return references both for `foo` and for `++`.
-        // IntelliJ's standard behavior is to respect only the right reference.
+        // The platform's standard behavior is to respect only the right reference.
         boolean hasRangeToTheRight = false;
         for (LspClientAndLocationLinks clientAndLocationLinks : clientsAndLocationLinks) {
             for (LocationLink locationLink : clientAndLocationLinks.getLocationLinks()) {
@@ -491,7 +490,7 @@ public class LspImplicitReferenceProvider implements GotoDeclarationHandler {
     }
 
     /**
-     * Consulo: upstream {@code PsiSymbolReference}; Consulo has no symbol references, so this is a plain holder.
+     * A resolved reference; there are no symbol references, so this is a plain holder.
      */
     public static final class LspResolvedSymbolReference {
         private final PsiFile myPsiFile;

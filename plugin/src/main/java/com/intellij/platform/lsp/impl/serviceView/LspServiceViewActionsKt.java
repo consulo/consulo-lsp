@@ -18,8 +18,8 @@ import consulo.util.lang.lazy.LazyValue;
 import java.util.function.Supplier;
 
 /**
- * Top-level members of upstream {@code LspServiceViewActions.kt}. The public classes of that file are
- * {@link LspServerLog}, {@link ShowLspServerLogAction} and {@link ShowLspServerLogWidgetAction}.
+ * Shared members of the Services view actions, see also {@link LspServerLog}, {@link ShowLspServerLogAction} and
+ * {@link ShowLspServerLogWidgetAction}.
  */
 public final class LspServiceViewActionsKt {
     public static final Key<LspClient> LSP_CLIENT_DATA_KEY = Key.create("lsp.serviceView.client");

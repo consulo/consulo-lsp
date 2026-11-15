@@ -9,14 +9,8 @@ import consulo.project.Project;
 import consulo.ui.annotation.RequiredUIAccess;
 
 /**
- * This class is located in the `intellij.platform.lang` module,
- * so it doesn't have access to FUS-related classes like
- * {@code com.intellij.platform.lang.lsWidget.impl.fus.LanguageServiceWidgetUsagesCollector}.
- * The interface implementation ({@code com.intellij.platform.lang.lsWidget.impl.LanguageServiceWidgetActionsServiceImpl})
- * is located in the `intellij.platform.lang.impl` module, so it is able to log data to the FUS.
- * <p>
- * Consulo: the service is in the {@code consulo.lsp.api} module, the implementation in the {@code consulo.lsp} plugin;
- * Consulo has no FUS, the usages collector is not ported.
+ * The service is declared in the {@code consulo.lsp.api} module, and the implementation
+ * ({@code com.intellij.platform.lang.lsWidget.impl.LanguageServiceWidgetActionsServiceImpl}) lives in the {@code consulo.lsp} plugin.
  */
 @ServiceAPI(ComponentScope.APPLICATION)
 public abstract class LanguageServiceWidgetActionsService {

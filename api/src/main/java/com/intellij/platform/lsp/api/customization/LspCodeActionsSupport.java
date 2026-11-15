@@ -48,15 +48,13 @@ public non-sealed class LspCodeActionsSupport extends LspCodeActionsCustomizer {
      * <a href="https://microsoft.github.io/language-server-protocol/specification/#textDocument_codeAction">textDocument/codeAction</a>
      * requests to the LSP server to receive code edit suggestions based on the current text selection and caret position,
      * but not related to a specific {@link org.eclipse.lsp4j.Diagnostic}.
-     * <p>
-     * See <a href="https://www.jetbrains.com/help/idea/intention-actions.html">Intention actions</a>.
      */
     public boolean getIntentionActionsSupport() {
         return true;
     }
 
     /**
-     * Creates an <a href="https://www.jetbrains.com/help/idea/intention-actions.html">Intention action</a> for the specific {@link CodeAction}.
+     * Creates an Intention action for the specific {@link CodeAction}.
      * Implementations may return {@code null} if they don't want to show an Intention action for this {@code codeAction}.
      *
      * @param codeAction result of the

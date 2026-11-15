@@ -13,9 +13,7 @@ import java.util.Map;
 import java.util.Objects;
 
 /**
- * Consulo: upstream extends {@code BaseState} (no Consulo equivalent) and is declared in {@code LspServerConfiguration.kt}.
- * It is a plain bean here; {@code equals} compares the properties like {@code BaseState} does.
- * Upstream {@code @Tag("")} keeps the class name as the tag, here the tag is {@code environment}.
+ * A plain bean; {@code equals} compares the properties.
  */
 @Tag("environment")
 public final class EnvironmentVariablesDataOptions {

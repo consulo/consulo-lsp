@@ -11,9 +11,7 @@ import consulo.searchEverywhere.SearchEverywhereFoundElementInfo;
  * <p>
  * This provider unwraps presentation wrappers and compares the actual LspWorkspaceSymbolNavigationItem
  * <p>
- * Consulo: there is no {@code AbstractEqualityProvider} and no {@code PSIPresentationBgRendererWrapper} (the found element is
- * the item itself). {@link #compareItems} is upstream {@code AbstractEqualityProvider.compareItems} for a single already found
- * item; {@code SearchEverywhereFoundElementInfo.COMPARATOR} does not exist, items are compared by priority (as Consulo's
+ * {@link #compareItems} handles a single already found item; items are compared by priority (as
  * {@code TrivialElementsEqualityProvider} does).
  */
 @ExtensionImpl
@@ -35,7 +33,7 @@ public class LspWorkspaceSymbolEqualityProvider implements SEResultsEqualityProv
         Object newElement = newItem.getElement();
         Object oldElement = alreadyFoundItem.getElement();
 
-        // Consulo: the found elements are LspWorkspaceSymbolPsiElement wrappers
+        // the found elements are LspWorkspaceSymbolPsiElement wrappers
         if (newElement instanceof LspWorkspaceSymbolPsiElement newWrapper) {
             newElement = newWrapper.getItem();
         }

@@ -40,7 +40,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Upstream: top-level functions of {@code LspRefactoringCodeActions.kt}.
+ * Helper functions for the LSP refactoring code actions.
  */
 public final class LspRefactoringCodeActionsKt {
     private LspRefactoringCodeActionsKt() {
@@ -181,7 +181,7 @@ public final class LspRefactoringCodeActionsKt {
             });
         }
         catch (ProcessCanceledException e) {
-            // Consulo: the user canceled the modal progress
+            // the user canceled the modal progress
             return;
         }
 
@@ -207,7 +207,7 @@ public final class LspRefactoringCodeActionsKt {
     }
 
     /**
-     * Upstream: {@code suspend fun requestCodeActions(...)}; called in a background thread under the modal progress.
+     * Requests the code actions; called in a background thread under the modal progress.
      *
      * @throws ResponseErrorException if the server responds with an error
      */
@@ -274,7 +274,7 @@ public final class LspRefactoringCodeActionsKt {
             }));
         }
         catch (ProcessCanceledException e) {
-            // Consulo: the user canceled the modal progress
+            // the user canceled the modal progress
             return;
         }
         PsiFile psiFile = available ? PsiManager.getInstance(project).findFile(virtualFile) : null;

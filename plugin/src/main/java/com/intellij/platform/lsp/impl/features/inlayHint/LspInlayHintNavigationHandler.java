@@ -16,8 +16,7 @@ import org.eclipse.lsp4j.Range;
 import org.jspecify.annotations.Nullable;
 
 /**
- * Consulo-specific: handles a click on an inlay hint label part that has a {@code location}
- * (upstream: {@code factory.reference(presentation) { navigateTo(...) }}).
+ * Handles a click on an inlay hint label part that has a {@code location}.
  * The declarative inlay payload is a string, so the location is encoded as {@code line:character:uri};
  * the client descriptor resolving the URI is looked up among the clients that have the editor's file open.
  */

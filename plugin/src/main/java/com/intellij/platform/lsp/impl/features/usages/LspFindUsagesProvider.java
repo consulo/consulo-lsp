@@ -24,9 +24,7 @@ import consulo.language.plain.PlainTextLanguage;
 import consulo.language.psi.PsiElement;
 
 /**
- * Consulo-only (no upstream counterpart). Upstream 'Find Usages' and 'Show Usages' work in any file through the
- * {@code search.targets} data rule ({@link LspSearchTargetsRule}). Consulo's {@code FindUsagesAction}/{@code ShowUsagesAction}
- * are disabled in an editor whose language has no {@link FindUsagesProvider} ({@code FindUsagesInFileAction.isEnabled}
+ * {@code FindUsagesAction}/{@code ShowUsagesAction} are disabled in an editor whose language has no {@link FindUsagesProvider} ({@code FindUsagesInFileAction.isEnabled}
  * checks for {@link EmptyFindUsagesProvider}), which is the case for plain text, the language of files that are opened as
  * text only because an LSP server serves them.
  * <p>

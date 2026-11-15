@@ -10,9 +10,6 @@ import consulo.project.Project;
 import jakarta.inject.Inject;
 import org.jspecify.annotations.Nullable;
 
-/**
- * Upstream: {@code <projectListeners><listener topic="com.intellij.refactoring.listeners.RefactoringEventListener"/>}.
- */
 @TopicImpl(ComponentScope.PROJECT)
 public class LspRefactoringEventListener implements RefactoringEventListener {
     /**

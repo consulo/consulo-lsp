@@ -16,8 +16,7 @@ import org.jspecify.annotations.Nullable;
  * {@link consulo.language.editor.action.TypedHandlerDelegate TypedHandlerDelegate} cannot be used here because
  * its implementations run after brace/quote handling in {@code TypedHandler}.
  * <p>
- * Consulo: upstream registers it as {@code <editorTypedHandler order="last"/>}. Consulo's extension point for it
- * ({@code ExtensionTypedActionHandler}) is internal, so {@link LspTypedActionHandlerInstaller} installs it once with the public
+ * The extension point for it ({@code ExtensionTypedActionHandler}) is internal, so {@link LspTypedActionHandlerInstaller} installs it once with the public
  * {@code TypedAction.setupHandler}, which wraps every registered handler - the same position as {@code order="last"}.
  */
 public class LspTypedActionHandler extends TypedActionHandlerBase {

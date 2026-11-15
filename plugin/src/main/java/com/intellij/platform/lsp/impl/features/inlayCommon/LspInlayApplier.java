@@ -33,15 +33,13 @@ import java.util.concurrent.atomic.AtomicLong;
  * A single applier collects ALL features together ({@link #collectInlays}) under one per-file generation counter,
  * rather than one applier per feature.
  * <p>
- * Consulo: upstream paints the inlays out of band, directly into the editor {@code InlayModel} with IntelliJ's
- * {@code PresentationFactory}/{@code PresentationRenderer} (minimal diff by offset + identity). Consulo has no public
- * presentation renderer, so the inlays are rendered by Consulo's declarative inlay hints pass instead:
+ * There is no public presentation renderer, so the inlays are rendered by the declarative inlay hints pass:
  * {@link LspInlayHintsProvider} collects {@link #collectInlays} into the declarative sink, and the pass does the diffing.
  * {@link #scheduleRefresh} therefore makes the declarative pass re-run for the file. The pass skips files whose PSI
  * modification count has not changed, and the API to reset its stamp
  * ({@code DeclarativeInlayHintsPassFactory.scheduleRecompute}) is not public, so the PSI modification counter is
  * incremented before the daemon restart. The global inlay hints switch is handled by the declarative pass itself, so
- * the upstream {@code InlayHintsSettings.INLAY_SETTINGS_CHANGED} listener is not needed.
+ * no {@code InlayHintsSettings.INLAY_SETTINGS_CHANGED} listener is needed.
  */
 @ServiceAPI(ComponentScope.PROJECT)
 @ServiceImpl

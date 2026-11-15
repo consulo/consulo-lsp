@@ -65,8 +65,7 @@ public abstract class LanguageServiceWidgetItem {
             mainAction.getTemplatePresentation().setIcon(newIcon);
         }
 
-        // Consulo: there is no `ExperimentalUI` switch; the Consulo action popups show inline actions (the upstream new UI branch).
-        //  Upstream old UI: a popup `DefaultActionGroup` of the inline actions with the text, icon and description of the main action.
+        // The action popups show the inline actions next to the main action.
         mainAction.getTemplatePresentation().putClientProperty(ActionUtil.INLINE_ACTIONS, createWidgetInlineActions());
         return mainAction;
     }

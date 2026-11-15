@@ -21,8 +21,8 @@ public interface LspInlayItem {
     /**
      * Builds the presentation.
      * <p>
-     * Consulo: upstream builds an {@code InlayPresentation} with a {@code PresentationFactory} on the EDT; here the item adds
-     * its presentation to the declarative inlay hints {@code sink} (called under read action by the declarative inlay pass).
+     * The item adds its presentation to the declarative inlay hints {@code sink} (called under read action by the declarative
+     * inlay pass).
      */
     void buildPresentation(Editor editor, DeclarativeInlayTreeSink sink);
 }

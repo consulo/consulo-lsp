@@ -6,7 +6,7 @@ import com.google.gson.JsonParser;
 import com.intellij.platform.lsp.localize.LspLocalize;
 
 /**
- * Top-level members of upstream {@code LspTrafficPayloadPopup.kt}.
+ * Helpers for the traffic payload popup.
  */
 public final class LspTrafficPayloadPopupKt {
     private static final Gson PRETTY_GSON = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create();

@@ -39,8 +39,8 @@ import java.util.function.Supplier;
  * cache: the server learns about that change from its own {@code didChange} notification, and a server-side
  * cross-file effect arrives as a server-forced refresh, which {@link #invalidate} turns into a re-request.
  * <p>
- * Consulo: the coroutine-based request pipeline is a {@link CompletableFuture} chain on the application executors;
- * the coroutine {@code Job} of a request is a {@link RequestJob}.
+ * The request pipeline is a {@link CompletableFuture} chain on the application executors; each request is tracked by a
+ * {@link RequestJob}.
  */
 public abstract class LspHighlightingCache<T> implements LspCache {
     private static final Logger LOG = Logger.getInstance(LspHighlightingCache.class);
@@ -524,7 +524,7 @@ public abstract class LspHighlightingCache<T> implements LspCache {
     }
 
     /**
-     * Consulo: replaces the coroutine {@code Job} of one request. Cancelling it cancels the tracked server request future.
+     * Tracks one request. Cancelling it cancels the tracked server request future.
      */
     private static final class RequestJob {
         private volatile boolean myCancelled;

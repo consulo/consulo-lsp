@@ -19,12 +19,11 @@ package consulo.lsp.impl.compat;
 import org.jspecify.annotations.Nullable;
 
 /**
- * IntelliJ's {@code com.intellij.openapi.actionSystem.ex.ActionContextElement}, as returned by
- * {@code ActionUtil.getActionThreadContext()}: names the action being performed on the current thread.
+ * Names the action being performed on the current thread.
  * <p>
- * Consulo has no action thread context. The action id is recorded by {@link ActionContextElementListener}
+ * The action id is recorded by {@link ActionContextElementListener}
  * ({@code AnActionListener.beforeActionPerformed}/{@code afterActionPerformed}) for the thread that performs the action
- * (the UI thread). Unlike upstream, the context is not propagated to other threads.
+ * (the UI thread). The context is not propagated to other threads.
  */
 public final class ActionContextElement {
     private static volatile @Nullable ActionContextElement ourCurrent;

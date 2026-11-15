@@ -39,7 +39,7 @@ public class SnippetToTemplateConverter {
 
         Template template = TemplateManager.getInstance(myProject)
             .createTemplate("", "", computeTemplateText(hasEndVariableDeclared(givenVariables)));
-        // Consulo: Template has no addVariable(Variable)
+        // Template has no addVariable(Variable)
         for (Variable variable : createIjTemplateVariables(givenVariables)) {
             template.addVariable(
                 variable.getName(),
@@ -165,7 +165,7 @@ public class SnippetToTemplateConverter {
         return new TemplateVariable.Unknown(variableNumber);
     }
 
-    // Kotlin's `trim('|')`
+    // removes the leading and trailing '|' characters
     private static String trimPipes(String text) {
         int start = 0;
         int end = text.length();

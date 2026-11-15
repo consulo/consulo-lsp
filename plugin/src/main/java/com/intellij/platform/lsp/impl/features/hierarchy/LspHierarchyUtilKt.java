@@ -26,7 +26,7 @@ import java.util.Set;
 import java.util.function.BiPredicate;
 
 /**
- * Top-level functions of upstream {@code LspHierarchyUtil.kt}.
+ * Helper functions for the LSP call and type hierarchies.
  */
 public final class LspHierarchyUtilKt {
     private static final Logger LOG = Logger.getInstance(LspHierarchyUtilKt.class);
@@ -34,10 +34,6 @@ public final class LspHierarchyUtilKt {
     private LspHierarchyUtilKt() {
     }
 
-    /**
-     * Consulo: upstream {@code EditorContextManager.getPsiFileForEditor(editor, project)} is
-     * {@code PsiDocumentManager.getPsiFile(editor.getDocument())}.
-     */
     @RequiredReadAction
     public static @Nullable PsiElement getTargetFromEditor(
         DataContext dataContext,
@@ -84,9 +80,8 @@ public final class LspHierarchyUtilKt {
     }
 
     /**
-     * Consulo only. Upstream registers the LSP hierarchy providers with {@code order="last"}, so a provider of the file's
-     * language is asked first and wins. Consulo reserves the {@code first}/{@code last} orders for the plugin that owns
-     * the extension point, so the LSP providers (registered for {@link Language#ANY}) step aside instead: this returns
+     * A provider of the file's language must win over the LSP one. The {@code first}/{@code last} orders are reserved for the
+     * plugin that owns the extension point, so the LSP providers (registered for {@link Language#ANY}) step aside instead: this returns
      * {@code true} when a provider of the same {@code kind} registered for the language of the context element or file
      * (or one of their base languages) offers a target in this context.
      */

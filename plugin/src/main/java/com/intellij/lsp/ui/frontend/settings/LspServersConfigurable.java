@@ -60,17 +60,15 @@ import java.util.Set;
 import java.util.function.Predicate;
 
 /**
- * Consulo: upstream {@code <projectConfigurable id="lsp.servers" parentId="language" .../>}. Consulo has no
- * "Languages &amp; Frameworks" group, the page is placed under {@link StandardConfigurableIds#EDITOR_GROUP}.
- * {@code Configurable.WithEpDependencies} has no Consulo equivalent.
+ * There is no "Languages &amp; Frameworks" group, the page is placed under {@link StandardConfigurableIds#EDITOR_GROUP}.
  */
 @ExtensionImpl
 public class LspServersConfigurable extends MasterDetailsComponent implements SearchableConfigurable, ProjectConfigurable {
     private final Project myProject;
     private final LspIntegrationSettingsImpl mySettings;
     private @Nullable JComponent myMorePluginsLinkPanel;
-    // Consulo: upstream registers the node configurables in this configurable itself (a Disposable) and disposes it in
-    // disposeUIResources(). The configurable is a project extension here and is reused, so a child disposable is used
+    // The configurable is a project extension and is reused, so the node configurables are registered in a child
+    // disposable that is disposed in disposeUIResources()
     private @Nullable Disposable myDisposable;
 
     @Inject
@@ -107,7 +105,7 @@ public class LspServersConfigurable extends MasterDetailsComponent implements Se
     protected void reInitWholePanelIfNeeded() {
         super.reInitWholePanelIfNeeded();
 
-        // Consulo: called from the super constructor too, before the fields are initialized
+        // called from the super constructor too, before the fields are initialized
         if (mySplitter == null || myTree == null) {
             return;
         }
@@ -135,8 +133,7 @@ public class LspServersConfigurable extends MasterDetailsComponent implements Se
     }
 
     /**
-     * Consulo: the plugin manager has no marketplace tag search (upstream {@code /tag:"Language Server"}), the link only
-     * opens the plugin manager.
+     * The plugin manager has no marketplace tag search, the link only opens the plugin manager.
      */
     @RequiredUIAccess
     private void showMorePlugins() {
@@ -187,7 +184,7 @@ public class LspServersConfigurable extends MasterDetailsComponent implements Se
             }
             String serverName = configurable.getDisplayName().get();
 
-            // Consulo: the alert is asynchronous, upstream Messages.showYesNoDialog is modal
+            // the alert is asynchronous
             UIAccess uiAccess = UIAccess.current();
             Alerts.yesNo()
                 .asQuestion()

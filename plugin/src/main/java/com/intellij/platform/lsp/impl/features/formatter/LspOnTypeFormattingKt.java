@@ -32,8 +32,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Upstream: the private top-level functions of {@code LspOnTypeFormatting.kt}, shared by {@link LspTypedActionHandler} and
- * {@link LspOnTypeFormattingEnterHandler} (they are in separate files here).
+ * On-type formatting helpers shared by {@link LspTypedActionHandler} and {@link LspOnTypeFormattingEnterHandler}.
  */
 public final class LspOnTypeFormattingKt {
     private LspOnTypeFormattingKt() {
@@ -67,9 +66,8 @@ public final class LspOnTypeFormattingKt {
 
         LspCoroutineScopeService.getInstance(project).launch(() -> {
             // Complete the LSP on-type formatting request in a read action and apply the received text edits in a write action.
-            // The read action is restarted if the document changes between the read and write parts of the coroutine.
+            // The read action is blocking; the modification stamp check below covers a change after it.
             // If the modification stamp changes, or completion/live template becomes active, formatting is skipped.
-            // Consulo: a blocking read action; the modification stamp check below covers a change after it.
             ClientAndParams clientAndParams = ReadAction.compute(() -> {
                 if (document.getModificationStamp() != modificationStamp || !isOnTypeFormattingAllowed(editor)) {
                     return null;
@@ -101,7 +99,6 @@ public final class LspOnTypeFormattingKt {
                 return;
             }
 
-            // upstream: readAndEdtWriteAction { ... writeCommandAction(project, name) { applyTextEdits(document, textEdits) } }
             Application.get().invokeLater(() -> {
                 if (project.isDisposed()) {
                     return;
@@ -165,7 +162,6 @@ public final class LspOnTypeFormattingKt {
             return null;
         }
 
-        // upstream: CodeStyle.getIndentOptions(project, virtualFile)
         CommonCodeStyleSettings.IndentOptions indentOptions = CodeStyle.getIndentOptions(project, editor.getDocument());
         FormattingOptions formattingOptions = new FormattingOptions();
         formattingOptions.setTabSize(indentOptions.TAB_SIZE);

@@ -24,8 +24,8 @@ import java.util.Objects;
  * When the old client has no server error output, {@link #show} selects the console of the new client.
  * When there is no new client either, the status bar tells the user that the server log is not available.
  * <p>
- * Consulo: the Services tool window is a part of the platform, so the console is always available.
- * There is no {@code StatusBar.Info}; the 'not available' text is shown as an information notification.
+ * The Services tool window is a part of the platform, so the console is always available.
+ * The 'not available' text is shown as an information notification.
  */
 public class LspServerLog {
     private final Project myProject;

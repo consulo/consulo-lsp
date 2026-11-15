@@ -29,7 +29,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Consulo: upstream registers it with {@code language=""}; here {@link #getLanguage()} returns {@link Language#ANY}.
+ * {@link #getLanguage()} returns {@link Language#ANY}, so the handler works in any file.
  */
 @ExtensionImpl(id = "LspParameterInfoHandler")
 public class LspParameterInfoHandler implements ParameterInfoHandler<PsiElement, LspParameterInfoContext>, DumbAware {
@@ -38,7 +38,7 @@ public class LspParameterInfoHandler implements ParameterInfoHandler<PsiElement,
         return Language.ANY;
     }
 
-    // Consulo: IntelliJ's ParameterInfoHandler has defaults for the lookup functions
+    // The lookup functions are not supported
     @Override
     public boolean couldShowInLookup() {
         return false;
@@ -46,7 +46,7 @@ public class LspParameterInfoHandler implements ParameterInfoHandler<PsiElement,
 
     @Override
     public @Nullable Object[] getParametersForLookup(LookupElement item, ParameterInfoContext context) {
-        // Consulo: the platform method is non-null; never called because couldShowInLookup() is false
+        // The platform method is non-null; never called because couldShowInLookup() is false
         return new Object[0];
     }
 
@@ -135,8 +135,7 @@ public class LspParameterInfoHandler implements ParameterInfoHandler<PsiElement,
             ? parameterRanges.get(currentParameterIndex)
             : null;
 
-        // Consulo: IntelliJ calls `setupUIComponentPresentation(text, highlightStart, highlightEnd, false, false, false, defaultParameterColor)`;
-        // the Consulo builder keeps the label as is (the legacy presentation splits it at commas)
+        // The signature builder keeps the label as is (the legacy presentation splits it at commas)
         SignatureBuilder builder = context.signature();
         if (highlightRange == null || highlightRange.isEmpty()) {
             builder.text(text);

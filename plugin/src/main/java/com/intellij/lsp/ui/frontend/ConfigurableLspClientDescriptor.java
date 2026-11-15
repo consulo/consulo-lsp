@@ -83,7 +83,6 @@ public class ConfigurableLspClientDescriptor extends ProjectWideLspClientDescrip
 
         commandLine.addParameters(myConfiguration.getArgumentsList());
 
-        // Consulo: no remote (Eel) environments, upstream uses getRemoteProjectBaseNioPath() for a non-local project
         VirtualFile[] roots = getRoots();
         Path workingDirectory = roots.length > 0 ? roots[0].toNioPath() : null;
         commandLine.withWorkingDirectory(workingDirectory);

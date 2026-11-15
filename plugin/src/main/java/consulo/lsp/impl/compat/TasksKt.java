@@ -32,9 +32,7 @@ import java.util.concurrent.TimeoutException;
 import java.util.function.Supplier;
 
 /**
- * IntelliJ's {@code com.intellij.platform.ide.progress.runWithModalProgressBlocking} (progress/shared/src/tasks.kt) and the
- * {@code kotlinx.coroutines.future.await} that the coroutine-based callers use inside it. Consulo has no coroutine-based
- * modal progress.
+ * Runs a task under a blocking modal progress, and awaits futures inside it.
  */
 public final class TasksKt {
     private TasksKt() {

@@ -85,9 +85,6 @@ public class LspServerNotificationsHandlerImpl implements LspServerNotifications
      */
     public static final String SHOW_MESSAGE_NOTIFICATION_GROUP = "LSP window/showMessage";
 
-    /**
-     * Upstream: the {@code notificationGroup} registration in {@code intellij.platform.lsp.impl.xml}.
-     */
     public static final NotificationGroup SHOW_MESSAGE_GROUP = new NotificationGroup(
         SHOW_MESSAGE_NOTIFICATION_GROUP,
         LspLocalize.notificationGroupLspMessage(),
@@ -105,7 +102,7 @@ public class LspServerNotificationsHandlerImpl implements LspServerNotifications
     }
 
     /**
-     * The replacement of the upstream progress coroutine {@code Job}: cancels the background task of one progress token.
+     * Cancels the background task of one progress token.
      */
     private static final class ProgressJob {
         private volatile boolean myCancelled;
@@ -179,7 +176,6 @@ public class LspServerNotificationsHandlerImpl implements LspServerNotifications
 
         CompletableFuture<ApplyWorkspaceEditResponse> future = new CompletableFuture<>();
 
-        // upstream: readAndEdtWriteAction { ... writeCommandAction(project, commandName) { ... } } in the LspClientManagerImpl scope
         Application.get().invokeLater(() -> {
             try {
                 if (myProject.isDisposed()) {
@@ -266,7 +262,7 @@ public class LspServerNotificationsHandlerImpl implements LspServerNotifications
         }
 
         if (needsFoldingUpdate) {
-            // Consulo: FileEditorManager.getAllEditors() requires read access
+            // FileEditorManager.getAllEditors() requires read access
             FileEditor[] allEditors = ReadAction.compute(() -> FileEditorManager.getInstance(myProject).getAllEditors());
             for (FileEditor fileEditor : allEditors) {
                 if (fileEditor instanceof TextEditor textEditor) {
@@ -440,7 +436,6 @@ public class LspServerNotificationsHandlerImpl implements LspServerNotifications
 
             myProgressTasks.put(tokenId, new ProgressTask(begin.getTitle(), begin.getMessage(), toFraction(begin.getPercentage())));
 
-            // upstream: withBackgroundProgress(project, title, cancellable) { reportRawProgress { ... } } in the LspClientManagerImpl scope
             Task.Backgroundable task = new Task.Backgroundable(
                 myProject,
                 LspLocalize.progressTitleProgress(myLspClient.getDescriptor().getPresentableName()),

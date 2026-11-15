@@ -13,7 +13,7 @@ import org.jspecify.annotations.Nullable;
 import java.util.List;
 
 /**
- * Consulo: the 15 subclasses {@code LspIntention0..14} are the registered {@code intentionAction} extensions
+ * The 15 subclasses {@code LspIntention0..14} are the registered {@code intentionAction} extensions
  * ({@code @ExtensionImpl} + {@code @IntentionMetaData}).
  */
 public class LspIntentionActionWrapper extends LspIntentionActionWrapperBase {

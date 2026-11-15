@@ -19,8 +19,7 @@ public final class LspFeaturesRefreshing {
     }
 
     /**
-     * Upstream: {@code application.messageBus.syncPublisher(BreadcrumbsXmlWrapper.FORCE_RELOAD_BREADCRUMBS).run()}.
-     * Consulo has no {@code FORCE_RELOAD_BREADCRUMBS} topic (and no {@code FileBreadcrumbsCollector} extension), so there is nothing to reload.
+     * A deliberate no-op: there is no {@code FORCE_RELOAD_BREADCRUMBS} topic (and no {@code FileBreadcrumbsCollector} extension), so there is nothing to reload.
      */
     public static void refreshBreadcrumbs() {
     }
@@ -43,9 +42,7 @@ public final class LspFeaturesRefreshing {
     }
 
     /**
-     * Consulo: upstream invalidates the LSP code vision provider on the EDT:
-     * {@code CodeVisionHost.invalidateProvider(LensInvalidateSignal(null, listOf(LSP_CODE_VISION_PROVIDER_ID)))}.
-     * Consulo has no {@code CodeVisionHost}; the lenses of {@link LspCodeVisionProvider} are computed by the code vision
+     * There is no {@code CodeVisionHost} to invalidate the provider with; the lenses of {@link LspCodeVisionProvider} are computed by the code vision
      * highlighting pass, which is skipped while the PSI modification count is unchanged (the API to reset its stamp,
      * {@code CodeVisionPassFactory.resetModificationStamp}, is not public). So the PSI modification counter is incremented and
      * the daemon is restarted for the files shown in the editors of the project.

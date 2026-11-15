@@ -27,8 +27,8 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * Consulo: registered for {@link Language#ANY}. The descriptors depend on the
- * {@link LspFoldingRangeCache#getModificationTracker() modification tracker} of the cache, so that Consulo's cached folding
+ * Registered for {@link Language#ANY}. The descriptors depend on the
+ * {@link LspFoldingRangeCache#getModificationTracker() modification tracker} of the cache, so that the cached folding
  * result is recomputed when a new server response arrives without a PSI change.
  */
 @ExtensionImpl
@@ -81,7 +81,7 @@ public class LspFoldingBuilder extends FoldingBuilderEx implements DumbAware {
                 collapsedByDefault = settings.COLLAPSE_IMPORTS;
             }
             else if (FoldingRangeKind.Region.equals(kind)) {
-                // Consulo: no `COLLAPSE_CUSTOM_FOLDING_REGIONS` setting (IntelliJ default is `false`), so not collapsed by default
+                // there is no `COLLAPSE_CUSTOM_FOLDING_REGIONS` setting, so not collapsed by default
                 collapsedByDefault = null;
             }
             else if (FoldingRangeKind.Comment.equals(kind)) {

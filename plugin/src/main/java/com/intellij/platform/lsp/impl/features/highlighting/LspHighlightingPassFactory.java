@@ -15,10 +15,6 @@ import consulo.util.dataholder.Key;
 import consulo.virtualFileSystem.VirtualFile;
 import org.jspecify.annotations.Nullable;
 
-/**
- * Consulo: IntelliJ's {@code TextEditorHighlightingPassFactoryRegistrar.registerHighlightingPassFactory} is
- * {@link #register(Registrar)} of the {@code TextEditorHighlightingPassFactory} extension.
- */
 @ExtensionImpl
 public class LspHighlightingPassFactory implements MainHighlightingPassFactory, DumbAware {
     public static final Key<Long> PSI_MODIFICATION_STAMP = Key.create("lsp.highlighting.psi.modification.stamp");

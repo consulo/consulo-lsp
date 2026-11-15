@@ -13,7 +13,7 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 
 /**
- * IntelliJ's model of a started LSP server. In <a href="https://microsoft.github.io/language-server-protocol/">LSP terminology</a> the IDE is the
+ * The IDE's model of a started LSP server. In <a href="https://microsoft.github.io/language-server-protocol/">LSP terminology</a> the IDE is the
  * client, which is why this IDE-side model is named {@link LspClient} rather than after the server.
  * <p>
  * To get an instance of {@link LspClient} use {@link LspClientManager#getClients}

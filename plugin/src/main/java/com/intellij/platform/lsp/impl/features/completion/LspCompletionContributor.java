@@ -33,10 +33,6 @@ import java.util.Objects;
 import java.util.concurrent.Semaphore;
 import java.util.function.Function;
 
-/**
- * Consulo: upstream order is {@code "last, before wordCompletion, before TextMateCompletionContributor"}; Consulo has no
- * {@code TextMateCompletionContributor}.
- */
 @ExtensionImpl(id = "LspCompletionContributor", order = "before wordCompletion")
 public class LspCompletionContributor extends CompletionContributor implements DumbAware {
     @Override
@@ -74,7 +70,7 @@ public class LspCompletionContributor extends CompletionContributor implements D
             }
 
             // LSP server wants to handle code completion, so disable less smart WordCompletionContributor for the current completion session
-            // TODO Consulo: BaseCompletionService.FORBID_WORD_COMPLETION does not exist in Consulo; the word completion of Consulo
+            // TODO there is no way to forbid the word completion for the session; the word completion
             //  runs only for an explicitly invoked completion (or in dumb mode) and cannot be disabled by a contributor
 
             CompletionList completionList = client.getRequestExecutor().getCompletionList(file, offset, parameters.isAutoPopup());

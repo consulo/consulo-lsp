@@ -69,10 +69,10 @@ public final class LspCompletionItemInsertHandler implements InsertHandler<Looku
             return vFile != null ? toNioPathString(vFile) : null;
         });
 
-        //"$TM_CURRENT_WORD" to { context: InsertionContext -> }, // IntelliJ removes the completion prefix from InsertionContext.document.text
+        //"$TM_CURRENT_WORD" to { context: InsertionContext -> }, // The platform removes the completion prefix from InsertionContext.document.text
         // before calling LspCompletionItemInsertHandler.handleInsert(), so it is not possible to follow VS Code behavior for $TM_CURRENT_WORD.
 
-        //"$TM_SELECTED_TEXT" to { context: InsertionContext -> }, // In the runtime IntelliJ deletes selected text from the context before
+        //"$TM_SELECTED_TEXT" to { context: InsertionContext -> }, // In the runtime the platform deletes selected text from the context before
         // LspCompletionItemInsertHandler calls handleInsert() method. The only solution to get it here is to add UserData in
         // LspCompletionContributor to the LookupElement (at this point selected text still exists), but it is a too complex approach for this
         // small feature. So, it could be implemented only by user request.

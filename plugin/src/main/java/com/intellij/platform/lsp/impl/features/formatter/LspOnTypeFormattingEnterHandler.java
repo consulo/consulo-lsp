@@ -11,11 +11,9 @@ import consulo.language.psi.PsiFile;
 import consulo.virtualFileSystem.VirtualFile;
 
 /**
- * Upstream: {@code <enterHandlerDelegate id="LspOnTypeFormattingEnterHandler" order="last"/>}.
- * <p>
- * Consulo: {@code first}/{@code last} are reserved for the plugin that owns the extension point, so the delegates registered
+ * {@code first}/{@code last} are reserved for the plugin that owns the extension point, so the delegates registered
  * after this one may still change the document in their {@code postProcessEnter}. The request is therefore started after the
- * Enter action ({@code invokeLater}), when the document has its final state; upstream starts it here, as the last delegate.
+ * Enter action ({@code invokeLater}), when the document has its final state.
  */
 @ExtensionImpl(id = "LspOnTypeFormattingEnterHandler")
 public class LspOnTypeFormattingEnterHandler extends EnterHandlerDelegateAdapter {

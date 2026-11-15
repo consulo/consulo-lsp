@@ -16,9 +16,6 @@ public class DeprecatedLspCustomization extends LspCustomization {
         myDescriptor = descriptor;
     }
 
-    /**
-     * Upstream: the internal top-level {@code val defaultLspCustomization} of {@code DeprecatedLspCustomization.kt}.
-     */
     public static LspCustomization getDefaultLspCustomization() {
         return DEFAULT_LSP_CUSTOMIZATION;
     }

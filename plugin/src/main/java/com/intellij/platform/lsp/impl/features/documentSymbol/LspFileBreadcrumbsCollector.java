@@ -15,10 +15,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Consulo: upstream {@code LspFileBreadcrumbsCollector} is a {@code FileBreadcrumbsCollector} that shows the document symbols
- * around the caret as editor breadcrumbs ({@code LspCrumb}) and sticky lines. Consulo has no editor breadcrumbs extension point
- * (and its sticky lines come only from {@code PsiStructureViewFactory}), so the collector itself is not ported.
- * Only its top-level functions are, which the navigation bar ({@link LspNavBarModelExtension}) uses.
+ * Document symbol helpers used by the navigation bar ({@link LspNavBarModelExtension}). There is no editor breadcrumbs
+ * extension point (and sticky lines come only from {@code PsiStructureViewFactory}), so no breadcrumbs collector is registered.
  */
 public final class LspFileBreadcrumbsCollector {
     private LspFileBreadcrumbsCollector() {

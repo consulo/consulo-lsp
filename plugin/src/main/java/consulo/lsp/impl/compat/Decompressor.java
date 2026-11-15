@@ -41,8 +41,8 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
 /**
- * Minimal port of IntelliJ's {@code com.intellij.util.io.Decompressor}: {@link Zip} and {@link Tar} (gzip-compressed) archives,
- * {@link #removePrefixPath(String)} and {@link #extract(Path)}. Consulo has no public archive extractor (the platform's
+ * A minimal archive extractor: {@link Zip} and {@link Tar} (gzip-compressed) archives,
+ * {@link #removePrefixPath(String)} and {@link #extract(Path)}. There is no public archive extractor (the platform's
  * commons-compress is not visible to plugins), so the tar format (ustar, GNU long names, pax {@code path}/{@code linkpath}/{@code size})
  * is read here.
  * <p>

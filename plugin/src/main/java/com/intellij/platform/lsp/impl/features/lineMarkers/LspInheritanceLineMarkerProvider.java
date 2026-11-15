@@ -39,7 +39,7 @@ import java.util.Set;
  * The provider only reads {@link LspInheritanceMarkersCache} snapshots.
  * The cache pulls the data from the server asynchronously and restarts the daemon when a response arrives.
  * <p>
- * Consulo: upstream registers it with {@code language=""}; here {@link #getLanguage()} returns {@link Language#ANY}
+ * {@link #getLanguage()} returns {@link Language#ANY}
  * (the {@code LineMarkerProvider} cache includes {@link Language#ANY} providers).
  */
 @ExtensionImpl
@@ -130,7 +130,6 @@ public class LspInheritanceLineMarkerProvider extends LineMarkerProviderDescript
             case OVERRIDDEN_METHOD, SUBCLASSED_CLASS -> PlatformIconGroup.gutterOverridenmethod();
         };
         String tooltip = tooltip(marker).get();
-        // Consulo: LineMarkerInfo has no accessible name provider (upstream passes the tooltip again)
         LineMarkerInfo<PsiElement> info = new LineMarkerInfo<>(
             anchor,
             anchorRange,

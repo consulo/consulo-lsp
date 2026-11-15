@@ -10,10 +10,8 @@ package com.intellij.platform.lsp.api;
  */
 @Deprecated
 public interface LspServer extends LspClient {
-    // Consulo: upstream also declares the binary-compatibility shim `getDescriptor(): LspServerDescriptor`.
-    // In Java it would clash with `LspClient.getDescriptor(): LspClientDescriptor` (a covariant override cannot be
-    // implemented for a client started with a plain LspClientDescriptor), so it is not ported.
-    // Callers cast: `(LspServerDescriptor) lspServer.getDescriptor()`.
+    // There is no covariant `getDescriptor(): LspServerDescriptor`: it cannot be implemented for a client started with
+    // a plain LspClientDescriptor. Callers cast: `(LspServerDescriptor) lspServer.getDescriptor()`.
 
     /**
      * @deprecated Use {@link LspClient#DEFAULT_REQUEST_TIMEOUT_MS}

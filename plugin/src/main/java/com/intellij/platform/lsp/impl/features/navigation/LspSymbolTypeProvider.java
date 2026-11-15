@@ -19,9 +19,8 @@ import java.util.List;
  * <p>
  * This class relies on the result calculated in {@link LspImplicitReferenceProvider#getImplicitReference}.
  * <p>
- * Consulo: IntelliJ's {@code SymbolTypeProvider} is replaced with {@link TypeDeclarationProvider}. The {@code symbol} is the
- * target element that {@link LspTypeDeclarationTargetElementUtilExtender} found at the caret. Consulo passes a single target
- * element, so all the type definitions are taken from the (cached) reference again.
+ * The {@code symbol} is the target element that {@link LspTypeDeclarationTargetElementUtilExtender} found at the caret.
+ * The platform passes a single target element, so all the type definitions are taken from the (cached) reference again.
  */
 @ExtensionImpl
 public class LspSymbolTypeProvider extends TypeDeclarationProvider {

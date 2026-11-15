@@ -9,8 +9,7 @@ import consulo.project.ui.notification.NotificationGroupContributor;
 import java.util.function.Consumer;
 
 /**
- * Upstream: {@code <notificationGroup id="language.service.stopped.or.restarted" displayType="BALLOON" isLogByDefault="false"
- * key="language.services.notification.group.service.stopped.or.restarted"/>} in {@code intellij.platform.lang.xml}.
+ * Registers the notification group for stopped or restarted language services.
  */
 @ExtensionImpl
 public class LanguageServiceNotificationGroupContributor implements NotificationGroupContributor {

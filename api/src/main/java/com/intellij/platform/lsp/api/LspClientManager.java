@@ -73,8 +73,4 @@ public interface LspClientManager {
     }
 
     void addListener(LspClientManagerListener listener, Disposable parentDisposable, boolean sendEventsForExistingClients);
-
-    // Consulo: the upstream `inline fun <reified Provider : LspIntegrationProvider> LspClientManager.getClients()` (and the
-    // `startClientsIfNeeded`, `ensureClientStarted`, `stopClients`, `stopAndRestartClientsIfNeeded` variants) are not ported:
-    // reified type parameters don't exist in Java, the `Class` overloads above are the same.
 }

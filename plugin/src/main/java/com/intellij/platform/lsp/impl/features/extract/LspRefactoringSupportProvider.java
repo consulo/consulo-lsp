@@ -27,11 +27,10 @@ import java.util.List;
  * Inline resolves through {@link com.intellij.platform.lsp.impl.features.inline.LspInlineActionHandler} and needs no provider,
  * so an inline-only server does not enable the Extract actions.
  * <p>
- * Consulo: upstream registers the four providers with {@code language=""} and {@code order="last"}. Here they are registered for
- * {@link Language#ANY} without an order (Consulo reserves {@code first}/{@code last} for the plugin that owns the extension point).
- * Consulo's {@link RefactoringSupportProvider#forLanguage} is a one-to-one lookup by the file language (and its base languages),
- * so a language-specific provider always wins; it never falls back to the {@link Language#ANY} providers, so these providers
- * are not used until the platform looks them up (see the porting notes).
+ * The four providers are registered for {@link Language#ANY} without an order ({@code first}/{@code last} are reserved for the
+ * plugin that owns the extension point). {@link RefactoringSupportProvider#forLanguage} is a one-to-one lookup by the file
+ * language (and its base languages), so a language-specific provider always wins; it never falls back to the
+ * {@link Language#ANY} providers, so these providers are not used until the platform looks them up.
  */
 public abstract sealed class LspRefactoringSupportProvider extends RefactoringSupportProvider
     permits LspRefactoringSupportProviderIntroduceVariable,

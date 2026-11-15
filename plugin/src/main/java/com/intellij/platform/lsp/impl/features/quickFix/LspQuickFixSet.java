@@ -31,9 +31,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * IntelliJ Platform API assumes that quick fixes for diagnostics are created right at the moment of the code highlighting. For
+ * The platform API assumes that quick fixes for diagnostics are created right at the moment of the code highlighting. For
  * performance reasons, special {@link LspQuickFixWrapper} are created at that moment. In other words, {@link LspQuickFixWrapper} is a quick fix stub.
- * {@link LspQuickFixWrapper} doesn't contain a {@link CodeAction} object. As soon as the IntelliJ Platform calls {@link LspQuickFixWrapper#getText} or
+ * {@link LspQuickFixWrapper} doesn't contain a {@link CodeAction} object. As soon as the platform calls {@link LspQuickFixWrapper#getText} or
  * {@link LspQuickFixWrapper#isAvailable}, the {@link LspQuickFixWrapper} asks the LSP server to calculate real {@link CodeAction} and, once received, creates
  * {@link LspIntentionAction} object. After that, {@link LspQuickFixWrapper} delegates {@link IntentionAction#getText}, {@link IntentionAction#isAvailable}, and
  * {@link IntentionAction#invoke} calls to the {@link LspIntentionAction}.
@@ -50,7 +50,7 @@ public class LspQuickFixSet {
 
     private final List<IntentionAction> myQuickFixes;
 
-    // Consulo: volatile, read on the UI thread by isUpToDate()
+    // Volatile, read on the UI thread by isUpToDate()
     private volatile long myPsiModCountWhenRequestSent = 0;
     private volatile long myVfsModCountWhenRequestSent = 0;
 
@@ -79,12 +79,12 @@ public class LspQuickFixSet {
         // IntentionAction.invoke is called from EDT, but at that moment, this LspQuickFixWrapper should be already initialized.
         // Anyway, we are not going to wait for the response from the server in EDT.
         if (Application.get().isDispatchThread()) {
-            // Consulo: Alt+Enter evaluates quick fixes on the UI thread (see LspIntentionActionWrapperBase),
+            // Alt+Enter evaluates quick fixes on the UI thread (see LspIntentionActionWrapperBase),
             // the request is sent from a background thread under a modal progress
             if (!isUpToDate() && LspIntentionActionWrapperBase.canComputeUnderModalProgress()) {
                 LspIntentionActionWrapperBase.computeUnderModalProgress(myLspClient.getProject(), () -> {
                     ensureInitialized();
-                    // `isAvailable()` resolves the code action (`codeAction/resolve`), which upstream does in a background thread too
+                    // `isAvailable()` resolves the code action (`codeAction/resolve`), so it is called in the background thread too
                     for (IntentionAction quickFix : myQuickFixes) {
                         ProgressManager.checkCanceled();
                         LspIntentionAction action = ((LspQuickFixWrapper) quickFix).myLspIntentionAction;
@@ -160,7 +160,7 @@ public class LspQuickFixSet {
     }
 
     /**
-     * Consulo: whether the quick fixes were received for the current PSI and VFS state (the check of {@link #ensureInitialized()}).
+     * Whether the quick fixes were received for the current PSI and VFS state (the check of {@link #ensureInitialized()}).
      */
     private boolean isUpToDate() {
         return myPsiModCountWhenRequestSent == PsiManager.getInstance(myLspClient.getProject()).getModificationTracker().getModificationCount() &&
@@ -190,7 +190,7 @@ public class LspQuickFixSet {
     }
 
     /**
-     * Consulo: quick fixes that are not registered intentions must be {@link SyntheticIntentionAction}s, otherwise
+     * Quick fixes that are not registered intentions must be {@link SyntheticIntentionAction}s, otherwise
      * {@code IntentionManagerSettings} reports a missing {@code @IntentionMetaData}.
      *
      * @see LspQuickFixSet

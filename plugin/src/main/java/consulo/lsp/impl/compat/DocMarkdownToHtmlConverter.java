@@ -35,9 +35,8 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * IntelliJ's {@code com.intellij.markdown.utils.doc.DocMarkdownToHtmlConverter} (platform/markdown-utils, which is based on the
- * JetBrains markdown library) on <a href="https://github.com/commonmark/commonmark-java">commonmark-java</a> with the GFM tables and
- * strikethrough extensions, which the Consulo platform ships.
+ * Converts documentation markdown to html with <a href="https://github.com/commonmark/commonmark-java">commonmark-java</a> and
+ * its GFM tables and strikethrough extensions, which the platform ships.
  * <p>
  * Code blocks are highlighted by {@link QuickDocHighlightingHelper}: a fenced code block as the language of its info string,
  * a code block without a known language as {@code defaultLanguage}. The html of the markdown is kept as is.

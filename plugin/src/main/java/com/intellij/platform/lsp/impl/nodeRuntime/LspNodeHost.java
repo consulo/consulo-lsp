@@ -12,9 +12,6 @@ import org.jspecify.annotations.Nullable;
  * The ACP manager this code comes from resolves the host through an EEL descriptor, so it can install
  * a runtime on WSL or in Docker. This copy reads the local machine, so a project on WSL gets the
  * Windows runtime.
- * <p>
- * Consulo: IntelliJ's {@code OS.CURRENT} / {@code CpuArch.CURRENT} are {@code Platform.current().os()} /
- * {@code Platform.current().jvm().arch()}.
  */
 public enum LspNodeHost {
     MACOS_ARM64(false),

@@ -166,9 +166,6 @@ public class LspClientConsole implements Disposable {
         return newPanel;
     }
 
-    // Consulo: the upstream @TestOnly `getConsoleTextForTests`/`getConsoleViewForTests` are not ported (upstream tests are not copied,
-    //  ConsoleViewImpl is internal)
-
     @Override
     public void dispose() {
         myPanel = null;
@@ -221,7 +218,7 @@ public class LspClientConsole implements Disposable {
         }
 
         private void printLines(String text) {
-            // Kotlin `lineSequence()`: "\r\n", "\n" and "\r" end a line
+            // "\r\n", "\n" and "\r" end a line
             for (String line : text.split("\r\n|\n|\r", -1)) {
                 if (!line.isBlank()) {
                     print(myTag, line, myContentType);
@@ -244,8 +241,7 @@ public class LspClientConsole implements Disposable {
     }
 
     /**
-     * Consulo: a copy of IntelliJ {@code StringUtil.collapseWhiteSpace} (missing in Consulo {@code StringUtil}):
-     * replaces each run of spaces, tabs and line feeds with a single space and trims them at both ends.
+     * Replaces each run of spaces, tabs and line feeds with a single space and trims them at both ends.
      */
     private static String collapseWhiteSpace(CharSequence s) {
         StringBuilder result = null;

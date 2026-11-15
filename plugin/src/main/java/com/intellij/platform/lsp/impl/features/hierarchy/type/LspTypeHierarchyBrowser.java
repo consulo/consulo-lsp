@@ -18,19 +18,14 @@ import org.jspecify.annotations.Nullable;
 import java.util.List;
 
 /**
- * Consulo: upstream extends {@code TypeHierarchyBrowserBase}. Consulo's hierarchy browser is owned by the platform,
- * a language supplies a {@link HierarchyModel} instead, so this class is the model:
+ * The {@link HierarchyModel} of the LSP type hierarchy; the hierarchy browser itself is owned by the platform:
  * <ul>
- *     <li>{@code createTrees} (supertypes and subtypes trees, root hidden, "Base on this type" bound to the type
- *     hierarchy shortcut) - {@link #getViewTypes()}; the platform binds the shortcut of
- *     {@link StandardHierarchyKinds#TYPE}, the root stays visible;</li>
- *     <li>{@code prependActions} (supertypes, subtypes, alphabetical sorting) - the platform toolbar offers the view
- *     types of the model and the sorting;</li>
- *     <li>{@code createHierarchyTreeStructure} - {@link #createTreeStructure(HierarchyRequest)}; the class view
- *     ({@code getTypeHierarchyType()}, no structure upstream) is not offered;</li>
- *     <li>{@code getComparator}, {@code getElementFromDescriptor} - done by the platform browser the same way;</li>
- *     <li>{@code isInterface} = false, {@code canBeDeleted} = false, {@code getQualifiedName} = null,
- *     {@code createLegendPanel} = null - the defaults of {@link HierarchyModel} and
+ *     <li>{@link #getViewTypes()} - the supertypes and subtypes trees; the platform binds the shortcut of
+ *     {@link StandardHierarchyKinds#TYPE} ("Base on this type"), the root stays visible;</li>
+ *     <li>the platform toolbar offers the view types of the model and the alphabetical sorting;</li>
+ *     <li>{@link #createTreeStructure(HierarchyRequest)} - the tree structure of a view; there is no class view;</li>
+ *     <li>the sorting and the element of a descriptor are handled by the platform browser;</li>
+ *     <li>not an interface, not deletable, no qualified name and no legend panel - the defaults of {@link HierarchyModel} and
  *     {@link consulo.language.editor.hierarchy.HierarchyNodeDescriptor}.</li>
  * </ul>
  */
@@ -61,7 +56,7 @@ public class LspTypeHierarchyBrowser implements HierarchyModel<PsiElement> {
     }
 
     /**
-     * Consulo: upstream {@code LspTypeHierarchyProvider.browserActivated} switches the browser to the subtypes view.
+     * The browser opens the subtypes view.
      */
     @Override
     @RequiredReadAction

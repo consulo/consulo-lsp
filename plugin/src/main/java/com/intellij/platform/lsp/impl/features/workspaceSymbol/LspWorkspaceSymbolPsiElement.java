@@ -25,8 +25,8 @@ import consulo.ui.image.Image;
 import org.jspecify.annotations.Nullable;
 
 /**
- * Consulo only: Search Everywhere renders the Go To Symbol / Go To Class results with a {@code PsiElementListCellRenderer},
- * which needs {@link PsiElement}s (IntelliJ also renders plain {@link NavigationItem}s). Wraps an LSP workspace symbol
+ * Search Everywhere renders the Go To Symbol / Go To Class results with a {@code PsiElementListCellRenderer},
+ * which needs {@link PsiElement}s. Wraps an LSP workspace symbol
  * navigation item into a non-physical element, which delegates the presentation and the navigation to the item.
  */
 public final class LspWorkspaceSymbolPsiElement extends FakePsiElement implements NavigationItem {

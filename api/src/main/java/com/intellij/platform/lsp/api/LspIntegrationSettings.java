@@ -13,8 +13,7 @@ import java.util.List;
  * <p>
  * The settings combine provider defaults with project-specific changes.
  * <p>
- * Consulo: upstream is an optional project service ({@code serviceOrNull}). Consulo services can't be optional, so this is a
- * project-level extension; {@link #getInstanceOrNull} returns the first registered implementation.
+ * Services can't be optional, so this is a project-level extension; {@link #getInstanceOrNull} returns the first registered implementation.
  */
 @ExtensionAPI(ComponentScope.PROJECT)
 public interface LspIntegrationSettings {

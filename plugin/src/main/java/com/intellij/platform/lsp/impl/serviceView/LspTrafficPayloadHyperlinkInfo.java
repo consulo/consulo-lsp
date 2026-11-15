@@ -17,8 +17,7 @@ import org.jspecify.annotations.Nullable;
  * <p>
  * The payload is stored raw and formatted lazily on click, so no JSON formatting happens on the LSP protocol threads.
  * <p>
- * Consulo: upstream declares this class in {@code LspTrafficPayloadPopup.kt}; the top-level function of that file is
- * {@link LspTrafficPayloadPopupKt#buildPayloadPopupText}.
+ * The popup text is built by {@link LspTrafficPayloadPopupKt#buildPayloadPopupText}.
  */
 public class LspTrafficPayloadHyperlinkInfo extends HyperlinkInfoBase {
     private final String myHeader;

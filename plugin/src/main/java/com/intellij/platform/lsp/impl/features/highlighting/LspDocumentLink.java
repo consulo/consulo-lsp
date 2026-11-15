@@ -39,7 +39,6 @@ public class LspDocumentLink {
 
         String uri = getTargetUri();
         if (uri != null && (uri.startsWith("http://") || uri.startsWith("https://"))) {
-            // Consulo: IdeBundle "open.url.in.browser.tooltip" is CodeInsightLocalize.openUrlInBrowserTooltip()
             return CodeInsightLocalize.openUrlInBrowserTooltip().get();
         }
         return null;

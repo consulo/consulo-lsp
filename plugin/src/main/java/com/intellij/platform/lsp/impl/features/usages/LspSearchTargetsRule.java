@@ -29,10 +29,7 @@ import java.util.List;
  * Helps to implement the 'Find Usages' and 'Show Usages' features backed by an LSP server
  * (<a href="https://microsoft.github.io/language-server-protocol/specification/#textDocument_references">textDocument/references</a> request).
  * <p>
- * Upstream this is a {@code UiDataRule} for the {@code search.targets} data key, which provides a {@code SearchTarget}
- * for the new usages API (see the upstream sources for why {@code SearchTargetVariant} is the one that works).
- * <p>
- * Consulo: the usage targets of the 'Find Usages' and 'Show Usages' actions come from {@link UsageTargetProvider}s
+ * The usage targets of the 'Find Usages' and 'Show Usages' actions come from {@link UsageTargetProvider}s
  * ({@code UsageView.USAGE_TARGETS_KEY}). The LSP target is a {@link LspSearchTarget} PSI element wrapped into a
  * {@code PsiElementUsageTarget}; the search itself is done by the {@link LspUsageSearcher} find usages handler.
  *

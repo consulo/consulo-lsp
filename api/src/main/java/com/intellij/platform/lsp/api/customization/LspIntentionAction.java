@@ -50,16 +50,15 @@ import java.util.Set;
  * {@link IntentionAction} that knows how to apply {@link CodeAction} received from the LSP server.
  *
  * <h4>Implementation note</h4>
- * IntelliJ Platform API assumes that the quick fixes for diagnostics are created right at the moment of the code highlighting.
+ * The platform API assumes that the quick fixes for diagnostics are created right at the moment of the code highlighting.
  * For performance reasons, special quick fix stubs are created at that
- * moment. Those stubs do not contain {@link CodeAction} objects. As soon as the IntelliJ Platform calls {@link IntentionAction#getText} or
+ * moment. Those stubs do not contain {@link CodeAction} objects. As soon as the platform calls {@link IntentionAction#getText} or
  * {@link IntentionAction#isAvailable} on those stubs, the stubs ask the LSP server to calculate real {@link CodeAction} objects and, once received,
  * create {@link LspIntentionAction} objects. After that, those quick fix stubs delegate {@link #getText}, {@link #isAvailable}, and {@link #invoke} calls to these
  * {@link LspIntentionAction} objects.
  * <p>
  * {@link LspIntentionAction} objects are used not only for quick fixes, but also for other kinds of {@link CodeAction CodeActions}.
- * In IntelliJ Platform terms, other kinds of {@code CodeActions} are handled as
- * <a href="https://www.jetbrains.com/help/idea/intention-actions.html">Intention actions</a>.
+ * In platform terms, other kinds of {@code CodeActions} are handled as Intention actions.
  */
 public class LspIntentionAction implements IntentionAction {
     private static final Logger LOG = Logger.getInstance(LspIntentionAction.class);
@@ -116,7 +115,7 @@ public class LspIntentionAction implements IntentionAction {
     }
 
     // `getFamilyName()` is not delegated to this class. The wrapper class returns an empty string. This function is never called.
-    // Consulo: IntentionAction has no getFamilyName(), the function is kept as a plain one.
+    // IntentionAction has no getFamilyName(), so this is a plain method, not an override.
     public final String getFamilyName() {
         return "";
     }
@@ -286,7 +285,6 @@ public class LspIntentionAction implements IntentionAction {
             createdFile = parentDir.createChildData(this, PathUtil.getFileName(fileUri));
         }
         catch (IOException e) {
-            // upstream (Kotlin) lets the exception propagate
             throw new UncheckedIOException(e);
         }
         Document document = FileDocumentManager.getInstance().getDocument(createdFile);
@@ -391,7 +389,6 @@ public class LspIntentionAction implements IntentionAction {
             return VirtualFileUtil.createDirectoryIfMissing(existingDir.getPath() + "/" + relativeParentPath);
         }
         catch (IOException e) {
-            // upstream (Kotlin) lets the exception propagate
             throw new UncheckedIOException(e);
         }
     }
@@ -481,9 +478,8 @@ public class LspIntentionAction implements IntentionAction {
         return document;
     }
 
-    // TODO intention preview: upstream overrides `generatePreview(project, editor, nonPhysicalPsiFile): IntentionPreviewInfo`
-    //  (applies the edits of the physical document to the non-physical copy, see `invokeForPreview`).
-    //  Consulo's IntentionAction has no IntentionPreviewInfo API, so the preview is not ported.
+    // TODO intention preview: apply the edits to a non-physical copy of the file once IntentionAction
+    //  supports a preview API.
 
     private static boolean isNotEmpty(@Nullable Map<?, ?> map) {
         return map != null && !map.isEmpty();

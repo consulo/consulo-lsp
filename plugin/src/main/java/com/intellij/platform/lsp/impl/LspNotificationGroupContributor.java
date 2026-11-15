@@ -23,7 +23,6 @@ import java.util.function.Consumer;
 
 /**
  * Registers the notification groups of the LSP client.
- * Upstream: {@code <notificationGroup id="LSP window/showMessage" displayType="BALLOON" key="notification.group.lsp.message"/>}.
  */
 @ExtensionImpl
 public class LspNotificationGroupContributor implements NotificationGroupContributor {

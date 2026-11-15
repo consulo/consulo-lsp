@@ -23,9 +23,8 @@ import consulo.language.psi.PsiFile;
 import java.util.Set;
 
 /**
- * Minimal port of IntelliJ's {@code com.intellij.formatting.service.FormattingService}: the members the LSP formatting service
- * implements. Consulo has no formatting service extension point; {@link AsyncDocumentFormattingService} plugs into Consulo's
- * {@link consulo.language.codeStyle.ExternalFormatProcessor} instead.
+ * The members the LSP formatting service implements. There is no formatting service extension point;
+ * {@link AsyncDocumentFormattingService} plugs into {@link consulo.language.codeStyle.ExternalFormatProcessor} instead.
  */
 public interface FormattingService {
     enum Feature {

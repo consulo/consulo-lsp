@@ -43,7 +43,7 @@ public interface LspDocument {
      * <p>
      * For identity documents (regular files) returns {@code input} as-is without invoking {@code transform}.
      * For documents that need translation (notebook cells) invokes {@code transform} with this document
-     * as the first argument (the Kotlin receiver) so it can call {@link #toHostRange}, {@link #toHostPosition}, {@link #toHostLine}, or nested mappers.
+     * as the first argument so it can call {@link #toHostRange}, {@link #toHostPosition}, {@link #toHostLine}, or nested mappers.
      */
     <T> T mapToHost(T input, BiFunction<LspDocument, T, T> transform);
 

@@ -58,10 +58,7 @@ import java.util.stream.Stream;
  * build again, so a user who deletes it pays one more download and nothing else. A server descriptor
  * gets {@code node}, {@code npm} and {@code npx} from the runtime, so the user does not have to install Node.js.
  * <p>
- * This code is a reduced copy of the ACP agent runtime manager in
- * {@code plugins/air/backend/acp/runtime/src/com/intellij/air/acp/runtime/registry/AcpRuntimeManager.kt}.
- * Read the {@code CLAUDE.md} next to that file for the decisions behind the staging directory, the pinned
- * checksum and the version sweep. Three things are cut on purpose:
+ * This code is a reduced copy of the ACP agent runtime manager. Three things are cut on purpose:
  * <ul>
  * <li><b>The local machine only.</b> The original keys every path by an EEL descriptor, because an agent
  *   can run on WSL or in Docker. This copy resolves the host with {@link LspNodeHost#current()}. A project on
@@ -73,10 +70,6 @@ import java.util.stream.Stream;
  *   process gets the runtime and the operating system shell on its {@code PATH}, and nothing else. See
  *   {@link #managedPathValue}.</li>
  * </ul>
- * <p>
- * Consulo: {@code HttpRequests} is {@link HttpRequests} ({@code consulo.http.api}), {@code Decompressor} is the minimal
- * {@link Decompressor} compat copy, {@code CapturingProcessHandler.runProcess} is {@link CapturingProcessUtil#execAndGetOutput},
- * {@code NioFiles.deleteRecursively} is {@link FileUtil#delete(Path)} (which reports a failure by its result instead of an exception).
  *
  * @see LspNodeRuntime
  */
@@ -154,8 +147,6 @@ public class LspNodeRuntimeManager {
      * The shell directories must stay in. {@code npm exec} runs the resolved binary through a shell, so npm
      * fails with {@code spawn sh ENOENT} when it cannot find {@code sh}. These directories hold the shell itself and
      * the other standard commands, and they hold no version manager, so they add no second {@code node}.
-     * <p>
-     * Consulo: top-level function of {@code LspNodeRuntimeManager.kt}.
      */
     public static String managedPathValue(Path binDir) {
         List<String> entries = new ArrayList<>();
@@ -166,8 +157,6 @@ public class LspNodeRuntimeManager {
 
     /**
      * The directories that hold the operating system shell.
-     * <p>
-     * Consulo: top-level function of {@code LspNodeRuntimeManager.kt}.
      */
     public static List<String> shellDirectories() {
         LspNodeHost host = LspNodeHost.current();
@@ -400,7 +389,7 @@ public class LspNodeRuntimeManager {
     }
 
     /**
-     * Consulo: IntelliJ's {@code com.intellij.util.io.sha256Hex(Path)}, the lowercase hex SHA-256 of a file.
+     * The lowercase hex SHA-256 of a file.
      */
     private static String sha256Hex(Path file) throws IOException {
         MessageDigest digest = DigestUtil.sha256();
@@ -420,7 +409,7 @@ public class LspNodeRuntimeManager {
     }
 
     /**
-     * Consulo: IntelliJ's {@code NioFiles.deleteRecursively}, which throws on a failure.
+     * Deletes the path recursively; throws on a failure.
      */
     private static void deleteRecursively(Path path) throws IOException {
         if (!Files.exists(path) && !Files.isSymbolicLink(path)) {
@@ -688,7 +677,7 @@ public class LspNodeRuntimeManager {
         }
         catch (CancellationException | ProcessCanceledException e) {
             // The user pressed Stop on the progress bar, or a caller's future was cancelled.
-            // Consulo: `ProcessCanceledException` is not a `CancellationException`, so both are caught;
+            // `ProcessCanceledException` is not a `CancellationException`, so both are caught;
             // cancellation must never become a logged failure. The `finally` below removes the partial tree.
             throw e;
         }

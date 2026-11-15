@@ -13,14 +13,10 @@ import consulo.project.Project;
 import consulo.project.ProjectManager;
 import consulo.virtualFileSystem.VirtualFile;
 
-/**
- * Upstream: {@code <applicationListeners><listener topic="com.intellij.openapi.fileEditor.FileDocumentManagerListener"/>}.
- */
 @TopicImpl(ComponentScope.APPLICATION)
 public class LspFileDocumentManagerListener implements FileDocumentManagerListener {
     /**
-     * Upstream: {@code unsavedDocumentDropped(document) = beforeDocumentSaving(document)}.
-     * Consulo reports only {@link #unsavedDocumentsDropped()} without the documents, so the files that are not of interest
+     * Only {@link #unsavedDocumentsDropped()} is reported, without the documents, so the files that are not of interest
      * any more are closed for every project.
      */
     @Override

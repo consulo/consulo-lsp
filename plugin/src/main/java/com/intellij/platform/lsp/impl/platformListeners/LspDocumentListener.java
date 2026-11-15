@@ -20,16 +20,12 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-/**
- * Upstream: {@code <editorFactoryDocumentListener id="LspDocumentListener"/>}.
- */
 @ExtensionImpl(id = "LspDocumentListener")
 public class LspDocumentListener implements EditorDocumentListener {
     private record ClientAndFile(LspClientImpl client, VirtualFile file) {
     }
 
     private static final class ChangedFilesData {
-        // upstream: VirtualFileSetFactory.getInstance().createCompactVirtualFileSet()
         final Set<VirtualFile> handledFiles = new HashSet<>();
         final List<ClientAndFile> clientsToSendDidOpen = new ArrayList<>();
     }

@@ -127,7 +127,6 @@ public class LspDocumentSyncManager {
             // In the pull model the client is responsible for the initial pull of a just-opened file.
             // A pull-only server (no publishDiagnostics) would otherwise stay silent until the first daemon pass.
             LspHighlightingApplier.getInstance(myClient.getProject()).scheduleHighlightingRefresh(file);
-            // upstream: application.messageBus.syncPublisher(BreadcrumbsXmlWrapper.FORCE_RELOAD_BREADCRUMBS).run()
             LspFeaturesRefreshing.refreshBreadcrumbs();
         }
         else {

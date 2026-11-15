@@ -39,10 +39,9 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * Consulo: IntelliJ's {@code CodeVisionProvider} (computed by {@code CodeVisionHost}) does not exist; the lenses are provided by a
- * {@link DaemonBoundCodeVisionProvider}, computed by Consulo's code vision highlighting pass in a background read action.
- * {@code precomputeOnUiThread}, {@code singleEntryPerLine} are not part of the Consulo API. The click handler receives a Consulo
- * {@link ComponentEvent}, converted back to an AWT {@link MouseEvent} for {@link LspCodeLensSupport#codeLensClicked}.
+ * The lenses are provided by a {@link DaemonBoundCodeVisionProvider}, computed by the code vision highlighting pass in a
+ * background read action. The click handler receives a {@link ComponentEvent}, converted back to an AWT {@link MouseEvent}
+ * for {@link LspCodeLensSupport#codeLensClicked}.
  */
 @ExtensionImpl
 public class LspCodeVisionProvider implements DaemonBoundCodeVisionProvider, DumbAware {

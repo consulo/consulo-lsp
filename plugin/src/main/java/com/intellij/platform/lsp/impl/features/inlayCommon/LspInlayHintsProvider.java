@@ -17,10 +17,8 @@ import org.jspecify.annotations.Nullable;
  * The single daemon-pass hook for all LSP inline inlays. The daemon runs this per editor (including
  * splits); it paints BOTH inlay hints and document-color swatches collected by {@link LspInlayApplier}.
  * <p>
- * Consulo: upstream is a hidden legacy {@code InlayHintsProvider} that only schedules {@link LspInlayApplier}, which then
- * paints out of band. Here it is a {@link DeclarativeInlayHintsProvider} whose collector adds the LSP inlays to the
- * declarative sink. It is not an extension: {@link LspInlayHintsProviderFactory} offers it for every language and keeps
- * it out of the settings (upstream {@code isVisibleInSettings = false}).
+ * It is a {@link DeclarativeInlayHintsProvider} whose collector adds the LSP inlays to the declarative sink.
+ * It is not an extension: {@link LspInlayHintsProviderFactory} offers it for every language and keeps it out of the settings.
  */
 public class LspInlayHintsProvider implements DeclarativeInlayHintsProvider, DumbAware {
     public static final String PROVIDER_ID = "lsp.inlay.hints";

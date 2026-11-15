@@ -7,9 +7,6 @@ import consulo.fileEditor.statusBar.StatusBarEditorBasedWidgetFactory;
 import consulo.project.Project;
 import consulo.project.ui.wm.StatusBarWidget;
 
-/**
- * Upstream: {@code <statusBarWidgetFactory id="LanguageServiceStatusBarWidget" order="after Position, after AIAssistant, before LineSeparator"/>}.
- */
 @ExtensionImpl(id = LanguageServiceWidgetFactory.LANGUAGE_SERVICES_WIDGET_ID, order = "after positionWidget, before lineSeparatorWidget")
 public class LanguageServiceWidgetFactory extends StatusBarEditorBasedWidgetFactory {
     public static final String LANGUAGE_SERVICES_WIDGET_ID = "LanguageServiceStatusBarWidget";

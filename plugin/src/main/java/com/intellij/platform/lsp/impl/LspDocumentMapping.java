@@ -117,8 +117,7 @@ public class LspDocumentMapping {
     }
 
     /**
-     * Upstream: {@code suspend fun <T> forEachDocumentInFile(file, block: suspend (LspDocument) -> T): List<T>}.
-     * The blocks run one after another, like the upstream sequential suspend calls.
+     * The blocks run one after another.
      */
     public <T extends @Nullable Object> CompletableFuture<List<T>> forEachDocumentInFile(VirtualFile file, Function<LspDocument, CompletableFuture<T>> block) {
         CompletableFuture<List<T>> result = new CompletableFuture<>();
@@ -133,8 +132,7 @@ public class LspDocumentMapping {
     }
 
     /**
-     * Upstream: {@code suspend fun <T> forEachDocumentInFile(file, block: suspend (LspDocument, Range) -> T): List<T>}.
-     * The blocks run one after another, like the upstream sequential suspend calls.
+     * The blocks run one after another.
      */
     public <T extends @Nullable Object> CompletableFuture<List<T>> forEachDocumentInFile(VirtualFile file, BiFunction<LspDocument, Range, CompletableFuture<T>> block) {
         Range range = ReadAction.compute(() -> {
@@ -160,7 +158,7 @@ public class LspDocumentMapping {
 
     /**
      * Runs {@code block} for each item, one after another. A cancellation of {@code result} cancels the in-flight block,
-     * so the cancellation reaches the request like the cancellation of the upstream coroutine does.
+     * so the cancellation reaches the request.
      */
     private static <I, T> void mapSequentially(List<I> items,
                                                int index,
@@ -211,7 +209,7 @@ public class LspDocumentMapping {
             return null;
         }
         VirtualFile hostFile = file instanceof VirtualFileWindow fileWindow ? fileWindow.getDelegate() : file;
-        // upstream: PsiDocumentManagerBase.getTopLevelDocument(document)
+        // the top-level (non-injected) document
         Document hostDocument = document;
         while (hostDocument instanceof DocumentWindow documentWindow) {
             hostDocument = documentWindow.getDelegate();

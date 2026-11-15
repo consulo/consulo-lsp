@@ -18,16 +18,13 @@ import org.jspecify.annotations.Nullable;
 import java.util.List;
 
 /**
- * Consulo: upstream extends {@code CallHierarchyBrowserBase}. Consulo's hierarchy browser is owned by the platform,
- * a language supplies a {@link HierarchyModel} instead, so this class is the model:
+ * The {@link HierarchyModel} of the LSP call hierarchy; the hierarchy browser itself is owned by the platform:
  * <ul>
- *     <li>{@code createTrees} (caller and callee trees) - {@link #getViewTypes()};</li>
- *     <li>{@code createHierarchyTreeStructure} - {@link #createTreeStructure(HierarchyRequest)};</li>
- *     <li>{@code prependActions} removed the scope action - {@link #isScopeSupported()} is {@code false} (the default);</li>
- *     <li>{@code getComparator} (alphabetical or by index) and {@code getElementFromDescriptor}
- *     ({@code descriptor.psiElement}) - the same is done by the platform browser;</li>
- *     <li>{@code createHierarchyTree} hid the tree root and limited the auto-expansion
- *     ({@code DefaultTreeUI.AUTO_EXPAND_FILTER}) - not supported by the platform browser, the root is visible.</li>
+ *     <li>{@link #getViewTypes()} - the caller and callee trees;</li>
+ *     <li>{@link #createTreeStructure(HierarchyRequest)} - the tree structure of a view;</li>
+ *     <li>{@link #isScopeSupported()} is {@code false} (the default) - there is no scope action;</li>
+ *     <li>the sorting (alphabetical or by index) and the element of a descriptor are handled by the platform browser;</li>
+ *     <li>the tree root is visible and the auto-expansion is not limited.</li>
  * </ul>
  */
 public class LspCallHierarchyBrowser implements HierarchyModel<PsiElement> {
@@ -57,7 +54,7 @@ public class LspCallHierarchyBrowser implements HierarchyModel<PsiElement> {
     }
 
     /**
-     * Consulo: upstream {@code LspCallHierarchyProvider.browserActivated} switches the browser to the caller view.
+     * The browser opens the caller view.
      */
     @Override
     @RequiredReadAction

@@ -25,8 +25,7 @@ import consulo.util.lang.xml.XmlStringUtil;
 import org.jspecify.annotations.Nullable;
 
 /**
- * The part of IntelliJ's {@code com.intellij.lang.documentation.QuickDocHighlightingHelper} the LSP documentation uses,
- * on Consulo's {@link CodeBlockHighlighter}.
+ * The quick documentation highlighting helpers the LSP documentation uses, on top of {@link CodeBlockHighlighter}.
  */
 public final class QuickDocHighlightingHelper {
     private QuickDocHighlightingHelper() {

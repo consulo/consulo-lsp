@@ -11,8 +11,6 @@ import consulo.ui.UIAccess;
 /**
  * Editors restored on project reopen fire {@link LspFileEditorManagerListener#fileOpened fileOpened} before the project file index
  * knows the content roots, so those events start no LSP servers. Re-process the open editors once the project is fully loaded.
- * <p>
- * Upstream: {@code <postStartupActivity/>} ({@code ProjectActivity}).
  */
 @ExtensionImpl
 public class LspStartupActivity implements PostStartupActivity, DumbAware {

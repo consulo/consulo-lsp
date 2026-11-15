@@ -6,8 +6,7 @@ import consulo.language.editor.refactoring.action.RefactoringActionHandler;
 import java.util.List;
 
 /**
- * Upstream: the nested {@code LspRefactoringSupportProvider.IntroduceVariable}. Consulo: a top-level class, because the Consulo annotation
- * processor does not generate bindings for nested extension classes yet.
+ * A top-level class, because the annotation processor does not generate bindings for nested extension classes yet.
  */
 @ExtensionImpl
 public final class LspRefactoringSupportProviderIntroduceVariable extends LspRefactoringSupportProvider {

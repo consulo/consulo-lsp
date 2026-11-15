@@ -27,9 +27,8 @@ import java.util.concurrent.TimeUnit;
  * <p>
  * Objects of this class are returned from the {@link LookupElement#getObject} function, thanks to {@link LspLookupElementDecorator}.
  * <p>
- * Consulo: IntelliJ's {@code Pointer}, {@code Symbol} and {@code DocumentationTarget} do not exist in Consulo.
  * {@link com.intellij.platform.lsp.impl.features.documentation.LspDocumentationTargetProvider#getDocumentationElementForLookupItem}
- * selects this object as the documentation target of the corresponding {@link LookupElement} instead.
+ * selects this object as the documentation target of the corresponding {@link LookupElement}.
  */
 public class LspCompletionObject {
     private static final long SEMAPHORE_POLL_MS = 10;
@@ -60,8 +59,8 @@ public class LspCompletionObject {
      * Cancelling the waiting (thanks to regular {@link ProgressManager#checkCanceled} calls) triggers cancel notification on LSP.
      * Actual command cancellation support depends on the LSP implementation.
      * <p>
-     * Consulo: IntelliJ's function is {@code suspend}; this one waits synchronously (it is called by
-     * the expensive lookup element renderer, which Consulo runs on a background thread) and must not be called on the EDT.
+     * This function waits synchronously (it is called by the expensive lookup element renderer, which runs on a background
+     * thread) and must not be called on the EDT.
      */
     public void resolveCompletionItem() {
         if (myResolvedCompletionItem != null) {
@@ -88,7 +87,7 @@ public class LspCompletionObject {
         }
     }
 
-    // kotlinx `Semaphore.withPermit` suspends; here the permit is awaited with checkCanceled() calls
+    // the permit is awaited with checkCanceled() calls
     private void acquirePermit() {
         while (true) {
             ProgressManager.checkCanceled();
@@ -111,11 +110,8 @@ public class LspCompletionObject {
     }
 
     /**
-     * IntelliJ's {@code DocumentationTarget.computeDocumentation()}.
-     * <p>
-     * Consulo: returns the html of the documentation. When the documentation needs the {@code completionItem/resolve} request
-     * (IntelliJ returns {@code DocumentationResult.asyncDocumentation} then), the response is awaited synchronously, so this function
-     * must not be called on the EDT.
+     * Returns the html of the documentation. When the documentation needs the {@code completionItem/resolve} request,
+     * the response is awaited synchronously, so this function must not be called on the EDT.
      */
     public @Nullable String computeDocumentation() {
         CompletionItem resolvedCompletionItem = myResolvedCompletionItem;

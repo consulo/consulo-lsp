@@ -12,8 +12,6 @@ import java.util.regex.Pattern;
 
 /**
  * A code lens title split into the display text and an optional icon.
- * <p>
- * Consulo: the icon is a {@link Image} instead of a Swing {@code Icon}.
  */
 public class CodeLensTitle {
     private static final Pattern CODICON_TOKEN = Pattern.compile("\\$\\(([\\w-]+)\\) ?");
@@ -45,8 +43,6 @@ public class CodeLensTitle {
      * Parses the VS Code codicon syntax in a code lens title, for example {@code $(play) Run}.
      * The first known codicon becomes the icon.
      * Every codicon token is removed from the text.
-     * <p>
-     * Consulo: top-level function of {@code CodeLensTitle.kt}.
      */
     public static CodeLensTitle parseCodeLensTitle(String title) {
         if (!title.contains("$(")) {

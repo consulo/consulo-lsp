@@ -44,8 +44,7 @@ import java.util.List;
 import java.util.function.Function;
 
 /**
- * Consulo: a minimal port of IntelliJ's {@code com.intellij.codeInsight.daemon.impl.AnnotationHolderImpl}.
- * Consulo's own {@code AnnotationHolderImpl} is internal, and the LSP client creates annotations outside an
+ * A minimal {@link AnnotationHolder}. The platform's own {@code AnnotationHolderImpl} is internal, and the LSP client creates annotations outside an
  * {@link consulo.language.editor.annotation.Annotator} (it converts LSP diagnostics with
  * {@code LspDiagnosticsSupport.createAnnotation}). The holder is a list of the created annotations.
  */

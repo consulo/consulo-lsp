@@ -282,7 +282,7 @@ public class LspHighlightingApplier {
 
         AnnotationSession session = new AnnotationSession(psiFile);
 
-        // Consulo: AnnotationHolderImpl is a compat port (Consulo's own holder is internal); there is
+        // AnnotationHolderImpl is a local implementation (the platform holder is internal); there is
         // no other way of converting LSP diagnostics to HighlightInfo outside an Annotator.
         AnnotationHolderImpl holder = new AnnotationHolderImpl(session, false);
         holder.runAnnotatorWithContext(psiFile);
@@ -408,7 +408,6 @@ public class LspHighlightingApplier {
     }
 
     /**
-     * Consulo: {@code WolfTheProblemSolver.reportProblemsFromExternalSource(file, source)} does not exist in Consulo.
      * A single problem stands for the whole LSP error report of the file; {@code reportProblems} replaces the previous one.
      */
     private void reportProblemsFromExternalSource(VirtualFile file) {
@@ -423,8 +422,7 @@ public class LspHighlightingApplier {
     }
 
     /**
-     * Consulo: {@code WolfTheProblemSolver.clearProblemsFromExternalSource(file, source)} does not exist in Consulo;
-     * this clears all problems of the file.
+     * Clears all problems of the file, not only the ones reported by the LSP server.
      */
     private void clearProblemsFromExternalSource(VirtualFile file) {
         if (myProject.isDisposed()) {
@@ -475,8 +473,8 @@ public class LspHighlightingApplier {
     }
 
     private static HighlightInfoType toHighlightInfoType(ProblemHighlightType problemHighlightType, HighlightSeverity severity) {
-        // Consulo: IntelliJ's inspection-controlled UNUSED_SYMBOL/DEPRECATED/MARKED_FOR_REMOVAL types are the RAW_* ones here;
-        // ProblemHighlightType.POSSIBLE_PROBLEM does not exist in Consulo.
+        // the RAW_* types are used for unused, deprecated and marked-for-removal symbols, so that no inspection controls them;
+        // there is no ProblemHighlightType.POSSIBLE_PROBLEM.
         if (problemHighlightType == ProblemHighlightType.LIKE_UNUSED_SYMBOL) {
             return HighlightInfoType.RAW_UNUSED_SYMBOL;
         }

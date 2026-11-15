@@ -27,9 +27,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Consulo: upstream registers this handler with {@code order="last"}, so every language-specific {@link InlineActionHandler} is asked
- * first. Consulo reserves {@code first}/{@code last} for the plugin that owns the extension point, so this handler steps aside
- * instead: it is not enabled on an element that another {@link InlineActionHandler} can inline ({@link #isHandledByOtherHandler}).
+ * Every language-specific {@link InlineActionHandler} takes precedence. {@code first}/{@code last} ordering is reserved for the
+ * plugin that owns the extension point, so this handler steps aside instead: it is not enabled on an element that another
+ * {@link InlineActionHandler} can inline ({@link #isHandledByOtherHandler}).
  */
 @ExtensionImpl
 public class LspInlineActionHandler extends InlineActionHandler {
@@ -104,7 +104,7 @@ public class LspInlineActionHandler extends InlineActionHandler {
     }
 
     /**
-     * Consulo only: replaces upstream {@code order="last"}, see the class Javadoc.
+     * Lets language-specific handlers take precedence, see the class Javadoc.
      */
     @RequiredReadAction
     private boolean isHandledByOtherHandler(PsiElement element, Editor editor) {

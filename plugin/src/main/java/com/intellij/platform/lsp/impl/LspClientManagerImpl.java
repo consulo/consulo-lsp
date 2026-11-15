@@ -125,8 +125,8 @@ public class LspClientManagerImpl implements LspServerManager, Disposable {
     }
 
     /**
-     * Consulo: upstream overrides {@code getClients} with the covariant {@code Collection<LspClientImpl>} return type,
-     * which Java generics do not allow. Internal callers that need {@link LspClientImpl} use this function instead.
+     * Java generics do not allow overriding {@code getClients} with the covariant {@code Collection<LspClientImpl>} return type.
+     * Internal callers that need {@link LspClientImpl} use this function instead.
      */
     public Collection<LspClientImpl> getClientsImpl(Class<? extends LspIntegrationProvider> providerClass) {
         List<LspClientImpl> result = new ArrayList<>();
@@ -251,7 +251,6 @@ public class LspClientManagerImpl implements LspServerManager, Disposable {
         LspIntegrationProvider foundProvider = provider;
 
         long requestStamp = startRequestStamp();
-        // upstream: cs.launch { val descriptorsToStart = readAction { ... }; descriptorsToStart.forEach { ensureStarted(...) } }
         ReadAction.nonBlocking(() -> {
                 Collection<LspClientImpl> clients = getClientsImpl(providerClass);
                 List<LspClientDescriptor> descriptorsToStart = new ArrayList<>();
@@ -322,7 +321,7 @@ public class LspClientManagerImpl implements LspServerManager, Disposable {
      * {@code requestStamp} is the {@link #startRequestStamp} value captured at the event that requested this start.
      * When {@link #stopClients} for the provider, or {@link #stopRunningServer} for the same server, came after the event,
      * the request is stale and the start is skipped.
-     * {@code null} means an explicit request that always starts. Returns the started task (upstream: the coroutine {@code Job}),
+     * {@code null} means an explicit request that always starts. Returns the started task,
      * so a test can join it.
      */
     public @Nullable CompletableFuture<Void> ensureStarted(
@@ -340,7 +339,6 @@ public class LspClientManagerImpl implements LspServerManager, Disposable {
         // so the console gets all lifecycle events
         LspServiceViewSupport.getInstance(myProject);
 
-        // upstream: readAndEdtWriteAction { ... writeAction { ... } }
         Application.get().invokeLater(() -> {
             try {
                 if (myDisposed || myProject.isDisposed()) {
@@ -537,14 +535,11 @@ public class LspClientManagerImpl implements LspServerManager, Disposable {
     }
 
     private void addExtensionPointListener() {
-        // Upstream listens to the `LspIntegrationProvider.EP_NAME` and `LspServerSupportProvider.EP_NAME` extension points:
-        // `extensionAdded` -> startClientsIfNeeded(extension.javaClass), `extensionRemoved` -> stopClients(extension.javaClass).
-        // Consulo plugins are not loaded or unloaded at runtime and ExtensionPointName has no listener API, so there is nothing to listen to.
+        // Plugins are not loaded or unloaded at runtime and ExtensionPointName has no listener API, so there is nothing to listen to.
     }
 
     private void addWorkspaceModelListener() {
-        // Upstream collects the WorkspaceModel event log and calls onProjectRootsChanged() for ContentRootEntity changes.
-        // Consulo has no WorkspaceModel: the module roots topic reports the content root changes.
+        // the module roots topic reports the content root changes
         myProject.getMessageBus().connect(this).subscribe(ModuleRootListener.class, new ModuleRootListener() {
             @Override
             public void rootsChanged(ModuleRootEvent event) {
@@ -554,7 +549,7 @@ public class LspClientManagerImpl implements LspServerManager, Disposable {
     }
 
     /**
-     * Upstream: {@code suspend fun onProjectRootsChanged()}. The returned future completes once the opened files are processed
+     * The returned future completes once the opened files are processed
      * and the closing of the files that are not of interest is scheduled.
      */
     public CompletableFuture<Void> onProjectRootsChanged() {

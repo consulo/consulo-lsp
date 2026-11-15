@@ -10,7 +10,7 @@ import consulo.ui.UIAccess;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
- * Consulo only: installs {@link LspTypedActionHandler} (upstream {@code <editorTypedHandler id="LspTypedActionHandler" order="last"/>})
+ * Installs {@link LspTypedActionHandler}
  * once per application, when the first project is opened, see the {@link LspTypedActionHandler} Javadoc.
  */
 @ExtensionImpl

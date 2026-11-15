@@ -26,17 +26,15 @@ import java.util.function.Supplier;
  * {@link LspIntentionAction} object holds the {@link CodeAction} object, which is a response from the LSP server that contains all the information
  * needed to make this class actionable.
  * <p>
- * Consulo: {@code IntentionAction} has no {@code getFamilyName()} and no {@code generatePreview()};
- * {@link #getFamilyName()} is kept as a plain method, the preview is not ported.
+ * {@code IntentionAction} has no {@code getFamilyName()} and no {@code generatePreview()};
+ * {@link #getFamilyName()} is a plain method, and there is no preview.
  * <p>
- * Consulo: upstream evaluates {@code isAvailable} of intentions and quick fixes in a background thread (the background
- * {@code ShowIntentionsPass} and the Alt+Enter handler, which computes the actions under a modal progress), and the wrappers
- * only return already computed results on the EDT. Consulo's Alt+Enter handler ({@code ShowIntentionActionsHandler}) calls
+ * The Alt+Enter handler ({@code ShowIntentionActionsHandler}) calls
  * {@code isAvailable} on the UI thread and its background {@code ShowIntentionsPass} does not run in the desktop editor
  * ({@code HasFocus.hasFocus(editor.getContentUIComponent())} is always {@code false}). So while an action is being performed on
  * the UI thread (Alt+Enter, see {@link ActionContextElement}), the LSP requests are sent from a background thread under a
  * cancellable modal progress ({@link #computeUnderModalProgress}); otherwise (e.g. the error tooltip) only the computed results
- * are used, like upstream.
+ * are used.
  */
 public abstract class LspIntentionActionWrapperBase implements IntentionAction, Comparable<IntentionAction>, DumbAware {
     /**
@@ -90,7 +88,7 @@ public abstract class LspIntentionActionWrapperBase implements IntentionAction, 
     }
 
     /**
-     * Consulo: returns {@code true} if a modal progress may be shown on the current (UI) thread, i.e. the user performs an action
+     * Returns {@code true} if a modal progress may be shown on the current (UI) thread, i.e. the user performs an action
      * on this thread (Alt+Enter) and has not canceled a progress started for it.
      */
     public static boolean canComputeUnderModalProgress() {
@@ -102,7 +100,7 @@ public abstract class LspIntentionActionWrapperBase implements IntentionAction, 
     }
 
     /**
-     * Consulo: runs {@code computation} in a read action in a background thread under a cancellable modal progress, see the class
+     * Runs {@code computation} in a read action in a background thread under a cancellable modal progress, see the class
      * Javadoc. Must be called on the UI thread when {@link #canComputeUnderModalProgress()} is {@code true}.
      *
      * @return {@code null} if the user canceled the progress

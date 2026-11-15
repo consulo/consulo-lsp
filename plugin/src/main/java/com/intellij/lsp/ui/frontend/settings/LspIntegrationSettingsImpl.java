@@ -28,8 +28,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Consulo: upstream is the project service registered for {@link LspIntegrationSettings}. {@link LspIntegrationSettings} is a
- * project extension in this port (Consulo services can't be optional), and the extension container does not load persistent
+ * {@link LspIntegrationSettings} is a project extension (services can't be optional), and the extension container does not load persistent
  * state, so this class is an internal project service holding the state, and {@link LspIntegrationSettingsExtension} is the
  * registered {@link LspIntegrationSettings} that delegates to it.
  */

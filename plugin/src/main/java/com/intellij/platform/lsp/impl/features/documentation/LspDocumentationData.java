@@ -129,7 +129,7 @@ public final class LspDocumentationData {
     }
 
     /**
-     * Kotlin's {@code String.trimIndent()}: removes the blank first and last lines and the indent the non-blank lines share.
+     * Removes the blank first and last lines and the indent the non-blank lines share.
      */
     private static String trimIndent(String text) {
         List<String> lines = new ArrayList<>(List.of(text.split("\r\n|\n|\r", -1)));
@@ -181,8 +181,7 @@ public final class LspDocumentationData {
     }
 
     /**
-     * Consulo: returns the html of the documentation (IntelliJ returns a {@code DocumentationResult.Documentation}, which does not
-     * exist in Consulo; {@code DocumentationProvider.generateDoc()} returns html).
+     * Returns the html of the documentation ({@code DocumentationProvider.generateDoc()} returns html).
      */
     @RequiredReadAction
     public String toQuickDocHtml(Project project) {

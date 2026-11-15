@@ -24,8 +24,7 @@ import org.jspecify.annotations.Nullable;
 import java.util.List;
 
 /**
- * Port of IntelliJ's {@code com.intellij.formatting.service.AsyncFormattingRequest}: contains formatting data and methods handling
- * formatting results. {@code getIOFile()} and the {@code onError} overloads with a display id / an offset are not ported.
+ * Contains formatting data and methods handling formatting results.
  */
 public interface AsyncFormattingRequest {
     /**

@@ -41,8 +41,7 @@ import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
 /**
- * A minimal port of IntelliJ's {@code com.intellij.execution.process.OSProcessHandler}
- * (merged with {@code BaseOSProcessHandler}).
+ * A minimal process handler for an OS process.
  * <p>
  * Consulo's own {@code OSProcessHandler} lives in an internal package, and {@code ProcessHandlerBuilder}
  * does not allow overriding {@link #readerOptions()}. The LSP client needs that: the output reader must not split the

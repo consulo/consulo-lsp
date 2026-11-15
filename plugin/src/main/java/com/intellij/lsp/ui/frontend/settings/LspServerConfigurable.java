@@ -43,10 +43,8 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 /**
- * Consulo: upstream is a {@code BoundConfigurable} with a Kotlin UI DSL panel. Here it is a {@link SimpleConfigurableByProperties}
- * with unified UI components; each {@code bind*}/{@code onApply}/{@code onIsModified}/{@code onReset} becomes a {@code PropertyBuilder}
- * property. Consulo has no remote (Eel) environments, so the socket mode is always supported and the executable is chosen
- * with the local file chooser.
+ * A {@link SimpleConfigurableByProperties} with unified UI components; each setting is a {@code PropertyBuilder} property.
+ * The project is always local, so the socket mode is always supported and the executable is chosen with the local file chooser.
  */
 public class LspServerConfigurable extends SimpleConfigurableByProperties implements Configurable {
     private static final String STDIO_ARGUMENT = "--stdio";
@@ -65,7 +63,7 @@ public class LspServerConfigurable extends SimpleConfigurableByProperties implem
     @RequiredUIAccess
     @Override
     protected Component createLayout(PropertyBuilder propertyBuilder, Disposable uiDisposable) {
-        // Consulo: no remote (Eel) environments, the project is always local
+        // the project is always local
         boolean isSocketSupported = true;
         if (!isSocketSupported && myConfiguration.getCommunicationMode() == CommunicationMode.SOCKET) {
             myConfiguration.setCommunicationMode(CommunicationMode.STDIO);
@@ -178,14 +176,13 @@ public class LspServerConfigurable extends SimpleConfigurableByProperties implem
     protected void apply(LayoutWrapper component) throws ConfigurationException {
         super.apply(component);
 
-        // upstream: onApply { ... } of the panel, after the bound cells are applied
+        // after the bound properties are applied
         Integer port = parseSocketPortArgument(myConfiguration.getArguments());
         myConfiguration.setSocketPort(port == null ? 0 : port);
     }
 
     @RequiredUIAccess
     private FileChooserTextBoxBuilder.Controller createExecutablePathField(Disposable uiDisposable) {
-        // Consulo: no remote (Eel) environments, so the universal file chooser branch of upstream is not ported
         return FileChooserTextBoxBuilder.create(myProject)
             .dialogTitle(LspUiLocalize.lspSettingsServerExecutableBrowse())
             .uiDisposable(uiDisposable)
@@ -208,8 +205,7 @@ public class LspServerConfigurable extends SimpleConfigurableByProperties implem
     }
 
     /**
-     * Consulo: upstream creates a JSON PSI file ({@code JsonLanguage}) and a {@code TemplateEditorUtil} editor.
-     * JSON support is a separate Consulo plugin, so the language is looked up by id and plain text is used without it.
+     * JSON support is a separate plugin, so the language is looked up by id and plain text is used without it.
      */
     @RequiredUIAccess
     static Editor createInitializationOptionsEditor(Project project, String text) {
@@ -234,7 +230,7 @@ public class LspServerConfigurable extends SimpleConfigurableByProperties implem
     }
 
     /**
-     * Consulo: the Kotlin UI DSL {@code comment(...)} - a grayed text under the component.
+     * Adds a grayed comment text under the component.
      */
     @RequiredUIAccess
     static Component withComment(Component component, LocalizeValue comment) {

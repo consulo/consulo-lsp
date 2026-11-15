@@ -15,13 +15,12 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * Consulo-only adapter, no upstream counterpart.
+ * Provides the target element for Go To Type Declaration in LSP-backed files, so that {@link LspSymbolTypeProvider} is called.
  * <p>
- * Upstream, Go To Type Declaration resolves the implicit reference of {@link LspImplicitReferenceProvider} and passes the resolved
- * {@link LspDefinitionSymbol} to {@link LspSymbolTypeProvider}. Consulo's {@code GotoTypeDeclarationAction} calls the
+ * {@code GotoTypeDeclarationAction} calls the
  * {@code TypeDeclarationProvider} extensions only for a target element found by {@code TargetElementUtil}, and LSP-backed files
  * usually have flat PSI without references. This extender provides the target element when no PSI reference is found:
- * the first {@code textDocument/typeDefinition} result. Like upstream, it runs only while the "Go To Type Declaration" action is
+ * the first {@code textDocument/typeDefinition} result. It runs only while the "Go To Type Declaration" action is
  * performed (the action thread context), so the other target element lookups do not send requests to the server.
  */
 @ExtensionImpl

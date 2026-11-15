@@ -33,7 +33,7 @@ import java.util.List;
  * but in the latter case, the Platform will colorize the icon to be status-bar-friendly in the current UI theme.
  * Implementations may override {@link #getStatusBarIcon()} if they want to provide different icons for the status bar and for the popup item.
  * <p>
- * Consulo: the default icon is {@code PlatformIconGroup.webreferencesServer()} (upstream {@code AllIcons.Json.Object}, missing in Consulo).
+ * The default icon is {@code PlatformIconGroup.webreferencesServer()}.
  */
 public class LspClientWidgetItem extends LanguageServiceWidgetItem {
     protected final LspClient lspClient;
@@ -98,7 +98,6 @@ public class LspClientWidgetItem extends LanguageServiceWidgetItem {
     public LanguageServicePopupSection getWidgetActionLocation() {
         LanguageServicePopupSection location = myWidgetActionLocation;
         if (location == null) {
-            // Consulo: no `IdeProductMode.isFrontend` (always `false` here)
             if (myCurrentFile != null &&
                 lspClient.getDescriptor().isSupportedFile(myCurrentFile) &&
                 isUnderAnyRoot(myCurrentFile)) {
@@ -215,7 +214,6 @@ public class LspClientWidgetItem extends LanguageServiceWidgetItem {
         private final LspClient myLspClient;
 
         RestartLspClientAction(LspClient lspClient) {
-            // Consulo: `AllIcons.Actions.StopAndRestart` is missing, `PlatformIconGroup.actionsRestart()` is used
             super(LspLocalize.actionRestartlspserveractionText(), LocalizeValue.empty(), PlatformIconGroup.actionsRestart());
             myLspClient = lspClient;
         }
@@ -231,7 +229,6 @@ public class LspClientWidgetItem extends LanguageServiceWidgetItem {
         private final LspClient myLspClient;
 
         StopLspClientAction(LspClient lspClient) {
-            // Consulo: `AllIcons.Actions.StopAndRestart` is missing, `PlatformIconGroup.actionsRestart()` is used
             super(LspLocalize.actionStoplspserveractionText(), LocalizeValue.empty(), PlatformIconGroup.actionsRestart());
             myLspClient = lspClient;
         }

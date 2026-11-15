@@ -40,8 +40,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * Consulo: {@code EditorBasedStatusBarPopup} of Consulo shows the widget by its presentation (icon and text), there is no
- * {@code createComponent()}, so the upstream {@code LanguageServiceTextPanel} (a fixed accessible name) is not ported.
+ * {@code EditorBasedStatusBarPopup} shows the widget by its presentation (icon and text), there is no {@code createComponent()}.
  */
 public class LanguageServiceWidget extends EditorBasedStatusBarPopup {
     private static final int maxIconsInStatusBar = 4;
@@ -67,8 +66,7 @@ public class LanguageServiceWidget extends EditorBasedStatusBarPopup {
      * Registers the item updaters here, not in the constructor hook {@code registerCustomListeners}: a provider may call {@code update}
      * from another thread right away, and before construction ends the update flow of the superclass is still null.
      * <p>
-     * Consulo: the widget itself is the parent disposable (upstream: the message bus connection of the widget),
-     * and the updaters are registered after {@code super.install}, when the widget knows its status bar.
+     * The widget itself is the parent disposable, and the updaters are registered after {@code super.install}, when the widget knows its status bar.
      */
     @Override
     public void install(StatusBar statusBar) {
@@ -137,7 +135,7 @@ public class LanguageServiceWidget extends EditorBasedStatusBarPopup {
             return getStatusBarFriendlyIcon(items.get(0));
         }
 
-        // Consulo: no `RowIcon`, the icons are appended with `ImageEffects.appendRight`
+        // the icons are appended with `ImageEffects.appendRight`
         Image separatorIcon = ImageEffects.empty(3, 16);
         Image result = getStatusBarFriendlyIcon(items.get(0));
         for (LanguageServiceWidgetItem item : items.subList(1, items.size())) {
@@ -147,8 +145,7 @@ public class LanguageServiceWidget extends EditorBasedStatusBarPopup {
     }
 
     private static Image getStatusBarFriendlyIcon(LanguageServiceWidgetItem item) {
-        // Consulo: no `JBUI.CurrentTheme.StatusBar.Widget.FOREGROUND`; the text color, and the dimmer info color in light themes
-        //  (upstream: `FOREGROUND.brighter()`, without it icons are too noisy in light themes)
+        // the text color, and the dimmer info color in light themes (otherwise icons are too noisy in light themes)
         ComponentColors statusBarFriendlyColor = StyleManager.get().getCurrentStyle().isDark()
             ? ComponentColors.TEXT_FOREGROUND
             : ComponentColors.INFO_FOREGROUND;
@@ -201,8 +198,7 @@ public class LanguageServiceWidget extends EditorBasedStatusBarPopup {
     }
 
     /**
-     * Consulo: the plugin settings have no Marketplace search by tag (upstream: {@code navigateToMarketplace("/tag:\"Language Server\"")}),
-     * the action opens the plugins page.
+     * The plugin settings have no Marketplace search by tag, the action opens the plugins page.
      */
     private class MoreLanguagesAction extends DumbAwareAction {
         MoreLanguagesAction() {

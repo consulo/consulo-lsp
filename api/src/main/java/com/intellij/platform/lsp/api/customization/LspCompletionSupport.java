@@ -112,7 +112,7 @@ public non-sealed class LspCompletionSupport extends LspCompletionCustomizer {
      *   </pre></li>
      * <li>use {@code parameters} if they need to check the context, in which this code completion session has started.
      *   Note that {@link CompletionParameters#getOriginalFile() parameters.getOriginalFile()} might be an
-     *   <a href="https://plugins.jetbrains.com/docs/intellij/language-injection.html">injected</a> file,
+     *   injected file,
      *   while all {@code lsp4j} entities (including {@code item}) always deal with the host file (also known as a top-level file).
      *   {@link consulo.language.inject.InjectedLanguageManager} helps to map offsets between an injected and a host file.</li>
      * </ul>
@@ -168,7 +168,7 @@ public non-sealed class LspCompletionSupport extends LspCompletionCustomizer {
             return null;
         }
         return switch (kind) {
-            case Text -> PlatformIconGroup.filetypesText(); // upstream: AllIcons.Nodes.Word
+            case Text -> PlatformIconGroup.filetypesText();
             case Method -> PlatformIconGroup.nodesMethod();
             case Function -> PlatformIconGroup.nodesFunction();
             case Constructor -> PlatformIconGroup.nodesClass(); // no special icon
@@ -183,13 +183,13 @@ public non-sealed class LspCompletionSupport extends LspCompletionCustomizer {
             case Enum -> PlatformIconGroup.nodesEnum();
             case Keyword -> null; // icon is not needed
             case Snippet -> PlatformIconGroup.nodesTemplate();
-            case Color -> PlatformIconGroup.gutterColors(); // upstream: AllIcons.Actions.Colors
+            case Color -> PlatformIconGroup.gutterColors();
             case File -> PlatformIconGroup.filetypesAny_type();
             case Reference -> null; // no standard icon
             case Folder -> PlatformIconGroup.nodesFolder();
             case EnumMember -> PlatformIconGroup.nodesEnum(); // the same as for Enum
             case Constant -> PlatformIconGroup.nodesConstant();
-            case Struct -> PlatformIconGroup.nodesStruct(); // upstream: AllIcons.Json.Object, looks like `{}`
+            case Struct -> PlatformIconGroup.nodesStruct();
             case Event -> null; // no standard icon
             case Operator -> null; // no standard icon
             case TypeParameter -> PlatformIconGroup.nodesType();

@@ -23,8 +23,8 @@ import java.util.Objects;
  * <p>
  * Carries no Ctrl+hover label: see {@link LspNavigationSymbol}.
  * <p>
- * Consulo: a fake PSI element that navigates itself (see {@link LspNavigationSymbol}); upstream {@code computePresentation()}
- * ({@code computeLinkPresentation}) became the {@code ItemPresentation} of the element. {@code createPointer()} is dropped.
+ * A fake PSI element that navigates itself (see {@link LspNavigationSymbol}); the presentation ({@code computeLinkPresentation})
+ * is the {@code ItemPresentation} of the element.
  */
 public class LspPathDocumentLinkSymbol extends FakePsiElement implements LspNavigationSymbol {
     private final Project myProject;

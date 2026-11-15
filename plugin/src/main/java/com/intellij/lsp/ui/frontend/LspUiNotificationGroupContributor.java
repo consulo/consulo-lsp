@@ -10,9 +10,7 @@ import consulo.project.ui.notification.NotificationGroupContributor;
 import java.util.function.Consumer;
 
 /**
- * Consulo only: registers the notification group of the LSP Servers settings.
- * Upstream: {@code <notificationGroup id="Language Servers" displayType="BALLOON" key="lsp.settings.display.name"/>}
- * in {@code intellij.lsp.ui.frontend.xml}.
+ * Registers the notification group of the LSP Servers settings.
  */
 @ExtensionImpl
 public class LspUiNotificationGroupContributor implements NotificationGroupContributor {

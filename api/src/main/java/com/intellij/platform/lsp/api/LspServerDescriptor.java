@@ -35,8 +35,7 @@ public abstract class LspServerDescriptor extends LspClientDescriptor {
     @Deprecated
     public static final Logger LOG = LspClientDescriptor.LOG;
 
-    // Consulo: the deprecated companion `getLanguageId(file)` is not ported, in Java it would clash with the inherited instance
-    // function `getLanguageId(VirtualFile)`. Use LspClientDescriptor.getDefaultLanguageId(file).
+    // For the default language id use LspClientDescriptor.getDefaultLanguageId(file).
 
     private final LspCustomization myLspCustomization = new DeprecatedLspCustomization(this);
 

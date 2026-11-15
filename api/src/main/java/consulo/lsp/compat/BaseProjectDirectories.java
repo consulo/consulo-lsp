@@ -27,10 +27,9 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 
 /**
- * A port of IntelliJ's {@code com.intellij.openapi.project.BaseProjectDirectories} (only {@code getBaseDirectories}).
+ * The base directories of a project.
  * <p>
- * IntelliJ keeps the set in a project service updated from the workspace model. Consulo has no such service,
- * so the set is computed on each call from the content roots of the project modules.
+ * The set is computed on each call from the content roots of the project modules.
  */
 public final class BaseProjectDirectories {
     private BaseProjectDirectories() {

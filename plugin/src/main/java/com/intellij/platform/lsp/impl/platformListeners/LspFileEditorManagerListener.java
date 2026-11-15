@@ -19,7 +19,6 @@ import java.util.Collection;
 import java.util.List;
 
 /**
- * Upstream: {@code <projectListeners><listener topic="com.intellij.openapi.fileEditor.FileEditorManagerListener"/>}.
  * Starts the LSP servers when supported files are opened in the editor.
  */
 @TopicImpl(ComponentScope.PROJECT)

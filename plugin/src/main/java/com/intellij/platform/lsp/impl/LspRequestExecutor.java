@@ -136,8 +136,8 @@ public class LspRequestExecutor extends LspRequestExecutorBase {
                         }
                     }
                 });
-                // CompletableFuture cancellation does not propagate upstream through derived stages.
-                // Wire it explicitly: a cancellation of `result` (the caller typed on, or the coroutine got cancelled)
+                // CompletableFuture cancellation does not propagate back to the source through derived stages.
+                // Wire it explicitly: a cancellation of `result` (the caller typed on, or got cancelled)
                 // cancels `source`, and doSendRequestAsync then sends $/cancelRequest to the server.
                 result.whenComplete((r, t) -> {
                     if (result.isCancelled()) {

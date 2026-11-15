@@ -33,9 +33,9 @@ import java.util.function.Supplier;
  * <a href="https://microsoft.github.io/language-server-protocol/specification/#textDocument_documentLink">textDocument/documentLink</a> request.
  * These links are rendered as links in the editor by {@link com.intellij.platform.lsp.impl.features.highlighting.LspHighlightingApplier}.
  * <p>
- * Consulo: IntelliJ's {@code ImplicitReferenceProvider} does not exist. Like {@link LspImplicitReferenceProvider}, this class is a
- * {@link GotoDeclarationHandler}: Go To Declaration and Ctrl+click/Ctrl+hover on a link navigate to its target.
- * The upstream {@code getImplicitReference(element, offsetInElement)} is kept as {@link #getImplicitReference(PsiFile, int)}.
+ * Like {@link LspImplicitReferenceProvider}, this class is a {@link GotoDeclarationHandler}: Go To Declaration and
+ * Ctrl+click/Ctrl+hover on a link navigate to its target. The link reference at an offset is computed by
+ * {@link #getImplicitReference(PsiFile, int)}.
  * A performed action calls the handler on the UI thread; resolving the link ({@code documentLink/resolve}) then runs in a
  * background thread under a modal progress.
  */
@@ -98,7 +98,7 @@ public class LspDocumentLinkReferenceProvider implements GotoDeclarationHandler 
     }
 
     /**
-     * Consulo: see the class comment.
+     * Runs {@code computation} off the UI thread, see the class comment.
      */
     private static <T extends @Nullable Object> @Nullable T computeOffUiThread(Project project, Supplier<T> computation) {
         if (!Application.get().isDispatchThread()) {
@@ -118,7 +118,7 @@ public class LspDocumentLinkReferenceProvider implements GotoDeclarationHandler 
     }
 
     /**
-     * Consulo: upstream {@code PsiSymbolReference}; Consulo has no symbol references, so this is a plain holder.
+     * A resolved document link reference; there are no symbol references, so this is a plain holder.
      */
     public static final class LspDocumentLinkSymbolReference {
         private final LspClientImpl myLspClient;

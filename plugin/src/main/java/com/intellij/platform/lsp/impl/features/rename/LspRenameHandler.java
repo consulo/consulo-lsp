@@ -57,9 +57,9 @@ import org.jspecify.annotations.Nullable;
 import java.util.function.Consumer;
 
 /**
- * Upstream: {@code <renameHandler order="last"/>}. Consulo reserves {@code first}/{@code last} for the plugin that owns the extension
- * point; the order of the rename handlers does not matter in Consulo ({@code RenameHandlerRegistry} offers a chooser sorted by title
- * when several handlers are available), so it is dropped.
+ * No {@code order} is set: {@code first}/{@code last} are reserved for the plugin that owns the extension point, and the order of
+ * the rename handlers does not matter ({@code RenameHandlerRegistry} offers a chooser sorted by title when several handlers are
+ * available).
  */
 @ExtensionImpl
 public class LspRenameHandler implements RenameHandler, TitledHandler, DumbAware {
@@ -90,8 +90,7 @@ public class LspRenameHandler implements RenameHandler, TitledHandler, DumbAware
     }
 
     /**
-     * Consulo: {@link RenameHandler#isRenaming} has no default implementation; IntelliJ's default delegates to
-     * {@link #isAvailableOnDataContext}.
+     * {@link RenameHandler#isRenaming} has no default implementation; this one delegates to {@link #isAvailableOnDataContext}.
      */
     @Override
     @RequiredReadAction
@@ -197,7 +196,7 @@ public class LspRenameHandler implements RenameHandler, TitledHandler, DumbAware
             result = null;
         }
         catch (ProcessCanceledException e) {
-            // Consulo: the user canceled the modal progress
+            // The user canceled the modal progress
             return null;
         }
 
@@ -229,7 +228,7 @@ public class LspRenameHandler implements RenameHandler, TitledHandler, DumbAware
                 return;
             }
 
-            // upstream: readAndEdtWriteAction { ... writeAction { applier.applyWorkspaceEdit() } }; this is already the UI thread
+            // This is already the UI thread
             LspWorkspaceEditApplier applier = ReadAction.compute(() -> LspWorkspaceEditApplier.create(lspClient, workspaceEdit));
             if (applier == null) {
                 return;
@@ -242,7 +241,7 @@ public class LspRenameHandler implements RenameHandler, TitledHandler, DumbAware
             }
         }
         catch (ProcessCanceledException e) {
-            // Consulo: the user canceled the modal progress
+            // The user canceled the modal progress
         }
     }
 
@@ -300,7 +299,7 @@ public class LspRenameHandler implements RenameHandler, TitledHandler, DumbAware
             // Configure template for inline editing
             template.setInline(true);
             template.setToIndent(false);
-            // Consulo: no `Template.isToShortenLongNames`; a raw template does not shorten names without a TemplateOptionalProcessor
+            // A raw template does not shorten names without a TemplateOptionalProcessor
             template.setToReformat(false);
 
             editor.getCaretModel().moveToOffset(0);
@@ -314,7 +313,6 @@ public class LspRenameHandler implements RenameHandler, TitledHandler, DumbAware
                 documentText.substring(0, textRange.getStartOffset()) + initialName + documentText.substring(textRange.getEndOffset())
             ));
 
-            // upstream: TemplateManager.runTemplate(editor, template) returns the TemplateState
             TemplateManager templateManager = TemplateManager.getInstance(project);
             templateManager.startTemplate(editor, template);
             TemplateState templateState = templateManager.getTemplateState(editor);
@@ -324,11 +322,10 @@ public class LspRenameHandler implements RenameHandler, TitledHandler, DumbAware
                 return;
             }
 
-            // upstream: TemplateResultListener (Canceled / BrokenOff / Finished) on top of TemplateEditingAdapter
             templateState.addTemplateStateListener(new TemplateEditingAdapter() {
                 /**
-                 * Consulo: the template state is cleaned up before {@link #templateFinished} (IntelliJ reads the variable value there),
-                 * so the value is captured before the template finishes.
+                 * The template state is cleaned up before {@link #templateFinished}, so the value is captured in
+                 * {@link #beforeTemplateFinished}.
                  */
                 private @Nullable String myNewName;
 

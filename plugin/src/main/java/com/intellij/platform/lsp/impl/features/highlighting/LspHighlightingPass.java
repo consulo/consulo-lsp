@@ -38,7 +38,7 @@ import java.util.List;
  * This handles edge cases like the initial file open before the server responds. This may duplicate
  * work already done by the reactive path ({@link LspHighlightingApplier}), but ensures correctness after document edits.</li>
  * </ol>
- * Consulo: there is no {@code BackgroundUpdateHighlightersUtil}, so the infos collected in {@link #doCollectInformation}
+ * The infos collected in {@link #doCollectInformation}
  * are applied with {@link UpdateHighlightersUtil} in {@link #doApplyInformationToEditor}.
  */
 public class LspHighlightingPass extends TextEditorHighlightingPass implements DumbAware {

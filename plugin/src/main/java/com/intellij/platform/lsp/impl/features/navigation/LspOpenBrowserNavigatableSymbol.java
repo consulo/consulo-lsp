@@ -19,10 +19,8 @@ import java.util.Objects;
 /**
  * The web page a document link points at.
  * <p>
- * Consulo: a fake PSI element that navigates itself (see {@link LspNavigationSymbol}), so it needs the {@code project} upstream
- * receives in {@code getNavigationTargets(project)}. {@code createPointer()} is dropped; the presentation is the
- * {@code ItemPresentation} of the element. {@link #computeDocumentationHint()} is kept, but Consulo's Ctrl+hover does not ask
- * for it.
+ * A fake PSI element that navigates itself (see {@link LspNavigationSymbol}), so it holds the {@code project}. The presentation
+ * is the {@code ItemPresentation} of the element. Ctrl+hover does not ask for {@link #computeDocumentationHint()}.
  *
  * @param tooltip {@link com.intellij.platform.lsp.impl.features.highlighting.LspDocumentLink#getTooltip()}, the same words the
  *                link carries where it is rendered in the editor

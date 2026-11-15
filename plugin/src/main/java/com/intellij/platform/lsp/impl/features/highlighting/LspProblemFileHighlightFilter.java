@@ -12,8 +12,6 @@ import jakarta.inject.Inject;
  * Allows {@link consulo.language.editor.wolfAnalyzer.WolfTheProblemSolver} to accept error reports for files
  * that have an active LSP server open. Without this filter, Wolf silently ignores
  * {@link consulo.language.editor.wolfAnalyzer.WolfTheProblemSolver#reportProblems} calls.
- * <p>
- * Consulo: IntelliJ's {@code problemFileHighlightFilter} ({@code Condition<VirtualFile>}) is {@link WolfFileProblemFilter}.
  */
 @ExtensionImpl
 public class LspProblemFileHighlightFilter implements WolfFileProblemFilter {

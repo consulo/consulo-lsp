@@ -21,11 +21,9 @@ import consulo.virtualFileSystem.VirtualFile;
 import org.jspecify.annotations.Nullable;
 
 /**
- * Consulo: upstream registers it with {@code language=""} and {@code order="last"}; here {@link #getLanguage()} returns
- * {@link Language#ANY} and, instead of the reserved {@code last} order, {@link #getTarget} steps aside when a provider of
- * the file's language has a target ({@link LspHierarchyUtilKt#hasLanguageSpecificTarget}).
- * Upstream {@code createHierarchyBrowser} is {@link #createModel}, {@code browserActivated} (switch to the caller view)
- * is {@link LspCallHierarchyBrowser#getDefaultViewType()}.
+ * {@link #getLanguage()} returns {@link Language#ANY} and, since the {@code last} order is reserved, {@link #getTarget} steps
+ * aside when a provider of the file's language has a target ({@link LspHierarchyUtilKt#hasLanguageSpecificTarget}).
+ * {@link #createModel} creates the hierarchy model; {@link LspCallHierarchyBrowser#getDefaultViewType()} opens the caller view.
  */
 @ExtensionImpl
 public class LspCallHierarchyProvider implements HierarchyProvider<PsiElement> {

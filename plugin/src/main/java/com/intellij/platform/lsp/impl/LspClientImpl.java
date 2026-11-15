@@ -49,10 +49,6 @@ import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-/**
- * Upstream: {@code class LspClientImpl : LspClientRenameCompat}, where {@code LspClientRenameCompat} is a typealias of the deprecated {@link LspServer}.
- * The deprecated typealias {@code LspServerImpl = LspClientImpl} has no Java counterpart and is not ported.
- */
 @SuppressWarnings("deprecation")
 public class LspClientImpl implements LspServer {
     private static final Logger LOG = Logger.getInstance(LspClientImpl.class);
@@ -369,8 +365,7 @@ public class LspClientImpl implements LspServer {
     }
 
     public void start() {
-        // Upstream throws IllegalStateException("Project is not trusted") here for safety.
-        // Consulo has no TrustedProjects, every project is treated as trusted.
+        // every project is treated as trusted
 
         if (myState != LspServerState.Initializing) {
             logError("start() cannot be called for a server twice");
@@ -415,7 +410,7 @@ public class LspClientImpl implements LspServer {
             catch (Exception e) {
                 // stack trace of the LspInitializationException is always the same, so not interesting; let's log its cause
                 Throwable exToLog = e instanceof LspInitializationException && e.getCause() != null ? e.getCause() : e;
-                // upstream checks `e is AlreadyDisposedException`; Consulo has no such exception, so check the project itself
+                // the project may have been disposed while the server was starting
                 if (myProject.isDisposed()) {
                     // The project is disposed
                     ensureServerStopped(false, () -> {

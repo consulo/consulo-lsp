@@ -139,8 +139,7 @@ public class Lsp4jServerConnectorStdio extends Lsp4jServerConnector {
                         myLspClient.logInfo("Dropping server output received after the listener stopped: " + e.getMessage());
                     }
                     else {
-                        // Upstream dumps the private fields of PipedInputStream via ReflectionUtil.dumpFields;
-                        // java.base internals are not reflectively accessible here, so only the public state is reported
+                        // java.base internals of PipedInputStream are not reflectively accessible, so only the public state is reported
                         String debugInfo = "available=" + safeAvailable();
                         myLspClient.logError("Problem proxying data to the listener: " + e.getMessage() + "\n" + debugInfo);
                     }

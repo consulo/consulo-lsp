@@ -27,8 +27,7 @@ public class LanguageServiceLogger {
     private static final Logger LOG = Logger.getInstance(LanguageServiceLoggerService.class);
 
     /**
-     * Upstream samples flush requests once per second (`sample(1.seconds).debounce(100.milliseconds)` on a coroutine flow).
-     * Here a single flush is scheduled at most once per this period.
+     * A single flush is scheduled at most once per this period.
      */
     private static final long FLUSH_PERIOD_MS = 1000;
 

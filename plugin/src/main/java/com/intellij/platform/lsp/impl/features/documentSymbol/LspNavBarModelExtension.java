@@ -216,9 +216,6 @@ public class LspNavBarModelExtension implements NavBarModelExtension {
             return myPsiFile.isValid();
         }
 
-        /**
-         * Consulo: upstream {@code navigationRequest()}; there is no {@code NavigationRequests} in Consulo.
-         */
         @Override
         public void navigate(boolean requestFocus) {
             OpenFileDescriptorFactory.getInstance(myPsiFile.getProject())

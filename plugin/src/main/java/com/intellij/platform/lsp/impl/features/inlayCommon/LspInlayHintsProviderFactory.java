@@ -11,7 +11,6 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * Consulo: IntelliJ's {@code InlayHintsProviderFactory} is {@link DeclarativeInlayHintsProviderFactory}.
  * {@link #getSupportedLanguages()} is empty, so the provider is not listed in the inlay hints settings.
  */
 @ExtensionImpl

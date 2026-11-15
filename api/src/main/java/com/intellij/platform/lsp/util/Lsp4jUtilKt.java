@@ -65,7 +65,6 @@ public final class Lsp4jUtilKt {
         if (line + 1 < lineCount && character > 0) {
             // Make sure that the `character` value doesn't exceed the line length.
             // Some buggy servers may send range with `"character":80` for zero-length lines
-            // (https://youtrack.jetbrains.com/issue/IDEA-332939#focus=Comments-27-8189497.0-0)
             // Secondly, we use this code with textDocument/foldingRange, that by spec may omit character.
             // We intermittently use `Int.MAX_VALUE` and expect to clamp it here to the EOL.
             // See [com.intellij.platform.lsp.impl.features.folding.LspFoldingRangeCache.foldingRangeToLsp4jRange]

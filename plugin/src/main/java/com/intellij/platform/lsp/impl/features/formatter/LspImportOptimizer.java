@@ -47,11 +47,10 @@ import java.util.List;
  * <p>
  * Implementations of {@link LspFormattingService} and {@link LspImportOptimizer} make sure that both paths are 100% equivalent.
  * <p>
- * Consulo: upstream {@code <lang.importOptimizer language="" order="last"/>}. Consulo has only the {@link ImportOptimizer} path
- * ({@link ImportOptimizer#forFile}); this optimizer is registered for {@link Language#ANY} without an order. Consulo's
- * {@code ImportOptimizer.KEY} is built with {@code LanguageOneToMany.build(false)}, so a {@link Language#ANY} optimizer is not found
- * for a file until the platform builds it with {@code true} (see the porting notes). {@link #supports} defers to every other optimizer
- * of the file's language, so the missing {@code last} order does not matter.
+ * Only the {@link ImportOptimizer} path ({@link ImportOptimizer#forFile}) exists; this optimizer is registered for
+ * {@link Language#ANY} without an order. {@code ImportOptimizer.KEY} is built with {@code LanguageOneToMany.build(false)}, so a
+ * {@link Language#ANY} optimizer is not found for a file until the platform builds it with {@code true}. {@link #supports} defers
+ * to every other optimizer of the file's language, so the missing {@code last} order does not matter.
  */
 @ExtensionImpl
 public class LspImportOptimizer implements ImportOptimizer {
@@ -170,7 +169,7 @@ public class LspImportOptimizer implements ImportOptimizer {
 
     // The logic is similar to `OptimizeImportsProcessor.collectOptimizers()`,
     // but without checking `LspFormattingService` and `CoreFormattingService`.
-    // Consulo: there is no formatting service extension point; the compat formatting services are external format processors.
+    // There is no formatting service extension point; the formatting services are external format processors.
     @RequiredReadAction
     private static boolean doesOtherFormattingServiceWantToWork(PsiFile psiFile) {
         for (ExternalFormatProcessor processor : ExternalFormatProcessor.EP_NAME.getExtensionList()) {
@@ -191,7 +190,7 @@ public class LspImportOptimizer implements ImportOptimizer {
 
     // This function checks all `ImportOptimizers` except `LspImportOptimizer`.
     // The logic is similar to `CoreFormattingService.getImportOptimizers()`, but without checking `LspImportOptimizer`.
-    // Consulo: `LanguageImportStatements.INSTANCE.allForLanguageOrAny(language)` - the optimizers of the language (and its base languages)
+    // `LanguageImportStatements.INSTANCE.allForLanguageOrAny(language)` - the optimizers of the language (and its base languages)
     // and the ones registered for `Language.ANY`.
     @RequiredReadAction
     private static boolean doesOtherImportOptimizerWantToWork(PsiFile psiFile) {

@@ -31,9 +31,6 @@ import java.util.Set;
 /**
  * {@code LspFileListener} solves two problems: sends {@code didClose}/{@code didOpen} notifications about opened files,
  * and {@code didChangeWatchedFiles} notifications about all file system events for all interested servers.
- * <p>
- * Upstream: {@code <vfs.asyncListenerBackgroundable id="LspFileListener"/>}. Consulo has only the {@link AsyncFileListener}
- * extension point (no backgroundable variant), so the listener is registered there.
  */
 @ExtensionImpl(id = "LspFileListener")
 public class LspFileListener implements AsyncFileListener {

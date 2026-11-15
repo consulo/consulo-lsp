@@ -27,11 +27,8 @@ import jakarta.inject.Singleton;
 import org.jspecify.annotations.Nullable;
 
 /**
- * Unlike {@link LspWidgetInternalService}, this class is located in the `intellij.platform.lsp.impl` module,
- * so it has access to FUS-related classes, including {@code LanguageServiceWidgetUsagesCollector},
- * as well as to {@link LspClientImpl} and other classes that are not available in the public LSP API.
- * <p>
- * Consulo: no FUS, the {@code LanguageServiceWidgetUsagesCollector.actionInvoked} calls are dropped.
+ * Unlike {@link LspWidgetInternalService}, this class is located in the implementation module,
+ * so it has access to {@link LspClientImpl} and other classes that are not available in the public LSP API.
  */
 @ServiceImpl
 @Singleton

@@ -86,9 +86,6 @@ public class LspNodeRuntimeDownloads {
      * <p>
      * A descriptor started this way reads the runtime with {@link LspNodeRuntimeManager#getRuntime}, which
      * cannot be null on the path that runs {@code startClient}.
-     * <p>
-     * Consulo: the upstream extension function {@code LspIntegrationProvider.withNodeRuntimeEnsured} (top-level in
-     * {@code LspNodeRuntimeDownloads.kt}) is a static method with the receiver as the first parameter.
      *
      * @param project     the project the download progress belongs to, and the project whose clients restart
      * @param startClient starts the client. It runs at most once per {@code fileOpened} call, and only with the

@@ -84,7 +84,7 @@ public class Lsp4jServerConnectorSocket extends Lsp4jServerConnector {
         ProcessHandler processHandler = myProcessHandler;
         if (mySocketInfo.getStartProcess() && processHandler != null) {
             for (int i = 1; i <= 10; i++) {
-                // Consulo: ProcessHandler does not expose the java.lang.Process, `!isProcessTerminated()` replaces `process.isAlive`
+                // ProcessHandler does not expose the java.lang.Process, so `isProcessTerminated()` is checked instead
                 if (processHandler.isProcessTerminated() || mySocket != null) {
                     break;
                 }

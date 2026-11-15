@@ -4,9 +4,6 @@ import consulo.annotation.component.ExtensionImpl;
 import consulo.ide.navigation.GotoClassOrTypeContributor;
 import org.eclipse.lsp4j.SymbolKind;
 
-/**
- * Consulo: upstream {@code gotoClassContributor} is {@link GotoClassOrTypeContributor}.
- */
 @ExtensionImpl
 public class LspGoToClassContributor extends LspWorkspaceSymbolContributor implements GotoClassOrTypeContributor {
     @Override

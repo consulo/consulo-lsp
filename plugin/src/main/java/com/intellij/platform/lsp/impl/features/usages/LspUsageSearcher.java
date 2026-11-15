@@ -34,8 +34,7 @@ import java.util.function.Predicate;
  * Helps to implement the 'Find Usages' and 'Show Usages' features backed by an LSP server
  * (<a href="https://microsoft.github.io/language-server-protocol/specification/#textDocument_references">textDocument/references</a> request).
  * <p>
- * Consulo: IntelliJ's {@code UsageSearcher} (new usages API) is replaced with a {@link FindUsagesHandlerFactory}
- * for the {@link LspSearchTarget} element. The handler reports the {@link LspReferencesQuery} results.
+ * This is a {@link FindUsagesHandlerFactory} for the {@link LspSearchTarget} element. The handler reports the {@link LspReferencesQuery} results.
  *
  * @see LspSearchTargetsRule
  */

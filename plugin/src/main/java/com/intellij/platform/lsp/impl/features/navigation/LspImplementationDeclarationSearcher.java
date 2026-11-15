@@ -32,7 +32,7 @@ import java.util.function.Consumer;
  * all {@code PomDeclarationSearcher} extensions are iterated,
  * while only one {@code TargetElementEvaluatorEx2} per language is ever consulted (see IJPL-189562).
  * <p>
- * Consulo: the action thread context is {@link ActionContextElement} (see there).
+ * The action thread context is {@link ActionContextElement} (see there).
  */
 @ExtensionImpl
 public class LspImplementationDeclarationSearcher extends PomDeclarationSearcher {

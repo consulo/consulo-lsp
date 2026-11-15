@@ -32,7 +32,7 @@ public final class LspServerCapabilitiesKt {
     }
 
     /**
-     * Kotlin {@code either.let { it.left ?: true }}
+     * Returns the left value, or {@code true} if it is not set.
      */
     private static boolean leftOrTrue(Either<Boolean, ?> either) {
         Boolean left = either.getLeft();

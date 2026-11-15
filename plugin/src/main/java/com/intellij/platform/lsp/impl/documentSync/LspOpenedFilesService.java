@@ -72,8 +72,7 @@ public class LspOpenedFilesService {
         long requestStamp = LspClientManagerImpl.getInstanceImpl(myProject).startRequestStamp();
         // a changed stamp needs a new batch too: the in-flight batch may carry the old stamp, and its starts are stale
         boolean changed = false;
-        // LSP servers are external processes: upstream never sends the content of files opened in the safe mode to them.
-        // Consulo has no TrustedFiles (safe mode), so every file is treated as trusted
+        // there is no safe mode for untrusted files, so every file is treated as trusted
         for (VirtualFile file : files) {
             if (!Objects.equals(myOpenedFilesToHandle.put(file, requestStamp), requestStamp)) {
                 changed = true;

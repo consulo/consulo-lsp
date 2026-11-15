@@ -14,9 +14,8 @@ import java.util.concurrent.Future;
 import java.util.function.Supplier;
 
 /**
- * Upstream holds the project-level {@code CoroutineScope} ({@code cs}) of the LSP plugin.
- * There are no coroutines here: the service is a project-level {@link Disposable} (usable as a parent disposable,
- * e.g. {@code NonBlockingReadAction.expireWith}) plus the replacement of {@code cs.launch { }}: {@link #launch}
+ * A project-level {@link Disposable} of the LSP plugin (usable as a parent disposable,
+ * e.g. {@code NonBlockingReadAction.expireWith}). {@link #launch}
  * runs the task on the application pool unless the project is already disposed.
  */
 @ServiceAPI(ComponentScope.PROJECT)

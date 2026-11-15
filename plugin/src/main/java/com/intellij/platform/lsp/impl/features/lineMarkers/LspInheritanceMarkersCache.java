@@ -55,8 +55,8 @@ import java.util.function.Supplier;
  * <li>A top-level function, and a method of any other container, are not queried.</li>
  * </ul>
  * <p>
- * Consulo: the coroutine scope of a pull is a {@link RequestScope} that cancels every request of the pull when the
- * future returned by {@link #sendRequest} is cancelled; the coroutine {@code Semaphore} is {@link AsyncSemaphore}.
+ * The requests of a pull are tracked by a {@link RequestScope} that cancels every request of the pull when the
+ * future returned by {@link #sendRequest} is cancelled; parallelism is limited by an {@link AsyncSemaphore}.
  */
 public class LspInheritanceMarkersCache extends LspHighlightingCache<LspInheritanceMarker> {
     private static final Logger LOG = Logger.getInstance(LspInheritanceMarkersCache.class);
@@ -443,7 +443,7 @@ public class LspInheritanceMarkersCache extends LspHighlightingCache<LspInherita
     }
 
     /**
-     * Consulo: replacement of the {@code coroutineScope} of one pull. Every request of the pull is registered here,
+     * The scope of one pull. Every request of the pull is registered here,
      * so cancelling the pull cancels them (and sends {@code $/cancelRequest}).
      */
     private static final class RequestScope {
@@ -479,7 +479,7 @@ public class LspInheritanceMarkersCache extends LspHighlightingCache<LspInherita
     }
 
     /**
-     * Consulo: replacement of the coroutine {@code Semaphore.withPermit} for {@link CompletableFuture}-based blocks.
+     * A semaphore for {@link CompletableFuture}-based blocks.
      * A released permit starts the next waiting block on the application executor.
      */
     private static final class AsyncSemaphore {

@@ -24,9 +24,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Consulo: upstream renders the swatch as an IntelliJ {@code InlayPresentation} (a scaled {@code ColorIcon} with
- * {@code lineCentered}/{@code inset}/{@code withTooltip}); here it is a declarative inlay with an icon drawn by
- * {@link ImageEffects#canvas} and the tooltip of the declarative sink.
+ * Renders the color swatch as a declarative inlay with an icon drawn by {@link ImageEffects#canvas} and the tooltip of the
+ * declarative sink.
  */
 public final class LspColorInlayRenderingKt {
     // 12 is the standard size for inlay icons

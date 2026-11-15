@@ -13,9 +13,7 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- * Consulo: upstream is a Kotlin data class declared in {@code LspServerConfiguration.kt} together with
- * {@link LspIntegrationSettingsImpl} and {@link EnvironmentVariablesDataOptions}.
- * The XML serializer of Consulo binds public getter/setter pairs, so the serialization annotations are on the getters.
+ * The XML serializer binds public getter/setter pairs, so the serialization annotations are on the getters.
  */
 @Tag("server")
 public final class LspServerConfiguration {
@@ -170,7 +168,7 @@ public final class LspServerConfiguration {
     }
 
     /**
-     * The data class {@code copy()}: a shallow copy, {@link #getEnvVars()} is shared like upstream.
+     * A shallow copy: {@link #getEnvVars()} is shared.
      */
     public LspServerConfiguration copy() {
         return new LspServerConfiguration(myName,

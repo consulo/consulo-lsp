@@ -22,8 +22,7 @@ import consulo.ui.ex.keymap.KeymapManager;
 import consulo.ui.ex.keymap.util.KeymapUtil;
 
 /**
- * Consulo: the part of IntelliJ's {@code com.intellij.codeInsight.highlighting.HyperlinkAnnotator} the LSP client needs
- * (Consulo's {@code HyperlinkAnnotator} is internal).
+ * The hyperlink annotation helpers the LSP client needs (the platform's {@code HyperlinkAnnotator} is internal).
  */
 public final class HyperlinkAnnotator {
     private HyperlinkAnnotator() {

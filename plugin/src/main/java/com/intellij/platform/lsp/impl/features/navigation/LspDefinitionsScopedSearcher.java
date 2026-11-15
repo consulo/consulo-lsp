@@ -52,7 +52,7 @@ public class LspDefinitionsScopedSearcher extends QueryExecutorBase<PsiElement, 
         if (file == null) {
             return;
         }
-        // Consulo: SearchParameters has no project
+        // SearchParameters has no project
         Project project = target.getPsiFile().getProject();
         PsiManager psiManager = PsiManager.getInstance(project);
 

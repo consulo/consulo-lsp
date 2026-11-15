@@ -23,7 +23,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.atomic.AtomicReference;
 
 /**
- * Top-level functions of upstream {@code LspInheritanceMarkersRequests.kt} (extension functions of {@link LspClientImpl}).
+ * Inheritance marker requests sent through an {@link LspClientImpl}.
  */
 public final class LspInheritanceMarkersRequestsKt {
     private LspInheritanceMarkersRequestsKt() {
@@ -112,8 +112,8 @@ public final class LspInheritanceMarkersRequestsKt {
     }
 
     /**
-     * Consulo: a cancelled coroutine cancels the request it awaits ({@code $/cancelRequest});
-     * a cancelled dependent {@link CompletableFuture} does not, so the cancellation is forwarded explicitly.
+     * A cancelled dependent {@link CompletableFuture} does not cancel the request it depends on ({@code $/cancelRequest}),
+     * so the cancellation is forwarded explicitly.
      */
     static void cancelOnCancellation(CompletableFuture<?> dependent, CompletableFuture<?> source) {
         dependent.whenComplete((r, t) -> {

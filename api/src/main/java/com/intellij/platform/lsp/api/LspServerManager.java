@@ -70,7 +70,4 @@ public interface LspServerManager extends LspClientManager {
                                              boolean sendEventsForExistingServers) {
         addListener(listener, parentDisposable, sendEventsForExistingServers);
     }
-
-    // Consulo: the upstream reified `inline fun` extensions (`getServersForProvider<Provider>()`, ...) are not ported,
-    // reified type parameters don't exist in Java.
 }

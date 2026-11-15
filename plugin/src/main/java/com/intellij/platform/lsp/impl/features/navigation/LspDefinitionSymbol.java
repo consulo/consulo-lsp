@@ -29,8 +29,8 @@ import java.util.Objects;
  * <a href="https://microsoft.github.io/language-server-protocol/specification/#textDocument_definition">textDocument/definition</a> or
  * <a href="https://microsoft.github.io/language-server-protocol/specification/#textDocument_typeDefinition">textDocument/typeDefinition</a>.
  * <p>
- * Consulo: a fake PSI element in the target file (see {@link LspNavigationSymbol}); upstream {@code computePresentation()}
- * became the {@code ItemPresentation} of the element, used by the "Choose Declaration" popup.
+ * A fake PSI element in the target file (see {@link LspNavigationSymbol}); its {@code ItemPresentation} is used by the
+ * "Choose Declaration" popup.
  *
  * @param targetSelectionRange the range to put the caret at, {@code null} to navigate to the start of the file
  */

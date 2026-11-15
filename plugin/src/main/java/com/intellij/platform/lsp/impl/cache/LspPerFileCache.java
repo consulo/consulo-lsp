@@ -47,7 +47,7 @@ import java.util.function.Supplier;
  */
 public class LspPerFileCache<K, V> implements LspCache {
     /**
-     * Replacement of Kotlin's {@code (storedKey: K, storedValue: V, queriedKey: K) -> Boolean}.
+     * Checks whether a stored entry matches the queried key.
      */
     @FunctionalInterface
     public interface Matcher<K, V> {
@@ -55,7 +55,7 @@ public class LspPerFileCache<K, V> implements LspCache {
     }
 
     /**
-     * The secondary key of the file-level shape (Kotlin {@code Unit}), see {@link #getOrCompute(LspPerFileCache, VirtualFile, Supplier)}.
+     * The secondary key of the file-level shape, see {@link #getOrCompute(LspPerFileCache, VirtualFile, Supplier)}.
      */
     public static final Object FILE_LEVEL_KEY = new Object() {
         @Override

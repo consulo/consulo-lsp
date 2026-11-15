@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.regex.PatternSyntaxException;
 
 /**
- * Port of {@code com.intellij.openapi.util.globUtil.kt} (IntelliJ {@code getPathMatcher}), which has no Consulo equivalent.
+ * Creates {@link PathMatcher}s for glob patterns.
  */
 public final class GlobUtilKt {
     private GlobUtilKt() {

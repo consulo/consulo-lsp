@@ -82,7 +82,7 @@ public class LspIntentionActionService implements Disposable {
             if (computed != null) {
                 return computed;
             }
-            // Consulo: Alt+Enter evaluates intentions on the UI thread (see LspIntentionActionWrapperBase)
+            // Alt+Enter evaluates intentions on the UI thread (see LspIntentionActionWrapperBase)
             if (!LspIntentionActionWrapperBase.canComputeUnderModalProgress()) {
                 return List.of();
             }
@@ -95,7 +95,7 @@ public class LspIntentionActionService implements Disposable {
                 if (actions == null) {
                     return List.of();
                 }
-                // `isAvailable()` resolves the code action (`codeAction/resolve`), which upstream does in a background thread too
+                // `isAvailable()` resolves the code action (`codeAction/resolve`), so it is called in the background thread too
                 for (LspIntentionAction action : actions) {
                     ProgressManager.checkCanceled();
                     action.isAvailable();

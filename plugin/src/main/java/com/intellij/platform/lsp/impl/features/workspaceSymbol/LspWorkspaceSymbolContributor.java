@@ -28,9 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Consulo: upstream implements {@code ChooseByNameContributorEx2}; Consulo's {@link ChooseByNameContributorEx} already has
- * {@link #processNames(Processor, FindSymbolParameters)}. {@code isAvailableNow(Project)} is not part of the Consulo API and is
- * kept as a plain method.
+ * {@code isAvailableNow(Project)} is not part of the {@link ChooseByNameContributorEx} API and is kept as a plain method.
  */
 public abstract class LspWorkspaceSymbolContributor implements ChooseByNameContributorEx, DumbAware {
 
@@ -72,8 +70,7 @@ public abstract class LspWorkspaceSymbolContributor implements ChooseByNameContr
             return;
         }
 
-        // Consulo: upstream runs one `async` per client inside `runBlockingCancellable`; the requests are blocking,
-        // so they run one after another there as well.
+        // the requests are blocking, so they run one after another
         for (LspClientImpl client : clients) {
             ProgressManager.checkCanceled();
             for (NavigationItem item : getWorkspaceSymbols(client, scope, name)) {
@@ -125,7 +122,7 @@ public abstract class LspWorkspaceSymbolContributor implements ChooseByNameContr
         if (item == null) {
             return null;
         }
-        // Consulo: Search Everywhere renders only PsiElements, see LspWorkspaceSymbolPsiElement
+        // Search Everywhere renders only PsiElements, see LspWorkspaceSymbolPsiElement
         PsiFile psiFile = PsiManager.getInstance(client.getProject()).findFile(virtualFile);
         return psiFile != null ? new LspWorkspaceSymbolPsiElement(item, psiFile) : null;
     }

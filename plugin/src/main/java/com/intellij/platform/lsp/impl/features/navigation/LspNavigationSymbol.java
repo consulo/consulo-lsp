@@ -34,10 +34,9 @@ import consulo.navigation.Navigatable;
  *   Its own language support answers Ctrl+hover instead -- see {@link LspImplicitReferenceProvider}.</li>
  * </ul>
  * <p>
- * Consulo: IntelliJ's {@code Symbol}/{@code NavigatableSymbol}/{@code DocumentationTarget} API does not exist in Consulo.
  * The symbols are PSI elements (fake, non-AST) that navigate themselves, so that the PSI-based
  * {@code GotoDeclarationHandler}/{@code TypeDeclarationProvider} extensions can return them.
- * Upstream this interface is sealed; here it is a plain interface implemented by {@code LspOpenBrowserNavigatableSymbol},
+ * Implemented by {@code LspOpenBrowserNavigatableSymbol},
  * {@code LspPathDocumentLinkSymbol} and {@link LspDefinitionSymbol}.
  */
 public interface LspNavigationSymbol extends PsiElement, Navigatable {

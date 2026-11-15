@@ -25,9 +25,9 @@ import consulo.language.psi.PsiElement;
 import consulo.language.psi.PsiFile;
 
 /**
- * Consulo only. When an {@link ExternalFormatProcessor} is active for a file, Consulo's {@code CodeStyleManagerImpl.reformatText}
+ * When an {@link ExternalFormatProcessor} is active for a file, {@code CodeStyleManagerImpl.reformatText}
  * (Reformat Code, postponed reformatting) skips its own formatter and runs only the {@link PostFormatProcessor}s, expecting one of
- * them to call the external formatter (IntelliJ had an adapter for that, Consulo has none). This post-processor does it for the
+ * them to call the external formatter. This post-processor does it for the
  * {@link AsyncDocumentFormattingService}s of this plugin; other external formatters are left alone.
  * <p>
  * {@code CodeStyleManager.reformat(element)} / {@code reformatRange} call {@link ExternalFormatProcessor#formatElement} directly

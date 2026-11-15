@@ -28,8 +28,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * Consulo: upstream is a Swing {@code JPanel} with a {@code JBList} decorated by {@code ToolbarDecorator}.
- * Here it is a {@link PseudoComponent} over a unified {@link ListBox} decorated by {@link ToolbarDecoratorBuilderFactory}.
+ * A {@link PseudoComponent} over a unified {@link ListBox} decorated by {@link ToolbarDecoratorBuilderFactory}.
  * {@code ListBox} has no empty text, so {@code lsp.settings.server.file.patterns.empty} is not shown.
  */
 public class LspPatternsPanel implements PseudoComponent {
@@ -131,7 +130,7 @@ public class LspPatternsPanel implements PseudoComponent {
             inputBox.value(oldPattern);
         }
 
-        // Consulo: the input box is asynchronous, upstream Messages.showInputDialog is modal
+        // the input box is asynchronous
         UIAccess uiAccess = UIAccess.current();
         inputBox.showAsync(myList).thenAccept(pattern -> {
             if (pattern != null && !pattern.isBlank()) {

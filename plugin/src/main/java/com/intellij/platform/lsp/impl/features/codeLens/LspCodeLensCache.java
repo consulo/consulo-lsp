@@ -67,7 +67,7 @@ public class LspCodeLensCache extends LspHighlightingCache<CodeLens> {
     }
 
     /**
-     * Resolves the lenses without a command one by one, in order (upstream: sequential suspending calls in {@code map}).
+     * Resolves the lenses without a command one by one, in order.
      */
     private CompletableFuture<List<CodeLens>> resolveLenses(List<? extends CodeLens> result) {
         CompletableFuture<List<CodeLens>> chain = CompletableFuture.completedFuture(new ArrayList<>(result.size()));

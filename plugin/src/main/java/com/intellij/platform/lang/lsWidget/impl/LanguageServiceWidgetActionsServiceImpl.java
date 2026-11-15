@@ -11,12 +11,7 @@ import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 
 /**
- * This class is located in the `intellij.platform.lang.impl` module,
- * so it has access to the FUS-related {@code LanguageServiceWidgetUsagesCollector} class.
- * The service interface {@link LanguageServiceWidgetActionsService} is located in the `intellij.platform.lang` module,
- * so it doesn't have access to the FUS classes.
- * <p>
- * Consulo: no FUS, the {@code LanguageServiceWidgetUsagesCollector.actionInvoked} call is dropped.
+ * The implementation of {@link LanguageServiceWidgetActionsService}.
  */
 @ServiceImpl
 @Singleton

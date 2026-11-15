@@ -19,9 +19,6 @@ import org.jspecify.annotations.Nullable;
 
 import java.util.Objects;
 
-/**
- * Consulo: declared in upstream {@code PluginLspServerConfigurable.kt}.
- */
 public class PluginLspServerNamedConfigurable extends NamedConfigurable<LspPluginServerConfiguration> implements Disposable {
     private final Project myProject;
     private final LspIntegrationSettingsProvider myProvider;

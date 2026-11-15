@@ -32,7 +32,7 @@ import java.util.concurrent.CompletableFuture;
 /**
  * <a href="https://microsoft.github.io/language-server-protocol/specification/#textDocument_foldingRange">textDocument/foldingRange</a>
  * <p>
- * Consulo: {@code CodeFoldingManager.scheduleAsyncFoldingUpdate(editor)} does not exist. Folding is updated by the daemon's
+ * Folding is updated by the daemon's
  * folding pass, which caches its result per editor (dependencies: the PSI file, the folding model and the descriptors'
  * dependencies). So {@link #onResponseReceived} increments {@link #getModificationTracker()} (a dependency of every
  * {@link LspFoldingBuilder} descriptor) and restarts the daemon for the file.
@@ -84,8 +84,7 @@ public class LspFoldingRangeCache extends LspHighlightingCache<FoldingRange> {
     protected CompletableFuture<@Nullable Void> onResponseReceived(VirtualFile file) {
         Project project = myLspClient.getProject();
         myModificationTracker.incModificationCount();
-        // Consulo: upstream calls `CodeFoldingManager.scheduleAsyncFoldingUpdate(editor)` in a read action for each editor
-        // of the file; here the daemon (and so its folding pass) is restarted for the file if an editor shows it.
+        // the daemon (and so its folding pass) is restarted for the file if an editor shows it
         Application.get().invokeLater(() -> {
             if (project.isDisposed() || !file.isValid()) {
                 return;

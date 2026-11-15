@@ -53,8 +53,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
 /**
- * Port of IntelliJ's {@code com.intellij.formatting.service.AsyncDocumentFormattingService} (with the parts of
- * {@code AsyncDocumentFormattingSupportImpl} it needs) on top of Consulo's {@link ExternalFormatProcessor}, because Consulo has no
+ * An asynchronous document formatting service on top of {@link ExternalFormatProcessor}, because there is no
  * formatting service extension point.
  * <p>
  * Extend this class if there is a long-lasting formatting operation which may block the UI thread. The actual formatting code is placed
@@ -94,8 +93,6 @@ public abstract class AsyncDocumentFormattingService implements FormattingServic
     protected abstract @Nullable FormattingTask createFormattingTask(AsyncFormattingRequest formattingRequest);
 
     /**
-     * Consulo: IntelliJ's {@code getNotificationGroupId()}.
-     *
      * @return A notification group to use when error messages are shown to an end user.
      */
     protected abstract NotificationGroup getNotificationGroup();
@@ -342,7 +339,7 @@ public abstract class AsyncDocumentFormattingService implements FormattingServic
                 return;
             }
             if (myDocument.getModificationStamp() > myInitialModificationStamp) {
-                // Consulo: no DocumentMerger extension point, the result for a changed document is dropped
+                // there is no DocumentMerger extension point, the result for a changed document is dropped
                 return;
             }
             myDocument.setText(newText);

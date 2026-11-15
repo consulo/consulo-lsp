@@ -46,7 +46,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
 
 /**
- * Upstream: {@code internal object LspWillRenameFilesHandler}.
+ * Sends {@code workspace/willRenameFiles} requests for Rename and Move refactorings.
  */
 public final class LspWillRenameFilesHandler {
     private static final Logger LOG = Logger.getInstance(LspWillRenameFilesHandler.class);
@@ -62,9 +62,9 @@ public final class LspWillRenameFilesHandler {
      * <a href="https://microsoft.github.io/language-server-protocol/specification/#workspace_willRenameFiles">workspace/willRenameFiles</a>
      * request before a Rename or Move refactoring changes the files, and applies the edits from the servers in the command of the refactoring.
      * <p>
-     * Consulo: the planned renames are computed before the thread check (upstream: after it). Consulo fires
-     * {@code refactoringStarted} inside the write action of the refactoring, and its before-data has no planned renames
-     * ({@link RefactoringEventDataKeys}), so upstream's order would log the warning below for every Rename / Move.
+     * The planned renames are computed before the thread check: {@code refactoringStarted} is fired inside the write action of
+     * the refactoring, and its before-data has no planned renames ({@link RefactoringEventDataKeys}), so checking the thread first
+     * would log the warning below for every Rename / Move.
      */
     public static void renameOrMoveRefactoringStarted(Project project, String refactoringId, RefactoringEventData beforeData) {
         List<LspClientImpl> lspClients = new ArrayList<>();
@@ -204,8 +204,7 @@ public final class LspWillRenameFilesHandler {
     }
 
     /**
-     * Consulo: {@code ApplicationManagerEx.runProcessWithProgressSynchronously(..., cancelText = "Skip")} - Consulo's modal progress
-     * has no custom cancel button text, so the {@code lsp.will.rename.files.skip} text is not used.
+     * The modal progress has no custom cancel button text, so the {@code lsp.will.rename.files.skip} text is not used.
      */
     @RequiredUIAccess
     private static void sendWillRenameFilesRequestsAndApplyEdits(
@@ -259,8 +258,7 @@ public final class LspWillRenameFilesHandler {
     }
 
     /**
-     * Runs in a background thread. Upstream sends the requests in parallel coroutines and awaits all of them; here the requests are
-     * sent at once and awaited one after another (a cancel of the progress cancels all of them).
+     * Runs in a background thread. The requests are sent at once and awaited one after another (a cancel of the progress cancels all of them).
      */
     private static List<LspWorkspaceEditApplier> sendWillRenameFilesRequests(
         List<ClientFilters> lspClientToFilters,
@@ -332,7 +330,6 @@ public final class LspWillRenameFilesHandler {
     }
 
     /**
-     * Upstream: {@code suspend fun sendWillRenameFilesRequest(...)} with {@code withTimeoutOrNull(WILL_RENAME_FILES_TIMEOUT)}.
      * The returned future completes with {@code null} on timeout (the request is canceled) or on an error.
      */
     private static CompletableFuture<@Nullable WorkspaceEdit> sendWillRenameFilesRequest(LspClientImpl lspClient, List<LspPlannedRename> plannedRenames) {
@@ -372,8 +369,8 @@ public final class LspWillRenameFilesHandler {
      * It has the file system and the path of the real file after the rename,
      * so {@link com.intellij.platform.lsp.api.LspClientDescriptor#getFileUri} and its overrides give the same URI for both.
      * <p>
-     * Consulo: upstream extends {@code FakeVirtualFile}, which is internal in Consulo ({@code consulo.virtualFileSystem.internal});
-     * its members are inlined here on top of {@link StubVirtualFile}.
+     * {@code FakeVirtualFile} is internal ({@code consulo.virtualFileSystem.internal}), so the needed members are implemented
+     * here on top of {@link StubVirtualFile}.
      */
     private static final class LspRenameTargetFile extends StubVirtualFile {
         private final VirtualFile myParent;

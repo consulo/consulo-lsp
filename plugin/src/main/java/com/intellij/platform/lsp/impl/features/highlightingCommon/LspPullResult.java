@@ -9,8 +9,7 @@ import java.util.List;
 /**
  * The outcome of one {@link LspHighlightingCache#sendRequest} round trip.
  * <p>
- * Consulo: Kotlin {@code Pair<Range, T>} is {@link Pair}. {@code Unchanged} and {@code Failed} are typed
- * {@code LspPullResult<Nothing>} upstream; here they are generic, and {@link Failed#INSTANCE} is raw,
+ * {@code Unchanged} and {@code Failed} are generic, and {@link Failed#INSTANCE} is raw,
  * so it can be returned as any {@code LspPullResult<T>}.
  */
 public sealed interface LspPullResult<T> permits LspPullResult.Full, LspPullResult.Unchanged, LspPullResult.Failed {

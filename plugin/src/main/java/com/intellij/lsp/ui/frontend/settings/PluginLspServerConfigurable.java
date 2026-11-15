@@ -35,8 +35,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Consulo: upstream is a {@code BoundConfigurable} with a Kotlin UI DSL panel, see {@link LspServerConfigurable}.
- * {@link PluginLspServerNamedConfigurable} (declared in the same upstream file) is in its own file.
+ * The settings page of an LSP server provided by a plugin, see {@link LspServerConfigurable}.
  */
 public class PluginLspServerConfigurable extends SimpleConfigurableByProperties implements Configurable {
     private final Project myProject;
@@ -169,7 +168,7 @@ public class PluginLspServerConfigurable extends SimpleConfigurableByProperties 
     }
 
     /**
-     * The Kotlin {@code configuration.copy(...)} with named arguments: {@code null} keeps the current value.
+     * Copies the configuration with the given values: {@code null} keeps the current value.
      */
     private static LspPluginServerConfiguration copy(LspPluginServerConfiguration configuration,
                                                      @Nullable List<String> arguments,

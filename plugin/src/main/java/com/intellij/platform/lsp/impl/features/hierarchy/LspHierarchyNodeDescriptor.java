@@ -46,11 +46,11 @@ public class LspHierarchyNodeDescriptor extends HierarchyNodeDescriptor implemen
     @RequiredUIAccess
     public boolean update() {
         super.update();
-        // Consulo: IntelliJ's HierarchyNodeDescriptor.update() takes the icon from the overridable getIcon(element)
+        // the base update() does not take the icon from the overridable getIcon(element)
         PsiElement element = getPsiElement();
         setIcon(element != null ? getIcon(element) : null);
         if (myItem == null) {
-            // Consulo: the hierarchy tree root is always visible (upstream hides it with setRootVisible(false)),
+            // the hierarchy tree root is always visible,
             // so the base node shows the file name instead of an empty row
             if (myHighlightedText.getText().isEmpty()) {
                 PsiFile psiFile = getContainingFile();

@@ -24,8 +24,7 @@ import java.util.Collection;
  * The symbol has no navigation targets, so the 'Go To Declaration or Usages' action falls back to 'Show Usages'.
  * It must not implement {@code NavigationTarget} or {@code NavigatableSymbol}: that would turn the fallback back into a self-navigation.
  * <p>
- * Consulo: IntelliJ's {@code SearchTarget}/{@code Symbol} are replaced with a fake PSI element, the element whose usages
- * {@link LspUsageSearcher} finds. Its name is the upstream {@code usageHandler} presentable text: the header of the
+ * This is a fake PSI element, the element whose usages {@link LspUsageSearcher} finds. Its name is the header of the
  * usage view.
  */
 public class LspSearchTarget extends FakePsiElement {

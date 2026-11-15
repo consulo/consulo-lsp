@@ -18,9 +18,6 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 
 public abstract class LspRequestExecutorBase {
-    /**
-     * {@code ConcurrencyUtil.DEFAULT_TIMEOUT_MS} upstream
-     */
     private static final long DEFAULT_TIMEOUT_MS = 10;
 
     private final LspClientImpl myLspClient;
@@ -40,7 +37,7 @@ public abstract class LspRequestExecutorBase {
     }
 
     /**
-     * Upstream: {@code suspend fun sendRequest(...)}. The returned future completes with {@code null} if the server is not running.
+     * The returned future completes with {@code null} if the server is not running.
      * Cancelling the returned future sends {@code $/cancelRequest} to the server.
      */
     public <Lsp4jResponse> CompletableFuture<@Nullable Lsp4jResponse> sendRequest(Function<Lsp4jServer, CompletableFuture<Lsp4jResponse>> lsp4jSender) {

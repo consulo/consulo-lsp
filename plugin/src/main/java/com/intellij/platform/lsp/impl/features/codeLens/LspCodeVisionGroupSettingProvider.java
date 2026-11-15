@@ -4,9 +4,9 @@ import com.intellij.platform.lsp.localize.LspLocalize;
 import consulo.localize.LocalizeValue;
 
 /**
- * Consulo: there is no {@code config.codeVisionGroupSettingProvider} extension point. Consulo's code vision settings derive the
+ * Not registered: there is no {@code config.codeVisionGroupSettingProvider} extension point. The code vision settings derive the
  * group from {@link LspCodeVisionProvider#getGroupId()} and show {@link LspCodeVisionProvider#getName()}; a group description
- * is not shown. The class is kept (not registered) for parity with upstream.
+ * is not shown.
  */
 public class LspCodeVisionGroupSettingProvider {
     public String getGroupId() {

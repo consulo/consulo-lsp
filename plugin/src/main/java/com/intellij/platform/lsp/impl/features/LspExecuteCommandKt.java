@@ -49,7 +49,6 @@ public final class LspExecuteCommandKt {
                 }
             });
 
-            // upstream: ProgressIndicatorUtils.awaitWithCheckCanceled(semaphore, ProgressManager.getInstance().progressIndicator)
             while (!semaphore.waitFor(10)) {
                 ProgressManager.checkCanceled();
             }

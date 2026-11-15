@@ -17,9 +17,6 @@ import consulo.project.startup.PostStartupActivity;
 import consulo.ui.UIAccess;
 import consulo.virtualFileSystem.VirtualFile;
 
-/**
- * Consulo: upstream {@code ProjectActivity} became a {@link PostStartupActivity}.
- */
 @ExtensionImpl
 public class LspStructureViewProjectActivity implements PostStartupActivity, DumbAware {
     @Override
@@ -46,7 +43,7 @@ public class LspStructureViewProjectActivity implements PostStartupActivity, Dum
     }
 
     /**
-     * Consulo: there is no {@code StructureViewWrapperImpl.STRUCTURE_CHANGED} topic. Selecting the current element
+     * There is no {@code StructureViewWrapperImpl.STRUCTURE_CHANGED} topic. Selecting the current element
      * of the selected editor makes the structure view wrapper rebuild when it showed no structure for that editor before
      * (the LSP structure view builder was not available yet).
      */

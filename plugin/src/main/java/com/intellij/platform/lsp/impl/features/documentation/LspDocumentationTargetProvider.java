@@ -26,14 +26,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Consulo: IntelliJ's {@code DocumentationTargetProvider} / {@code DocumentationTarget} API does not exist in Consulo.
- * This class is an {@link UnrestrictedDocumentationProvider} (a documentation provider for all languages) instead:
+ * An {@link UnrestrictedDocumentationProvider} (a documentation provider for all languages):
  * <ul>
- *   <li>{@link #getCustomDocumentationElement} is asked by Consulo for the documentation target at an offset (Ctrl+Q,
+ *   <li>{@link #getCustomDocumentationElement} is asked for the documentation target at an offset (Ctrl+Q,
  *   the documentation on mouse hover) before the PSI-based search. It returns the first {@link LspDocumentationTarget}
  *   computed by {@link #documentationTargets}; a {@link LspDocumentationTarget} is a fake PSI element.</li>
  *   <li>{@link #getDocumentationElementForLookupItem} wraps the {@link LspCompletionObject} of an LSP lookup element into a
- *   {@link LspCompletionDocumentationTarget} (IntelliJ selects {@code LspCompletionObject} as a {@code DocumentationTarget}).</li>
+ *   {@link LspCompletionDocumentationTarget}.</li>
  *   <li>{@link #generateDoc} computes the documentation of both targets.</li>
  * </ul>
  */
@@ -124,8 +123,8 @@ public class LspDocumentationTargetProvider extends DocumentationProviderEx impl
     }
 
     /**
-     * Consulo: IntelliJ's {@code DocumentationTarget} of the hover result, as a fake (non-physical) PSI element, so that Consulo
-     * keeps a hard pointer to it.
+     * The documentation target of the hover result, as a fake (non-physical) PSI element, so that the documentation
+     * component keeps a hard pointer to it.
      */
     public static final class LspDocumentationTarget extends FakePsiElement {
         private final @Nullable String myPresentableText;
@@ -165,9 +164,6 @@ public class LspDocumentationTargetProvider extends DocumentationProviderEx impl
             return myPsiFile.isValid();
         }
 
-        /**
-         * IntelliJ's {@code computePresentation()}
-         */
         @Override
         public String getName() {
             return myPresentableText != null ? myPresentableText : UILocalize.toolWindowNameDocumentation().get();
@@ -180,8 +176,7 @@ public class LspDocumentationTargetProvider extends DocumentationProviderEx impl
     }
 
     /**
-     * Consulo: the documentation target of an LSP lookup element ({@link LspCompletionObject} is the {@code DocumentationTarget}
-     * in IntelliJ).
+     * The documentation target of an LSP lookup element.
      */
     public static final class LspCompletionDocumentationTarget extends FakePsiElement {
         private final LspCompletionObject myCompletionObject;
@@ -216,9 +211,6 @@ public class LspDocumentationTargetProvider extends DocumentationProviderEx impl
             return myContext.isValid();
         }
 
-        /**
-         * IntelliJ's {@code computePresentation()}
-         */
         @Override
         public String getName() {
             return myCompletionObject.getCompletionItem().getLabel();

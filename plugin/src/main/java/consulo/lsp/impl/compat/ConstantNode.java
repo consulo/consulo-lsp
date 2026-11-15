@@ -26,9 +26,8 @@ import consulo.language.editor.template.TextResult;
 import java.util.Collection;
 
 /**
- * IntelliJ's {@code com.intellij.codeInsight.template.impl.ConstantNode}: Consulo's
- * {@link consulo.language.editor.template.ConstantNode} has no lookup items ({@link #withLookupStrings}).
- * The lookup focus degree and the popup advertisement are not ported.
+ * A constant template expression with lookup items ({@link #withLookupStrings}), which
+ * {@link consulo.language.editor.template.ConstantNode} does not have.
  */
 public final class ConstantNode extends Expression {
     private final Result myValue;

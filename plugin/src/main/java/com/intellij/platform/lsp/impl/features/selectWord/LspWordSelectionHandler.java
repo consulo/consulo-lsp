@@ -30,15 +30,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Supplier;
 
-/**
- * Consulo: upstream {@code order="last"} is dropped (reserved for the plugin that owns the extension point).
- */
 @ExtensionImpl(id = "LspWordSelectionHandler")
 public class LspWordSelectionHandler implements ExtendWordSelectionHandler {
     @Override
     public boolean canSelect(PsiElement e) {
         // See `com.intellij.codeInsight.editorActions.SelectWordUtil.processElement`
-        // The IntelliJ Platform collects all `ExtendWordSelectionHandlers` that return `true` from `canSelect()`
+        // The platform collects all `ExtendWordSelectionHandlers` that return `true` from `canSelect()`
         // and then calls `select()` for all of them.
         // So, not to duplicate the first 6 lines of the `select()` implementation, it's safe to return `true` from here
         // and then return `null` from `select()` if there is no LSP-based info for this feature.
@@ -46,8 +43,7 @@ public class LspWordSelectionHandler implements ExtendWordSelectionHandler {
     }
 
     /**
-     * Upstream: requires a read action and a background thread (IJPL-115548: not asserted). Consulo calls it on the UI thread,
-     * see {@link #computeOffUiThread}.
+     * The platform calls it on the UI thread, see {@link #computeOffUiThread}.
      */
     @Override
     @RequiredReadAction
@@ -90,8 +86,7 @@ public class LspWordSelectionHandler implements ExtendWordSelectionHandler {
     }
 
     /**
-     * Consulo: the platform calls {@code select()} on the UI thread (Consulo's {@code SelectWordHandler}); upstream calls it
-     * in a background thread. On the UI thread the request runs in a background read action under a cancellable modal progress.
+     * The platform calls {@code select()} on the UI thread ({@code SelectWordHandler}). On the UI thread the request runs in a background read action under a cancellable modal progress.
      */
     private static <T extends @Nullable Object> @Nullable T computeOffUiThread(Project project, Supplier<T> computation) {
         if (!Application.get().isDispatchThread()) {
