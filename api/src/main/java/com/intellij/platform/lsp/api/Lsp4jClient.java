@@ -67,8 +67,12 @@ public class Lsp4jClient implements LanguageClient {
         myServerNotificationsHandler.telemetryEvent(object);
     }
 
+    /**
+     * Not final (unlike upstream): a client may observe the diagnostics before they are handled, as the Dart plugin does
+     * for its Dart Analysis tool window (https://github.com/flutter/flutter-intellij/issues/9239).
+     */
     @Override
-    public final void publishDiagnostics(PublishDiagnosticsParams params) {
+    public void publishDiagnostics(PublishDiagnosticsParams params) {
         myServerNotificationsHandler.publishDiagnostics(params);
     }
 
