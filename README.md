@@ -3,8 +3,7 @@
 Language Server Protocol client for [Consulo](https://consulo.io), ported from the JetBrains IntelliJ Platform LSP client
 (`platform/lsp`, `platform/lsp-impl`). Language plugins use it to connect a language server to the editor:
 diagnostics, semantic highlighting, inlay hints, hover, completion, navigation, references, document highlight,
-structure view, code actions and more. See [CONSULO.md](CONSULO.md) for the port layout, the conversion rules and
-the list of missing platform APIs.
+structure view, code actions and more.
 
 ## Using it from a plugin
 
