@@ -5,9 +5,6 @@ import com.intellij.platform.lang.lsWidget.LanguageServiceWidgetItem;
 import com.intellij.platform.lsp.api.lsWidget.LspClientWidgetItem;
 import com.intellij.platform.lsp.api.lsWidget.LspServerWidgetItem;
 import consulo.annotation.access.RequiredReadAction;
-import consulo.annotation.component.ComponentScope;
-import consulo.annotation.component.ExtensionAPI;
-import consulo.component.extension.ExtensionPointName;
 import consulo.project.Project;
 import consulo.virtualFileSystem.VirtualFile;
 import org.jspecify.annotations.Nullable;
@@ -16,16 +13,13 @@ import java.util.List;
 
 /**
  * @deprecated Renamed to {@link LspIntegrationProvider}
+ * <p>
+ * Consulo: not an extension point of its own - an implementation registered with {@code @ExtensionImpl} is an extension of
+ * {@link LspIntegrationProvider} (an extension class may have only one {@code @ExtensionAPI} among its supertypes).
  */
 @Deprecated
 @SuppressWarnings("deprecation")
-@ExtensionAPI(ComponentScope.APPLICATION)
 public interface LspServerSupportProvider extends LspIntegrationProvider {
-    /**
-     * @deprecated Use {@link LspIntegrationProvider#EP_NAME}
-     */
-    @Deprecated
-    ExtensionPointName<LspServerSupportProvider> EP_NAME = ExtensionPointName.create(LspServerSupportProvider.class);
 
     /**
      * @deprecated Renamed to {@link LspIntegrationProvider.LspClientStarter}

@@ -137,18 +137,14 @@ public interface LspIntegrationProvider {
     }
 
     /**
-     * Enumerates providers from both the canonical {@link #EP_NAME} and the deprecated {@link LspServerSupportProvider#EP_NAME}.
-     * Since {@link LspServerSupportProvider} is an {@link LspIntegrationProvider}, callers can treat all providers uniformly.
+     * Enumerates the providers, including the ones implementing the deprecated {@link LspServerSupportProvider}, which are
+     * extensions of {@link #EP_NAME} too.
      */
-    @SuppressWarnings("deprecation")
     static List<LspIntegrationProvider> getAllExtensions() {
-        List<LspIntegrationProvider> result = new ArrayList<>(EP_NAME.getExtensionList());
-        result.addAll(LspServerSupportProvider.EP_NAME.getExtensionList());
-        return result;
+        return new ArrayList<>(EP_NAME.getExtensionList());
     }
 
-    @SuppressWarnings("deprecation")
     static boolean hasAnyExtensions() {
-        return EP_NAME.hasAnyExtensions() || LspServerSupportProvider.EP_NAME.hasAnyExtensions();
+        return EP_NAME.hasAnyExtensions();
     }
 }
