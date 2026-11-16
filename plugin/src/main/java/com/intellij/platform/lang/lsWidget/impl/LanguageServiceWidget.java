@@ -7,9 +7,8 @@ import com.intellij.platform.lang.lsWidget.LanguageServicePopupSection;
 import com.intellij.platform.lang.lsWidget.LanguageServiceWidgetItem;
 import com.intellij.platform.lang.lsWidget.LanguageServiceWidgetItemsProvider;
 import consulo.dataContext.DataContext;
-import consulo.externalService.plugin.PluginsConfigurable;
+import consulo.externalService.plugin.PluginsPage;
 import consulo.fileEditor.statusBar.EditorBasedStatusBarPopup;
-import consulo.ide.setting.ShowSettingsUtil;
 import consulo.localize.LocalizeValue;
 import consulo.platform.base.icon.PlatformIconGroup;
 import consulo.project.Project;
@@ -208,7 +207,7 @@ public class LanguageServiceWidget extends EditorBasedStatusBarPopup {
         @Override
         @RequiredUIAccess
         public void actionPerformed(AnActionEvent e) {
-            ShowSettingsUtil.getInstance().showAndSelect(getProject(), PluginsConfigurable.class);
+            PluginsPage.getInstance().open(getProject(), null);
         }
     }
 

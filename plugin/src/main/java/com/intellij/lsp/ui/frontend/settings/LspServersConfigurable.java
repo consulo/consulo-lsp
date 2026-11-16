@@ -19,9 +19,8 @@ import consulo.container.plugin.PluginManager;
 import consulo.dataContext.DataManager;
 import consulo.disposer.Disposable;
 import consulo.disposer.Disposer;
-import consulo.externalService.plugin.PluginsConfigurable;
+import consulo.externalService.plugin.PluginsPage;
 import consulo.fileEditor.EditorNotifications;
-import consulo.ide.setting.ShowSettingsUtil;
 import consulo.localize.LocalizeValue;
 import consulo.platform.base.icon.PlatformIconGroup;
 import consulo.project.Project;
@@ -137,13 +136,8 @@ public class LspServersConfigurable extends MasterDetailsComponent implements Se
      */
     @RequiredUIAccess
     private void showMorePlugins() {
-        Settings allSettings = DataManager.getInstance().getDataContext(myTree).getData(Settings.KEY);
-        if (allSettings == null) {
-            ShowSettingsUtil.getInstance().showAndSelect(myProject, PluginsConfigurable.class);
-        }
-        else {
-            allSettings.select(PluginsConfigurable.CONFIGURABLE_ID);
-        }
+        // plugins are a page of their own, not a settings page
+        PluginsPage.getInstance().open(myProject, null);
     }
 
     @Override

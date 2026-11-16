@@ -14,9 +14,8 @@ import consulo.disposer.Disposable;
 import consulo.document.Document;
 import consulo.execution.configuration.EnvironmentVariablesData;
 import consulo.execution.ui.awt.EnvironmentVariablesTextFieldWithBrowseButton;
-import consulo.externalService.plugin.PluginsConfigurable;
+import consulo.externalService.plugin.PluginsPage;
 import consulo.fileChooser.FileChooserTextBoxBuilder;
-import consulo.ide.setting.ShowSettingsUtil;
 import consulo.localize.LocalizeValue;
 import consulo.process.cmd.ParametersListUtil;
 import consulo.project.Project;
@@ -81,9 +80,7 @@ public class PluginLspServerConfigurable extends SimpleConfigurableByProperties 
         nameField.setEnabled(false);
 
         Hyperlink pluginLink = Hyperlink.create(LocalizeValue.ofNullable(myPluginDescriptor.getName()), event ->
-            ShowSettingsUtil.getInstance().showAndSelect(myProject, PluginsConfigurable.class, it ->
-                it.selectInstalled(myPluginDescriptor.getPluginId())
-            )
+            PluginsPage.getInstance().open(myProject, myPluginDescriptor.getPluginId())
         );
 
         root.add(FormBuilder.create()
